@@ -9,13 +9,15 @@
 /* Begin PBXBuildFile section */
 		8140574026BC4E6600D4D31A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140573F26BC4E6600D4D31A /* AppDelegate.swift */; };
 		8140574226BC4E6600D4D31A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140574126BC4E6600D4D31A /* SceneDelegate.swift */; };
-		8140574426BC4E6600D4D31A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140574326BC4E6600D4D31A /* ViewController.swift */; };
-		8140574726BC4E6600D4D31A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8140574526BC4E6600D4D31A /* Main.storyboard */; };
+		8140574426BC4E6600D4D31A /* RateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140574326BC4E6600D4D31A /* RateViewController.swift */; };
 		8140574A26BC4E6600D4D31A /* Le_Baluchon.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8140574826BC4E6600D4D31A /* Le_Baluchon.xcdatamodeld */; };
 		8140574C26BC4E6800D4D31A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8140574B26BC4E6800D4D31A /* Assets.xcassets */; };
 		8140574F26BC4E6800D4D31A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8140574D26BC4E6800D4D31A /* LaunchScreen.storyboard */; };
 		8140575A26BC4E6800D4D31A /* Le_BaluchonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140575926BC4E6800D4D31A /* Le_BaluchonTests.swift */; };
 		8140576526BC4E6800D4D31A /* Le_BaluchonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140576426BC4E6800D4D31A /* Le_BaluchonUITests.swift */; };
+		8140577726BC507700D4D31A /* TranslationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140577626BC507700D4D31A /* TranslationViewController.swift */; };
+		8140577926BC508B00D4D31A /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140577826BC508B00D4D31A /* WeatherViewController.swift */; };
+		8140577B26BC519300D4D31A /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140577A26BC519300D4D31A /* TabBarViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,8 +41,7 @@
 		8140573C26BC4E6600D4D31A /* Le Baluchon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Le Baluchon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8140573F26BC4E6600D4D31A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8140574126BC4E6600D4D31A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8140574326BC4E6600D4D31A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		8140574626BC4E6600D4D31A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8140574326BC4E6600D4D31A /* RateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateViewController.swift; sourceTree = "<group>"; };
 		8140574926BC4E6600D4D31A /* Le_Baluchon.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Le_Baluchon.xcdatamodel; sourceTree = "<group>"; };
 		8140574B26BC4E6800D4D31A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8140574E26BC4E6800D4D31A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +52,9 @@
 		8140576026BC4E6800D4D31A /* Le BaluchonUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Le BaluchonUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8140576426BC4E6800D4D31A /* Le_BaluchonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Le_BaluchonUITests.swift; sourceTree = "<group>"; };
 		8140576626BC4E6800D4D31A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8140577626BC507700D4D31A /* TranslationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationViewController.swift; sourceTree = "<group>"; };
+		8140577826BC508B00D4D31A /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
+		8140577A26BC519300D4D31A /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,13 +105,11 @@
 		8140573E26BC4E6600D4D31A /* Le Baluchon */ = {
 			isa = PBXGroup;
 			children = (
-				8140573F26BC4E6600D4D31A /* AppDelegate.swift */,
-				8140574126BC4E6600D4D31A /* SceneDelegate.swift */,
-				8140574326BC4E6600D4D31A /* ViewController.swift */,
-				8140574526BC4E6600D4D31A /* Main.storyboard */,
-				8140574B26BC4E6800D4D31A /* Assets.xcassets */,
-				8140574D26BC4E6800D4D31A /* LaunchScreen.storyboard */,
 				8140575026BC4E6800D4D31A /* Info.plist */,
+				8140577526BC4EFA00D4D31A /* Assets */,
+				8140577226BC4ED600D4D31A /* Model */,
+				8140577326BC4EDE00D4D31A /* View */,
+				8140577426BC4EEA00D4D31A /* Controller */,
 				8140574826BC4E6600D4D31A /* Le_Baluchon.xcdatamodeld */,
 			);
 			path = "Le Baluchon";
@@ -129,6 +131,42 @@
 				8140576626BC4E6800D4D31A /* Info.plist */,
 			);
 			path = "Le BaluchonUITests";
+			sourceTree = "<group>";
+		};
+		8140577226BC4ED600D4D31A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8140577326BC4EDE00D4D31A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8140574D26BC4E6800D4D31A /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8140577426BC4EEA00D4D31A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				8140573F26BC4E6600D4D31A /* AppDelegate.swift */,
+				8140574126BC4E6600D4D31A /* SceneDelegate.swift */,
+				8140577A26BC519300D4D31A /* TabBarViewController.swift */,
+				8140574326BC4E6600D4D31A /* RateViewController.swift */,
+				8140577626BC507700D4D31A /* TranslationViewController.swift */,
+				8140577826BC508B00D4D31A /* WeatherViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		8140577526BC4EFA00D4D31A /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				8140574B26BC4E6800D4D31A /* Assets.xcassets */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,7 +274,6 @@
 			files = (
 				8140574F26BC4E6800D4D31A /* LaunchScreen.storyboard in Resources */,
 				8140574C26BC4E6800D4D31A /* Assets.xcassets in Resources */,
-				8140574726BC4E6600D4D31A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,9 +299,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				8140574A26BC4E6600D4D31A /* Le_Baluchon.xcdatamodeld in Sources */,
-				8140574426BC4E6600D4D31A /* ViewController.swift in Sources */,
+				8140577926BC508B00D4D31A /* WeatherViewController.swift in Sources */,
+				8140574426BC4E6600D4D31A /* RateViewController.swift in Sources */,
 				8140574026BC4E6600D4D31A /* AppDelegate.swift in Sources */,
+				8140577B26BC519300D4D31A /* TabBarViewController.swift in Sources */,
 				8140574226BC4E6600D4D31A /* SceneDelegate.swift in Sources */,
+				8140577726BC507700D4D31A /* TranslationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,14 +340,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		8140574526BC4E6600D4D31A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8140574626BC4E6600D4D31A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		8140574D26BC4E6800D4D31A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -443,6 +475,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				INFOPLIST_FILE = "Le Baluchon/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -450,7 +483,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.birkyboydesign.Le-Baluchon";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -462,6 +495,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				INFOPLIST_FILE = "Le Baluchon/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -469,7 +503,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.birkyboydesign.Le-Baluchon";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
