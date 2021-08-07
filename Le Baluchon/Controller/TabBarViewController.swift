@@ -30,16 +30,16 @@ class TabBarViewController: UITabBarController {
     private func setupViewcontrollers() {
         let rateIconImage = UIImage(systemName: "arrow.triangle.2.circlepath")!
         let rateViewController = createController(for: RateViewController(),
-                                                  title: "Exchange rates",
+                                                  title: "Taux de change",
                                                   image: rateIconImage)
 
         let translateIconImage = UIImage(systemName: "globe")!
         let translationViewController = createController(for: TranslationViewController(),
-                                                         title: "Translation",
+                                                         title: "Traduction",
                                                          image: translateIconImage)
         let weatherIconImage = UIImage(systemName: "cloud.sun.fill")!
         let weatherViewController = createController(for: WeatherViewController(),
-                                                     title: "Weather",
+                                                     title: "Météo",
                                                      image: weatherIconImage)
         viewControllers = [rateViewController,
                            translationViewController,
@@ -68,6 +68,5 @@ class TabBarViewController: UITabBarController {
         // return a UIViewController with an enbeded UINavigationController
         return navController
     }
-
-
 }
+

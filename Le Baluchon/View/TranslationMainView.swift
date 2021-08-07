@@ -14,13 +14,14 @@ class TranslationMainView: UIView {
     /// - Parameter frame: view frame set to .zero as it will be assigned to the UIViewController view frame.
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        setupScrollViewConstraints()
+        setScrollViewConstraints()
+        setBackgroundImageConstraints()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    private let screenSizeWidth = UIScreen.main.bounds.width
     // MARK: - Scroll View
 
     /// Create a vertical scrollView and set its properties.
@@ -45,7 +46,7 @@ class TranslationMainView: UIView {
     /// Add the scrollView to  RateMainView  as a subview.
     /// Add the contentView to the scrollView as a subView.
     /// Set constraints to respect safeArea guides.
-    private func setupScrollViewConstraints() {
+    private func setScrollViewConstraints() {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
         NSLayoutConstraint.activate([
@@ -59,6 +60,21 @@ class TranslationMainView: UIView {
             contentView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor),
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+        ])
+    }
+
+    // MARK: - Background Image
+    private let backgroundImage = BackgroundImage(image: #imageLiteral(resourceName: "translateIcon"))
+
+    private func setBackgroundImageConstraints() {
+        addSubview(backgroundImage)
+        NSLayoutConstraint.activate([
+            backgroundImage.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,
+                                                 constant: 20),
+            backgroundImage.widthAnchor.constraint(equalToConstant: screenSizeWidth),
+            backgroundImage.heightAnchor.constraint(equalToConstant: screenSizeWidth * 0.8),
+            backgroundImage.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                                     constant: -screenSizeWidth * 0.3)
         ])
     }
 }

@@ -21,6 +21,13 @@
 		8140577D26BC5C1B00D4D31A /* RateMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140577C26BC5C1B00D4D31A /* RateMainView.swift */; };
 		8140577F26BC5FF500D4D31A /* TranslationMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140577E26BC5FF500D4D31A /* TranslationMainView.swift */; };
 		8140578126BC602600D4D31A /* WeatherMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140578026BC602600D4D31A /* WeatherMainView.swift */; };
+		81B724F126BF190D0051C909 /* FooterLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B724F026BF190D0051C909 /* FooterLabel.swift */; };
+		81B724F326BF1CC40051C909 /* BackgroundImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B724F226BF1CC40051C909 /* BackgroundImage.swift */; };
+		81B724F826BF29110051C909 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B724F726BF29110051C909 /* UIViewController.swift */; };
+		81B724FA26BF29C40051C909 /* AllCurrenciesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B724F926BF29C40051C909 /* AllCurrenciesViewController.swift */; };
+		81D1556026BEED5700709499 /* UIColor_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D1555F26BEED5700709499 /* UIColor_Extension.swift */; };
+		81D1556226BEF04500709499 /* CurrencyEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D1556126BEF04500709499 /* CurrencyEntryView.swift */; };
+		81D1556426BEF88200709499 /* UIView_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D1556326BEF88200709499 /* UIView_Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +68,13 @@
 		8140577C26BC5C1B00D4D31A /* RateMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateMainView.swift; sourceTree = "<group>"; };
 		8140577E26BC5FF500D4D31A /* TranslationMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationMainView.swift; sourceTree = "<group>"; };
 		8140578026BC602600D4D31A /* WeatherMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherMainView.swift; sourceTree = "<group>"; };
+		81B724F026BF190D0051C909 /* FooterLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterLabel.swift; sourceTree = "<group>"; };
+		81B724F226BF1CC40051C909 /* BackgroundImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundImage.swift; sourceTree = "<group>"; };
+		81B724F726BF29110051C909 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		81B724F926BF29C40051C909 /* AllCurrenciesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCurrenciesViewController.swift; sourceTree = "<group>"; };
+		81D1555F26BEED5700709499 /* UIColor_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor_Extension.swift; sourceTree = "<group>"; };
+		81D1556126BEF04500709499 /* CurrencyEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyEntryView.swift; sourceTree = "<group>"; };
+		81D1556326BEF88200709499 /* UIView_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView_Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				8140575026BC4E6800D4D31A /* Info.plist */,
+				81D1556526BEF89700709499 /* Extensions */,
 				8140577526BC4EFA00D4D31A /* Assets */,
 				8140577226BC4ED600D4D31A /* Model */,
 				8140577326BC4EDE00D4D31A /* View */,
@@ -150,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				8140574D26BC4E6800D4D31A /* LaunchScreen.storyboard */,
+				81B724F626BF242D0051C909 /* Elements */,
 				8140577C26BC5C1B00D4D31A /* RateMainView.swift */,
 				8140577E26BC5FF500D4D31A /* TranslationMainView.swift */,
 				8140578026BC602600D4D31A /* WeatherMainView.swift */,
@@ -166,6 +182,7 @@
 				8140574326BC4E6600D4D31A /* RateViewController.swift */,
 				8140577626BC507700D4D31A /* TranslationViewController.swift */,
 				8140577826BC508B00D4D31A /* WeatherViewController.swift */,
+				81B724F926BF29C40051C909 /* AllCurrenciesViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -176,6 +193,26 @@
 				8140574B26BC4E6800D4D31A /* Assets.xcassets */,
 			);
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		81B724F626BF242D0051C909 /* Elements */ = {
+			isa = PBXGroup;
+			children = (
+				81D1556126BEF04500709499 /* CurrencyEntryView.swift */,
+				81B724F226BF1CC40051C909 /* BackgroundImage.swift */,
+				81B724F026BF190D0051C909 /* FooterLabel.swift */,
+			);
+			path = Elements;
+			sourceTree = "<group>";
+		};
+		81D1556526BEF89700709499 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				81D1556326BEF88200709499 /* UIView_Extension.swift */,
+				81D1555F26BEED5700709499 /* UIColor_Extension.swift */,
+				81B724F726BF29110051C909 /* UIViewController.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -309,12 +346,19 @@
 			files = (
 				8140574A26BC4E6600D4D31A /* Le_Baluchon.xcdatamodeld in Sources */,
 				8140577D26BC5C1B00D4D31A /* RateMainView.swift in Sources */,
+				81D1556226BEF04500709499 /* CurrencyEntryView.swift in Sources */,
+				81B724F326BF1CC40051C909 /* BackgroundImage.swift in Sources */,
+				81D1556026BEED5700709499 /* UIColor_Extension.swift in Sources */,
 				8140578126BC602600D4D31A /* WeatherMainView.swift in Sources */,
 				8140577926BC508B00D4D31A /* WeatherViewController.swift in Sources */,
 				8140574426BC4E6600D4D31A /* RateViewController.swift in Sources */,
+				81B724F826BF29110051C909 /* UIViewController.swift in Sources */,
 				8140574026BC4E6600D4D31A /* AppDelegate.swift in Sources */,
 				8140577B26BC519300D4D31A /* TabBarViewController.swift in Sources */,
+				81D1556426BEF88200709499 /* UIView_Extension.swift in Sources */,
+				81B724F126BF190D0051C909 /* FooterLabel.swift in Sources */,
 				8140574226BC4E6600D4D31A /* SceneDelegate.swift in Sources */,
+				81B724FA26BF29C40051C909 /* AllCurrenciesViewController.swift in Sources */,
 				8140577F26BC5FF500D4D31A /* TranslationMainView.swift in Sources */,
 				8140577726BC507700D4D31A /* TranslationViewController.swift in Sources */,
 			);

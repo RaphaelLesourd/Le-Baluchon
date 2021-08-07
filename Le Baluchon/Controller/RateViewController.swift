@@ -22,7 +22,38 @@ class RateViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .secondarySystemBackground
+        view.backgroundColor = .viewControllerColor
+        setDelegates()
+        addKeyboardDismissGesture()
+        buttonTagets()
+    }
+
+    // MARK: - Setup
+    private func setDelegates() {
+        rateView.originCurrencyView.textfield.delegate = self
+    }
+
+    private func buttonTagets() {
+        rateView.originCurrencyView.currencyButton.addTarget(self,
+                                                             action: #selector(displayCurrenciesList),
+                                                             for: .touchUpInside)
+        rateView.destinationCurrencyView.currencyButton.addTarget(self,
+                                                             action: #selector(displayCurrenciesList),
+                                                             for: .touchUpInside)
+    }
+
+    // MARK: - Navigation
+    @objc private func displayCurrenciesList() {
+        let currenciesList = AllCurrenciesViewController()
+        present(currenciesList, animated: true, completion: nil)
+    }
+}
+
+extension RateViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 

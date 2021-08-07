@@ -23,7 +23,8 @@ class WeatherViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .secondarySystemBackground
+        view.backgroundColor = .viewControllerColor
+        addKeyboardDismissGesture()
     }
  
 }
