@@ -39,7 +39,6 @@ class CurrencyEntryView: UIView {
         let btn = UIButton()
         btn.setTitleColor(.subtitleColor, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 21, weight: .medium)
-        btn.setTitle("USD", for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.widthAnchor.constraint(equalToConstant: 50).isActive = true
         btn.heightAnchor.constraint(equalToConstant: 22).isActive = true

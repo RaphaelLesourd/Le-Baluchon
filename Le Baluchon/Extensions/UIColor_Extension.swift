@@ -10,7 +10,7 @@ import UIKit
 
 /// Create custom colors to use the same colors for common elements
 extension UIColor {
-        static let viewControllerColor = UIColor(named: "appBackgroundColor")
+        static let viewControllerBackgroundColor = UIColor(named: "appBackgroundColor")
         static let titleColor = UIColor.label
         static let subtitleColor = UIColor.secondaryLabel
         static let footerLabelColor = UIColor.label

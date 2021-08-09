@@ -16,6 +16,9 @@ class TranslationMainView: UIView {
         super.init(frame: .zero)
         setScrollViewConstraints()
         setBackgroundImageConstraints()
+        setupMainstackView()
+        setupLanguageChoiceStackView()
+        setupLanguageViews()
     }
 
     required init?(coder: NSCoder) {
@@ -67,14 +70,117 @@ class TranslationMainView: UIView {
     private let backgroundImage = BackgroundImage(image: #imageLiteral(resourceName: "translateIcon"))
 
     private func setBackgroundImageConstraints() {
-        addSubview(backgroundImage)
+        contentView.addSubview(backgroundImage)
         NSLayoutConstraint.activate([
-            backgroundImage.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,
+            backgroundImage.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor,
                                                  constant: 20),
             backgroundImage.widthAnchor.constraint(equalToConstant: screenSizeWidth),
             backgroundImage.heightAnchor.constraint(equalToConstant: screenSizeWidth * 0.8),
-            backgroundImage.leadingAnchor.constraint(equalTo: leadingAnchor,
+            backgroundImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
                                                      constant: -screenSizeWidth * 0.3)
         ])
+    }
+
+    // MARK: - Views
+    private let originLanguageLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
+        lbl.textColor = .titleColor
+        lbl.numberOfLines = 1
+        lbl.textAlignment = .right
+        return lbl
+    }()
+
+    private let translatedLanguageLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
+        lbl.textColor = .titleColor
+        lbl.numberOfLines = 1
+        lbl.textAlignment = .left
+        return lbl
+    }()
+
+    private let translationDirectionImage: UIImageView = {
+        let uiv = UIImageView()
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .black, scale: .large)
+        uiv.image = UIImage(systemName: "arrow.right.circle.fill",
+                                  withConfiguration: imageConfig)
+        uiv.contentMode = .scaleAspectFit
+        uiv.tintColor = .systemPink
+        return uiv
+    }()
+
+    private let languageChoiceStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.alignment = .fill
+        stack.distribution = .fillProportionally
+        stack.spacing = 10
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+
+    private func setupLanguageChoiceStackView() {
+        languageChoiceStackView.addArrangedSubview(originLanguageLabel)
+        languageChoiceStackView.addArrangedSubview(translationDirectionImage)
+        languageChoiceStackView.addArrangedSubview(translatedLanguageLabel)
+        NSLayoutConstraint.activate([
+            languageChoiceStackView.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
+
+    // MARK: - Language Entry Views
+    let originLanguageView = LanguageTextView(isEditable: true)
+    let translatedLanguageView = LanguageTextView(isEditable: false)
+    
+    private func setupLanguageViews() {
+        originLanguageView.translatesAutoresizingMaskIntoConstraints = false
+        originLanguageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        translatedLanguageView.translatesAutoresizingMaskIntoConstraints = false
+        translatedLanguageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+    }
+
+    let dataProviderLabel = FooterLabel(title: "Traduction par GoogleTranslate")
+    
+    // MARK: - Main StackView
+    private let mainStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 10
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+
+    /// Setup the mainStackView which hold all the UI subviews.
+    private func setupMainstackView() {
+        contentView.addSubview(mainStackView)
+        // Create an array of the subviews to add to the stackView
+        let mainStackSubViews: [UIView] = [languageChoiceStackView,
+                                           originLanguageView,
+                                           translatedLanguageView,
+                                           dataProviderLabel
+        ]
+        // Iterate thru the subviews array to add them to the stak view
+        for view in mainStackSubViews {
+            mainStackView.addArrangedSubview(view)
+        }
+        // Change spacing between certain view
+        mainStackView.setCustomSpacing(30, after: originLanguageView)
+        // Add constraints for the mainstackView
+        NSLayoutConstraint.activate([
+            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                   constant: 16),
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                    constant: -16),
+            mainStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor,
+                                                  multiplier: 0.99)
+        ])
+    }
+
+    func updateLangues(with origin: String, translated: String) {
+        originLanguageLabel.text = origin
+        translatedLanguageLabel.text = translated
     }
 }

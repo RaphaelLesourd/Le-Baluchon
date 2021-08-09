@@ -28,8 +28,8 @@ class TabBarViewController: UITabBarController {
     /// Set up each viewControllers in the TabBar
     /// For continuity of iOS look and feel, SFSymbols are used as icon images
     private func setupViewcontrollers() {
-        let rateIconImage = UIImage(systemName: "arrow.triangle.2.circlepath")!
-        let rateViewController = createController(for: RateViewController(),
+        let rateIconImage = UIImage(systemName: "arrow.up.arrow.down.circle")!
+        let rateViewController = createController(for: ExchangeViewController(),
                                                   title: "Taux de change",
                                                   image: rateIconImage)
 

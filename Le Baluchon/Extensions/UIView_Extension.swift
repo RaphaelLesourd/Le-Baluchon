@@ -29,4 +29,14 @@ extension UIView {
         blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(blurredEffectView)
     }
+
+    func addShadow() {
+        layer.masksToBounds = false
+        layer.shadowOffset = CGSize(width: 1, height: 1)
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowRadius = 40
+        layer.shadowOpacity = 1
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
+    }
 }

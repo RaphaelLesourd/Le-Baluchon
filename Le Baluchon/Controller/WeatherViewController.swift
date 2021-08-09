@@ -10,20 +10,19 @@ import UIKit
 class WeatherViewController: UIViewController {
 
     // MARK: - Properties
-
+    let weatherView = WeatherMainView()
     // MARK: - Lifecycle
 
     /// Set the view as rateView.
     /// All UI elements are contained in a seperate UIView file.
     override func loadView() {
-        let weatherView = WeatherMainView()
         view = weatherView
     }
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .viewControllerColor
+        view.backgroundColor = .viewControllerBackgroundColor
         addKeyboardDismissGesture()
     }
  

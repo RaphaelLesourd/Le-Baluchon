@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class RateMainView: UIView {
+class ExchangeMainView: UIView {
 
     /// Initalise the view, and calls set up functions
     /// - Parameter frame: view frame set to .zero as it will be assigned to the UIViewController view frame.
@@ -17,6 +17,7 @@ class RateMainView: UIView {
         setScrollViewConstraints()
         setBackgroundImageConstraints()
         setupMainstackView()
+        setCurrencySwapButtonConstaints()
     }
 
     required init?(coder: NSCoder) {
@@ -67,7 +68,6 @@ class RateMainView: UIView {
     
     // MARK: - Background Image
     private let backgroundImage = BackgroundImage(image: #imageLiteral(resourceName: "rocketIcon"))
-
     private func setBackgroundImageConstraints() {
         contentView.addSubview(backgroundImage)
         NSLayoutConstraint.activate([
@@ -83,6 +83,7 @@ class RateMainView: UIView {
     // MARK: - Views
     let originCurrencyView: CurrencyEntryView = {
         let view = CurrencyEntryView()
+        view.currencyButton.tag = 0
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor.constraint(equalToConstant: 110).isActive = true
         return view
@@ -90,13 +91,36 @@ class RateMainView: UIView {
 
     let destinationCurrencyView: CurrencyEntryView = {
         let view = CurrencyEntryView()
+        view.currencyButton.tag = 1
         view.textfield.isUserInteractionEnabled = false
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor.constraint(equalToConstant: 110).isActive = true
         return view
     }()
 
-    let dataProviderLabel = FooterLabel(title: "Taux de change fournis par ifixer.io")
+    let dataProviderLabel = FooterLabel(title: "Taux de change fournis par fixer.io")
+
+    let currencySwapButton: UIButton = {
+        let btn = UIButton()
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 60, weight: .black, scale: .large)
+        let buttonImage = UIImage(systemName: "arrow.up.arrow.down.circle.fill",
+                                  withConfiguration: imageConfig)
+        btn.setImage(buttonImage, for: .normal)
+        btn.tintColor = .systemPink
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+
+    private func setCurrencySwapButtonConstaints() {
+        contentView.addSubview(currencySwapButton)
+        NSLayoutConstraint.activate([
+            currencySwapButton.topAnchor.constraint(equalTo: originCurrencyView.bottomAnchor,
+                                                    constant: -15),
+            currencySwapButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            currencySwapButton.heightAnchor.constraint(equalToConstant: 60),
+            currencySwapButton.widthAnchor.constraint(equalToConstant: 60)
+        ])
+    }
 
     // MARK: - Main StackView
     private let mainStackView: UIStackView = {
@@ -125,7 +149,7 @@ class RateMainView: UIView {
         mainStackView.setCustomSpacing(10, after: destinationCurrencyView)
         // Add constraints for the mainstackView
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
+            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
                                                    constant: 16),
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
@@ -134,7 +158,4 @@ class RateMainView: UIView {
                                                   multiplier: 0.99)
         ])
     }
-
-
-
 }
