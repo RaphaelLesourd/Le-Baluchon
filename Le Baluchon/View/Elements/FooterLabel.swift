@@ -13,9 +13,10 @@ class FooterLabel: UILabel {
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        self.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        self.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         self.textColor = .titleColor
         self.numberOfLines = 2
+        self.sizeToFit()
         self.textAlignment = .center
         self.translatesAutoresizingMaskIntoConstraints = false
     }

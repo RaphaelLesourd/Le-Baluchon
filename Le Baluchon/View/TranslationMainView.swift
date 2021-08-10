@@ -25,6 +25,7 @@ class TranslationMainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     private let screenSizeWidth = UIScreen.main.bounds.width
+    
     // MARK: - Scroll View
 
     /// Create a vertical scrollView and set its properties.
@@ -139,7 +140,7 @@ class TranslationMainView: UIView {
         translatedLanguageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
     }
 
-    let dataProviderLabel = FooterLabel(title: "Traduction par GoogleTranslate")
+    private let dataProviderLabel = FooterLabel(title: "Traduction par Google Translate")
     
     // MARK: - Main StackView
     private let mainStackView: UIStackView = {

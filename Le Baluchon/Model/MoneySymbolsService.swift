@@ -11,7 +11,7 @@ class MoneySymbolsService {
     static let shared = MoneySymbolsService()
     private init() {}
 
-    private static let currenciesUrl = URL(string: ApiUrl.ifixerURL + "symbols?access_key=" + ApiKeys.ifixerApiKey)!
+    private static let currenciesUrl = URL(string: ApiURL.ifixerURL + "symbols?access_key=" + ApiKeys.ifixerKEY)!
     private var task: URLSessionDataTask?
     private var session = URLSession(configuration: .default)
 

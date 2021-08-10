@@ -46,13 +46,22 @@ class TranslationViewController: UIViewController {
     }
 
     // MARK: - Button Targets
+    /// Set all textView text property to nil to remove all text.
     @objc private func clearAll() {
         translationView.originLanguageView.textView.text = nil
         translationView.translatedLanguageView.textView.text = nil
     }
 }
 
+// MARK: - Extensions
 extension TranslationViewController: UITextViewDelegate {
 
-
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
+                  replacementText text: String) -> Bool {
+        // UITextView doesn't provide a callback when user hits the return key. As a workaround, dismiss the keyboard when a new line character is detected.
+        if text == "\n" {
+            textView.resignFirstResponder()
+        }
+        return true
+    }
 }

@@ -98,7 +98,7 @@ class ExchangeMainView: UIView {
         return view
     }()
 
-    let dataProviderLabel = FooterLabel(title: "Taux de change fournis par fixer.io")
+    private let dataProviderLabel = FooterLabel(title: "Taux de change fournis par fixer.io")
 
     let currencySwapButton: UIButton = {
         let btn = UIButton()

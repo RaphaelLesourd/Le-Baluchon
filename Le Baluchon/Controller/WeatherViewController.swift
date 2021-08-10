@@ -23,7 +23,13 @@ class WeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .viewControllerBackgroundColor
-        addKeyboardDismissGesture()
+        setCurrentDate()
+    }
+
+    // MARK: - Set Data
+    private func setCurrentDate() {
+        let currentDate = Date()
+        weatherView.dateLabel.text = currentDate.toString()
     }
  
 }

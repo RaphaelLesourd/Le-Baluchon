@@ -55,7 +55,7 @@ class ExchangeViewController: UIViewController {
         rateView.originCurrencyView.textfield.delegate = self
     }
 
-    /// Set up a default currency symbol, as per projet requiremens, origin value is set with Euro symbol
+    /// Set up a default currency symbol, as per projet requirements, origin value is set with Euro symbol
     /// and destination symbol as US Dollars. The origin value is set to 1 to show the current exchange rate.
     private func setDefaultValues() {
         originCurrencySymbol = "EUR"
