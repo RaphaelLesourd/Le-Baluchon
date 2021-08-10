@@ -24,7 +24,7 @@ class CurrencyEntryView: UIView {
     let textfield: UITextField = {
         let txf = UITextField()
         txf.keyboardType = .decimalPad
-        txf.font = UIFont.systemFont(ofSize: 40, weight: .bold)
+        txf.font = .textFont(size: 40)
         txf.adjustsFontSizeToFitWidth = true
         txf.contentMode = .left
         txf.textColor = .titleColor
@@ -38,7 +38,7 @@ class CurrencyEntryView: UIView {
     let currencyButton: UIButton = {
         let btn = UIButton()
         btn.setTitleColor(.subtitleColor, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 21, weight: .medium)
+        btn.titleLabel?.font = .textFont(size: 21)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.widthAnchor.constraint(equalToConstant: 50).isActive = true
         btn.heightAnchor.constraint(equalToConstant: 22).isActive = true

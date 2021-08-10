@@ -10,6 +10,13 @@ import UIKit
 
 extension UIViewController {
 
+    func presentErrorAlert(with message: String) {
+        let alert = UIAlertController(title: "Erreur!", message: message, preferredStyle: .alert)
+        let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
+        alert.addAction(dismissAction)
+        present(alert, animated: true, completion: nil)
+    }
+
     func addKeyboardDismissGesture() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)

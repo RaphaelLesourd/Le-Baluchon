@@ -85,7 +85,7 @@ class TranslationMainView: UIView {
     // MARK: - Views
     private let originLanguageLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
+        lbl.font = .textFont(size: 21)
         lbl.textColor = .titleColor
         lbl.numberOfLines = 1
         lbl.textAlignment = .right
@@ -94,7 +94,7 @@ class TranslationMainView: UIView {
 
     private let translatedLanguageLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
+        lbl.font = .textFont(size: 21)
         lbl.textColor = .titleColor
         lbl.numberOfLines = 1
         lbl.textAlignment = .left
@@ -180,7 +180,7 @@ class TranslationMainView: UIView {
         ])
     }
 
-    func updateLangues(with origin: String, translated: String) {
+    func updateLangages(with origin: String, and translated: String) {
         originLanguageLabel.text = origin
         translatedLanguageLabel.text = translated
     }

@@ -17,7 +17,6 @@ class WeatherMainView: UIView {
         setupScrollViewConstraints()
         setupMainstackView()
         setOriginWeatherViewHeight()
-        setDestinationWeatherViewHeight()
         setDestinationWeatherInfoViewHeight()
     }
 
@@ -67,17 +66,7 @@ class WeatherMainView: UIView {
     }
 
     // MARK: - Views
-    let dateLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.font = UIFont.systemFont(ofSize: 21, weight: .medium)
-        lbl.numberOfLines = 1
-        lbl.textAlignment = .center
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
-    }()
-
     let originWeatherView = OriginWeatherView()
-
     private func setOriginWeatherViewHeight() {
         originWeatherView.translatesAutoresizingMaskIntoConstraints = false
         originWeatherView.heightAnchor.constraint(equalToConstant: 70).isActive = true
@@ -85,15 +74,7 @@ class WeatherMainView: UIView {
 
     let destinationWeatherView = DestinationWeatherView()
 
-    private func setDestinationWeatherViewHeight() {
-        destinationWeatherInfoView.backgroundColor = .red
-        destinationWeatherView.translatesAutoresizingMaskIntoConstraints = false
-        let iconHeight = UIScreen.main.bounds.height * 0.5
-        destinationWeatherView.heightAnchor.constraint(equalToConstant: iconHeight).isActive = true
-    }
-
     let destinationWeatherInfoView = DestinationWeatherInfoView()
-
     private func setDestinationWeatherInfoViewHeight() {
         destinationWeatherInfoView.translatesAutoresizingMaskIntoConstraints = false
         destinationWeatherInfoView.heightAnchor.constraint(equalToConstant: 250).isActive = true
@@ -116,8 +97,7 @@ class WeatherMainView: UIView {
     private func setupMainstackView() {
         contentView.addSubview(mainStackView)
         // Create an array of the subviews to add to the stackView
-        let mainStackSubViews: [UIView] = [dateLabel,
-                                           originWeatherView,
+        let mainStackSubViews: [UIView] = [originWeatherView,
                                            destinationWeatherView,
                                            destinationWeatherInfoView,
                                            dataProviderLabel

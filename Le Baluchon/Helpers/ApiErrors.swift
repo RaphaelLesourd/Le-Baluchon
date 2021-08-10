@@ -10,7 +10,7 @@ import Foundation
 enum ApiError: LocalizedError {
     case errorFetching
     case httpError(Int)
-    case decondingData
+    case decodingData
 
     var description: String {
         switch self {
@@ -18,8 +18,8 @@ enum ApiError: LocalizedError {
             return "Nous avons rencontré un problème pour récupérer les données."
         case .httpError(let code):
             return "\(code)"
-        case .decondingData:
-            return ""
+        case .decodingData:
+            return "Format de données non valide."
         }
     }
 }

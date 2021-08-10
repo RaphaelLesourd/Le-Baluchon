@@ -23,10 +23,8 @@ class ExchangeMainView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private let screenSizeWidth = UIScreen.main.bounds.width
-    // MARK: - Scroll View
 
+    // MARK: - Scroll View
     /// Create a vertical scrollView and set its properties.
     private let scrollView: UIScrollView = {
         let scv = UIScrollView()
@@ -68,8 +66,11 @@ class ExchangeMainView: UIView {
     
     // MARK: - Background Image
     private let backgroundImage = BackgroundImage(image: #imageLiteral(resourceName: "rocketIcon"))
+
     private func setBackgroundImageConstraints() {
         contentView.addSubview(backgroundImage)
+
+        let screenSizeWidth = UIScreen.main.bounds.width
         NSLayoutConstraint.activate([
             backgroundImage.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor,
                                                  constant: 10),
@@ -89,7 +90,7 @@ class ExchangeMainView: UIView {
         return view
     }()
 
-    let destinationCurrencyView: CurrencyEntryView = {
+    let convertedCurrencyView: CurrencyEntryView = {
         let view = CurrencyEntryView()
         view.currencyButton.tag = 1
         view.textfield.isUserInteractionEnabled = false
@@ -98,7 +99,7 @@ class ExchangeMainView: UIView {
         return view
     }()
 
-    private let dataProviderLabel = FooterLabel(title: "Taux de change fournis par fixer.io")
+    private let dataProviderLabel = FooterLabel(title: "Taux de change par fixer.io")
 
     let currencySwapButton: UIButton = {
         let btn = UIButton()
@@ -138,7 +139,7 @@ class ExchangeMainView: UIView {
         contentView.addSubview(mainStackView)
         // Create an array of the subviews to add to the stackView
         let mainStackSubViews: [UIView] = [originCurrencyView,
-                                           destinationCurrencyView,
+                                           convertedCurrencyView,
                                            dataProviderLabel
         ]
         // Iterate thru the subviews array to add them to the stak view
@@ -146,7 +147,7 @@ class ExchangeMainView: UIView {
             mainStackView.addArrangedSubview(view)
         }
         // Change spacing between certain view
-        mainStackView.setCustomSpacing(10, after: destinationCurrencyView)
+        mainStackView.setCustomSpacing(10, after: convertedCurrencyView)
         // Add constraints for the mainstackView
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),

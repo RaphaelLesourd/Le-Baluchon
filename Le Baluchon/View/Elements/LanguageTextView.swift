@@ -35,14 +35,14 @@ class LanguageTextView: UIView {
         txv.layer.masksToBounds = true
         txv.backgroundColor = .clear
         txv.autocorrectionType = .yes
-        txv.font = UIFont.systemFont(ofSize: 23, weight: .semibold)
+        txv.font = .textFont(size: 23)
         txv.textColor = .titleColor
         txv.tintColor = .titleColor
         txv.showsVerticalScrollIndicator = false
         txv.showsHorizontalScrollIndicator = false
         txv.isSelectable = true
         txv.alwaysBounceVertical = true
-        txv.textAlignment = .justified
+        txv.textAlignment = .natural
         txv.translatesAutoresizingMaskIntoConstraints = false
         return txv
     }()

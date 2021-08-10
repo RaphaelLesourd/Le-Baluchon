@@ -12,8 +12,6 @@ class DestinationWeatherView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        setupWeatherIcon()
-        setCityLabelConstraints()
         setStackViewConstraints()
     }
 
@@ -21,87 +19,78 @@ class DestinationWeatherView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Weather  Icon
+    // MARK: - Views
     let weatherIcon: UIImageView = {
         let uiv = UIImageView()
         uiv.image = #imageLiteral(resourceName: "thunder_sunny_color")
         uiv.contentMode = .scaleAspectFit
         uiv.addShadow()
         uiv.translatesAutoresizingMaskIntoConstraints = false
+        uiv.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.8).isActive = true
         return uiv
     }()
 
-    private func setupWeatherIcon() {
-        addSubview(weatherIcon)
-        NSLayoutConstraint.activate([
-            weatherIcon.topAnchor.constraint(equalTo: topAnchor),
-            weatherIcon.bottomAnchor.constraint(equalTo: bottomAnchor),
-            weatherIcon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -70),
-            weatherIcon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70)
-        ])
-    }
-
-    // MARK: - City Info
     let cityLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "New York, Etats-Unis"
-        lbl.font = UIFont.systemFont(ofSize: 21, weight: .bold)
+        lbl.font = .textFontSemiBold(size: 24)
+        lbl.sizeToFit()
         lbl.textColor = .titleColor
         lbl.numberOfLines = 2
         lbl.textAlignment = .left
-        lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
-
-    private func setCityLabelConstraints() {
-        addSubview(cityLabel)
-        NSLayoutConstraint.activate([
-            cityLabel.topAnchor.constraint(equalTo: topAnchor),
-            cityLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            cityLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-        ])
-    }
-
-    // MARK: - Weather infos
 
     let temperatureLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "35°"
-        lbl.font = UIFont.systemFont(ofSize: 70, weight: .black)
-        lbl.textColor = .titleColor
+        lbl.font = .temperatureFont(size: 100)
+        lbl.textColor = .subtitleColor
         lbl.numberOfLines = 1
         lbl.textAlignment = .right
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.heightAnchor.constraint(equalToConstant: 110).isActive = true
         return lbl
     }()
 
     let conditionsLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "Orages violents"
-        lbl.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        lbl.font = .textFont(size: 21)
         lbl.textColor = .subtitleColor
+        lbl.sizeToFit()
         lbl.numberOfLines = 2
         lbl.textAlignment = .right
         return lbl
     }()
 
-    private let stackView: UIStackView = {
+    private let mainStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.alignment = .fill
-        stack.distribution = .equalCentering
+        stack.distribution = .fill
+        stack.spacing = 0
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
 
     private func setStackViewConstraints() {
-        addSubview(stackView)
-        stackView.addArrangedSubview(temperatureLabel)
-        stackView.addArrangedSubview(conditionsLabel)
-        stackView.setCustomSpacing(0, after: temperatureLabel)
+        addSubview(mainStackView)
+        let mainStackSubViews: [UIView] = [cityLabel,
+                                           weatherIcon,
+                                           temperatureLabel,
+                                           conditionsLabel
+        ]
+        for view in mainStackSubViews {
+            mainStackView.addArrangedSubview(view)
+        }
+        mainStackView.setCustomSpacing(10, after: cityLabel)
+        mainStackView.setCustomSpacing(-10, after: temperatureLabel)
         NSLayoutConstraint.activate([
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
+            mainStackView.topAnchor.constraint(equalTo: topAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
         ])
     }
 }

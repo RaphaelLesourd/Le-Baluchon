@@ -17,21 +17,21 @@ class TranslationViewController: UIViewController {
     /// All UI elements are contained in a seperate UIView file.
     override func loadView() {
         view = translationView
+        view.backgroundColor = .viewControllerBackgroundColor
     }
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setDelegates()
-        setupView()
+        setDefaultLanguages()
         setButtonTarget()
         addKeyboardDismissGesture()
     }
 
     // MARK: - Setup
-    private func setupView() {
-        view.backgroundColor = .viewControllerBackgroundColor
-        translationView.updateLangues(with: "Français", translated: "Anglais")
+    private func setDefaultLanguages() {
+        translationView.updateLangages(with: "Français", and: "Anglais")
     }
 
     private func setDelegates() {
@@ -51,6 +51,13 @@ class TranslationViewController: UIViewController {
         translationView.originLanguageView.textView.text = nil
         translationView.translatedLanguageView.textView.text = nil
     }
+
+    // MARK: - Translation API Call
+    // translation request
+
+
+    // MARK: - Update Views
+    // update translation view
 }
 
 // MARK: - Extensions

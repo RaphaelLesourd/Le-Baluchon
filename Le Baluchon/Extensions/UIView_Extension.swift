@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 extension UIView {
-
     func rounded(radius: CGFloat = 17,
                  backgroundcolor: UIColor = .clear,
                  withBlur: Bool = true) {
@@ -35,7 +34,7 @@ extension UIView {
         layer.shadowOffset = CGSize(width: 1, height: 1)
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowRadius = 20
-        layer.shadowOpacity = 0.3
+        layer.shadowOpacity = 0.5
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
     }

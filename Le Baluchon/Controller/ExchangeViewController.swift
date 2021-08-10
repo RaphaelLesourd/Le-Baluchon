@@ -24,7 +24,7 @@ class ExchangeViewController: UIViewController {
     }
     private var destinationCurrencySymbol = "" {
         didSet {
-            rateView.destinationCurrencyView.currencyButton.setTitle(destinationCurrencySymbol,
+            rateView.convertedCurrencyView.currencyButton.setTitle(destinationCurrencySymbol,
                                                                 for: .normal)
         }
     }
@@ -39,15 +39,15 @@ class ExchangeViewController: UIViewController {
     /// All UI elements are contained in a seperate UIView file.
     override func loadView() {
         view = rateView
+        view.backgroundColor = .viewControllerBackgroundColor
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .viewControllerBackgroundColor
         setDefaultValues()
         setDelegates()
         addKeyboardDismissGesture()
-        buttonTagets()
+        buttonTargets()
     }
 
     // MARK: - Setup
@@ -61,18 +61,16 @@ class ExchangeViewController: UIViewController {
         originCurrencySymbol = "EUR"
         destinationCurrencySymbol = "USD"
         originCurrencyValue = 1
-        let value = "1234,56".replacingOccurrences(of: ",", with: ".")
-        rateView.destinationCurrencyView.textfield.text = value
     }
 
-    private func buttonTagets() {
+    private func buttonTargets() {
         rateView
             .originCurrencyView
             .currencyButton
             .addTarget(self,action: #selector(displayCurrenciesList(_:)),
                        for: .touchUpInside)
         rateView
-            .destinationCurrencyView
+            .convertedCurrencyView
             .currencyButton
             .addTarget(self,action: #selector(displayCurrenciesList(_:)),
                        for: .touchUpInside)
@@ -80,32 +78,31 @@ class ExchangeViewController: UIViewController {
                                               for: .touchUpInside)
     }
 
+    // MARK: - Data Request
+
+    //  - Request exhange rate for currencies.
+    //  - update converted currency view
+
     // MARK: - Currencies swap
+    /// Call swap currency function.
     @objc private func currencySwapButtonTapped() {
         swapCurrencies(&originCurrencySymbol, &destinationCurrencySymbol)
-        setDestinationCurrencyValueAsOrigin()
     }
 
-    /// Swap oigin and destination values. Use of tuple to reduce the amount of code.
-    /// Instead of having a temporary transit value
+    /// Swap oigin and destination currency.
+    /// - Use of tuple to reduce the amount of code, instead of having a temporary transit value to store the destination currency.
     /// - Parameters:
-    ///   - origin: origin currency symbol
-    ///   - destination: destination currency symbol
+    ///   - origin: originCurrencySymbol property.
+    ///   - destination: destinationcurrencySymbol protperty.
     private func swapCurrencies(_ origin: inout String, _ destination: inout String) {
         (origin, destination) = (destination, origin)
     }
 
-    private func setDestinationCurrencyValueAsOrigin() {
-        let destinationCurrencyValue = rateView.destinationCurrencyView.textfield.text
-        guard let value = destinationCurrencyValue else {return}
-        originCurrencyValue = Double(value)
-    }
-
     // MARK: - Navigation
 
-    /// Present a modal viewcontroller with a list of all currencies available.
-    /// Sets the currencyButtonTag to track which button has been tapped.
-    /// present the viewController.
+    /// Present a modal viewController with a list of all currencies available.
+    /// - Sets the currencyButtonTag to track which button has been tapped.
+    /// - Present the viewController.
     /// - Parameter sender: UIButton tapped calling the function
     @objc private func displayCurrenciesList(_ sender: UIButton) {
         currencyButtonTag = sender.tag
@@ -119,9 +116,9 @@ class ExchangeViewController: UIViewController {
 
 extension ExchangeViewController: ExchangeDelegate {
 
-    /// Set the returned value from the exchangeDelegate protocol to the proper tapped button.
-    /// The button is tracked by the currencyButtonTag property.
-    /// - Parameter symbol: Currency 3 letters code symbol.
+    /// Set origin or destination currency.
+    /// - The tapped button is tracked by the currencyButtonTag property.
+    /// - Parameter symbol: Currency 3 letters code symbol returned from ExchangeDelegate protocol.
     func updateCurrency(with symbol: String) {
         if currencyButtonTag == 0 {
             originCurrencySymbol = symbol

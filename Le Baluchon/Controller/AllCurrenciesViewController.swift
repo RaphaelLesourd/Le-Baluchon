@@ -19,14 +19,18 @@ class AllCurrenciesViewController: UIViewController {
 
     private var titleLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = UIFont.systemFont(ofSize: 23, weight: .bold)
+        lbl.font = .textFont(size: 21)
         lbl.textColor = .label
         lbl.text = "Devises disponibles"
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
 
+    /// Intialise ExchangeDelegate protocol.
     weak var exchangeDelegate: ExchangeDelegate?
+
+    /// Initialise an empty array of type Currencies.
+    /// - When set, the tableView is reloaded.
     private var currencyList: [Currencies] = [] {
         didSet {
             DispatchQueue.main.async {
@@ -71,7 +75,7 @@ class AllCurrenciesViewController: UIViewController {
         ])
     }
 
-    // MARK: - Datas
+    // MARK: - Api Call
     /// Get all available currencies from API and receive a result  type.
     /// success case:  dictionnary of all currencies available.
     /// failure case : an error.
@@ -86,11 +90,16 @@ class AllCurrenciesViewController: UIViewController {
                 self.createCurrenciesList(with: currency.symbols)
                 // if call failed an error is presented to the user.
             case .failure(let error):
-                print(error.localizedDescription)
+                self.presentErrorAlert(with: error.localizedDescription)
             }
         }
     }
 
+    /// Iterate through a currency dictionnary returned from a JSON
+    /// and add data to currencyList array of type Currencies.
+    /// - Dictionnary key: currency 3 letter code symbol
+    /// - Dictionnary value: currency name
+    /// - Parameter currencyDictionnary: Dictionnary of type [String : String]
     private func createCurrenciesList(with currencyDictionnary: [String: String]) {
         for (keys, values) in currencyDictionnary {
             let post = Currencies(symbol: keys, name: values)
@@ -124,7 +133,7 @@ extension AllCurrenciesViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currency = currencyList[indexPath.row]
-        // pass the selected row currency 3 letters symbol to the RateViewController
+        // pass the selected row currency 3 letters symbol to the ExchangeViewController
         // thru a protocol and dismiss the current modal ViewController.
         exchangeDelegate?.updateCurrency(with: currency.symbol)
         dismiss(animated: true, completion: nil)

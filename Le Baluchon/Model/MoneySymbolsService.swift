@@ -28,7 +28,10 @@ class MoneySymbolsService {
     }
 
     /// Fetch data from API
-    /// - Parameter completion: Returns a result of CurencyList in the  succes case or an error in the failure case.
+    ///
+    /// - Parameter completion: Returns a Result.
+    /// - Succes case:  currency list dictionary.
+    /// - Error case :  Error of type ApiError.
     func getData(completion: @escaping (Result<CurrencyList, ApiError>) -> Void) {
         // set current request returned from the createRequest method.
         let request = createRequest()
@@ -50,14 +53,14 @@ class MoneySymbolsService {
                       response.statusCode == 200 else {
                     return
                 }
-                // do/catch block for trying to decode data returned from session dataask
+                // do/catch block for trying to decode data returned from session dataTask
                 do {
                     let responseJSON = try JSONDecoder().decode(CurrencyList.self, from: data)
                     // return decoded JSON
                     completion(.success(responseJSON))
                 } catch {
                     // return an error in case of failure decoding JSON
-                    completion(.failure(ApiError.decondingData))
+                    completion(.failure(ApiError.decodingData))
                 }
             }
         }

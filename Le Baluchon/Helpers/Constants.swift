@@ -16,3 +16,4 @@ struct ApiURL {
     static let googleTranslateURL = ""
     static let openWeatherMapURL = ""
 }
+

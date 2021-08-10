@@ -21,7 +21,7 @@ class OriginWeatherView: UIView {
 // MARK: - City
     let homeIcon: UIImageView = {
         let uiv = UIImageView()
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .small)
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 18, weight: .regular, scale: .small)
         uiv.image = UIImage(systemName: "house.fill", withConfiguration: imageConfig)
         uiv.tintColor = .titleColor
         return uiv
@@ -30,7 +30,7 @@ class OriginWeatherView: UIView {
     let cityLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "La Rochelle"
-        lbl.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        lbl.font = .textFont(size: 18)
         lbl.textColor = .titleColor
         lbl.numberOfLines = 1
         lbl.textAlignment = .right
@@ -49,7 +49,7 @@ class OriginWeatherView: UIView {
     let countryLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "France"
-        lbl.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        lbl.font = .textFont(size: 16)
         lbl.textColor = .titleColor
         lbl.numberOfLines = 1
         lbl.textAlignment = .right
@@ -69,8 +69,8 @@ class OriginWeatherView: UIView {
     let temperatureLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "34°"
-        lbl.font = UIFont.systemFont(ofSize: 21, weight: .medium)
-        lbl.textColor = .titleColor
+        lbl.font = .temperatureFont(size: 23)
+        lbl.textColor = .subtitleColor
         lbl.numberOfLines = 1
         lbl.textAlignment = .right
         return lbl
@@ -119,8 +119,8 @@ class OriginWeatherView: UIView {
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: topAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
         ])
     }
 }

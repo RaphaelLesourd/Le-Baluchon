@@ -17,19 +17,19 @@ class WeatherViewController: UIViewController {
     /// All UI elements are contained in a seperate UIView file.
     override func loadView() {
         view = weatherView
+        view.backgroundColor = .viewControllerBackgroundColor
     }
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .viewControllerBackgroundColor
-        setCurrentDate()
+
     }
 
-    // MARK: - Set Data
-    private func setCurrentDate() {
-        let currentDate = Date()
-        weatherView.dateLabel.text = currentDate.toString()
-    }
- 
+    // MARK: - Update views
+
+    // update local weather
+    // update destination weather
+    // update destination extended weather
+
 }

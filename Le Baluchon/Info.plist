@@ -61,5 +61,12 @@
         <key>NSAllowsArbitraryLoads</key>
         <true/>
     </dict>
+    <key>UIAppFonts</key>
+    <array>
+        <string>Galano Grotesque Medium.otf</string>
+        <string>Galano Grotesque Semi Bold.otf</string>
+        <string>Galano Grotesque Bold.otf</string>
+        <string>ITCAvantGardeStdBold.otf</string>
+    </array>
 </dict>
 </plist>
