@@ -66,10 +66,10 @@ class WeatherMainView: UIView {
     }
 
     // MARK: - Views
-    let originWeatherView = OriginWeatherView()
+    let localWeatherView = OriginWeatherView()
     private func setOriginWeatherViewHeight() {
-        originWeatherView.translatesAutoresizingMaskIntoConstraints = false
-        originWeatherView.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        localWeatherView.translatesAutoresizingMaskIntoConstraints = false
+        localWeatherView.heightAnchor.constraint(equalToConstant: 70).isActive = true
     }
 
     let destinationWeatherView = DestinationWeatherView()
@@ -77,7 +77,7 @@ class WeatherMainView: UIView {
     let destinationWeatherInfoView = DestinationWeatherInfoView()
     private func setDestinationWeatherInfoViewHeight() {
         destinationWeatherInfoView.translatesAutoresizingMaskIntoConstraints = false
-        destinationWeatherInfoView.heightAnchor.constraint(equalToConstant: 250).isActive = true
+        destinationWeatherInfoView.heightAnchor.constraint(equalToConstant: 235).isActive = true
     }
 
     private let dataProviderLabel = FooterLabel(title: "Météo par OpenWeatherMap")
@@ -97,7 +97,7 @@ class WeatherMainView: UIView {
     private func setupMainstackView() {
         contentView.addSubview(mainStackView)
         // Create an array of the subviews to add to the stackView
-        let mainStackSubViews: [UIView] = [originWeatherView,
+        let mainStackSubViews: [UIView] = [localWeatherView,
                                            destinationWeatherView,
                                            destinationWeatherInfoView,
                                            dataProviderLabel

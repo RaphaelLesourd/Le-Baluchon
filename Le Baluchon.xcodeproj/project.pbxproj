@@ -45,6 +45,7 @@
 		81D1556026BEED5700709499 /* UIColor_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D1555F26BEED5700709499 /* UIColor_Extension.swift */; };
 		81D1556226BEF04500709499 /* CurrencyEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D1556126BEF04500709499 /* CurrencyEntryView.swift */; };
 		81D1556426BEF88200709499 /* UIView_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D1556326BEF88200709499 /* UIView_Extension.swift */; };
+		81DE3D1226C29A54003E0F77 /* WeatherDetailInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE3D1126C29A54003E0F77 /* WeatherDetailInfoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +111,7 @@
 		81D1555F26BEED5700709499 /* UIColor_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor_Extension.swift; sourceTree = "<group>"; };
 		81D1556126BEF04500709499 /* CurrencyEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyEntryView.swift; sourceTree = "<group>"; };
 		81D1556326BEF88200709499 /* UIView_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView_Extension.swift; sourceTree = "<group>"; };
+		81DE3D1126C29A54003E0F77 /* WeatherDetailInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailInfoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -246,6 +248,7 @@
 				81B7251626C158F90051C909 /* LanguageTextView.swift */,
 				81B7251A26C1AFE70051C909 /* OriginWeatherView.swift */,
 				81B7251826C18D580051C909 /* DestinationWeatherView.swift */,
+				81DE3D1126C29A54003E0F77 /* WeatherDetailInfoView.swift */,
 				81B7251C26C1B0520051C909 /* DestinationWeatherInfoView.swift */,
 			);
 			path = Elements;
@@ -443,6 +446,7 @@
 				81B724F826BF29110051C909 /* UIViewController.swift in Sources */,
 				8140574026BC4E6600D4D31A /* AppDelegate.swift in Sources */,
 				8140577B26BC519300D4D31A /* TabBarViewController.swift in Sources */,
+				81DE3D1226C29A54003E0F77 /* WeatherDetailInfoView.swift in Sources */,
 				81D1556426BEF88200709499 /* UIView_Extension.swift in Sources */,
 				81B724F126BF190D0051C909 /* FooterLabel.swift in Sources */,
 				81B7251B26C1AFE70051C909 /* OriginWeatherView.swift in Sources */,

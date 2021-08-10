@@ -19,7 +19,7 @@ class OriginWeatherView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 // MARK: - City
-    let homeIcon: UIImageView = {
+    private let homeIcon: UIImageView = {
         let uiv = UIImageView()
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 18, weight: .regular, scale: .small)
         uiv.image = UIImage(systemName: "house.fill", withConfiguration: imageConfig)
@@ -29,7 +29,6 @@ class OriginWeatherView: UIView {
 
     let cityLabel: UILabel = {
         let lbl = UILabel()
-        lbl.text = "La Rochelle"
         lbl.font = .textFont(size: 18)
         lbl.textColor = .titleColor
         lbl.numberOfLines = 1
@@ -48,7 +47,6 @@ class OriginWeatherView: UIView {
 
     let countryLabel: UILabel = {
         let lbl = UILabel()
-        lbl.text = "France"
         lbl.font = .textFont(size: 16)
         lbl.textColor = .titleColor
         lbl.numberOfLines = 1
@@ -59,7 +57,6 @@ class OriginWeatherView: UIView {
     // MARK: - Weather detail
     let weatherIcon: UIImageView = {
         let uiv = UIImageView()
-        uiv.image = #imageLiteral(resourceName: "rain_heavy_color")
         uiv.addShadow()
         uiv.contentMode = .scaleAspectFit
         uiv.translatesAutoresizingMaskIntoConstraints = false
@@ -68,7 +65,6 @@ class OriginWeatherView: UIView {
 
     let temperatureLabel: UILabel = {
         let lbl = UILabel()
-        lbl.text = "34°"
         lbl.font = .temperatureFont(size: 23)
         lbl.textColor = .subtitleColor
         lbl.numberOfLines = 1

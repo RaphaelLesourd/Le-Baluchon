@@ -30,10 +30,6 @@ class TranslationViewController: UIViewController {
     }
 
     // MARK: - Setup
-    private func setDefaultLanguages() {
-        translationView.updateLangages(with: "Français", and: "Anglais")
-    }
-
     private func setDelegates() {
         translationView.originLanguageView.textView.delegate = self
         translationView.translatedLanguageView.textView.delegate = self
@@ -57,6 +53,11 @@ class TranslationViewController: UIViewController {
 
 
     // MARK: - Update Views
+    private func setDefaultLanguages() {
+        translationView.originLanguageLabel.text = "Français"
+        translationView.translatedLanguageLabel.text = "Anglais"
+    }
+    
     // update translation view
 }
 

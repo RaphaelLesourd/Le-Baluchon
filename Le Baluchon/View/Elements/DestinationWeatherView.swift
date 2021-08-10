@@ -22,28 +22,25 @@ class DestinationWeatherView: UIView {
     // MARK: - Views
     let weatherIcon: UIImageView = {
         let uiv = UIImageView()
-        uiv.image = #imageLiteral(resourceName: "thunder_sunny_color")
         uiv.contentMode = .scaleAspectFit
         uiv.addShadow()
         uiv.translatesAutoresizingMaskIntoConstraints = false
-        uiv.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.8).isActive = true
+        uiv.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.7).isActive = true
         return uiv
     }()
 
     let cityLabel: UILabel = {
         let lbl = UILabel()
-        lbl.text = "New York, Etats-Unis"
-        lbl.font = .textFontSemiBold(size: 24)
+        lbl.font = .textFontSemiBold(size: 26)
         lbl.sizeToFit()
         lbl.textColor = .titleColor
-        lbl.numberOfLines = 2
+        lbl.numberOfLines = 3
         lbl.textAlignment = .left
         return lbl
     }()
 
     let temperatureLabel: UILabel = {
         let lbl = UILabel()
-        lbl.text = "35°"
         lbl.font = .temperatureFont(size: 100)
         lbl.textColor = .subtitleColor
         lbl.numberOfLines = 1
@@ -55,7 +52,6 @@ class DestinationWeatherView: UIView {
 
     let conditionsLabel: UILabel = {
         let lbl = UILabel()
-        lbl.text = "Orages violents"
         lbl.font = .textFont(size: 21)
         lbl.textColor = .subtitleColor
         lbl.sizeToFit()
@@ -85,7 +81,8 @@ class DestinationWeatherView: UIView {
             mainStackView.addArrangedSubview(view)
         }
         mainStackView.setCustomSpacing(10, after: cityLabel)
-        mainStackView.setCustomSpacing(-10, after: temperatureLabel)
+        mainStackView.setCustomSpacing(-30, after: weatherIcon)
+        mainStackView.setCustomSpacing(-20, after: temperatureLabel)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: topAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),

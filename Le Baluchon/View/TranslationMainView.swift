@@ -83,7 +83,7 @@ class TranslationMainView: UIView {
     }
 
     // MARK: - Views
-    private let originLanguageLabel: UILabel = {
+    let originLanguageLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = .textFont(size: 21)
         lbl.textColor = .titleColor
@@ -92,7 +92,7 @@ class TranslationMainView: UIView {
         return lbl
     }()
 
-    private let translatedLanguageLabel: UILabel = {
+    let translatedLanguageLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = .textFont(size: 21)
         lbl.textColor = .titleColor
@@ -178,10 +178,5 @@ class TranslationMainView: UIView {
             mainStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor,
                                                   multiplier: 0.99)
         ])
-    }
-
-    func updateLangages(with origin: String, and translated: String) {
-        originLanguageLabel.text = origin
-        translatedLanguageLabel.text = translated
     }
 }
