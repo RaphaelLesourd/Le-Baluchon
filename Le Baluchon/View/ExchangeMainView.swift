@@ -24,7 +24,7 @@ class ExchangeMainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Scroll View
+    // MARK: - SubViews
     /// Create a vertical scrollView and set its properties.
     private let scrollView: UIScrollView = {
         let scv = UIScrollView()
@@ -44,44 +44,8 @@ class ExchangeMainView: UIView {
         return uiv
     }()
 
-    /// Add the scrollView to  RateMainView  as a subview.
-    /// Add the contentView to the scrollView as a subView.
-    /// Set constraints to respect safeArea guides.
-    private func setScrollViewConstraints() {
-        addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        NSLayoutConstraint.activate([
-            scrollView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            scrollView.widthAnchor.constraint(equalTo: widthAnchor),
-            scrollView.topAnchor.constraint(equalTo: topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
-
-            contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
-        ])
-    }
-    
-    // MARK: - Background Image
     private let backgroundImage = BackgroundImage(image: #imageLiteral(resourceName: "rocketIcon"))
 
-    private func setBackgroundImageConstraints() {
-        contentView.addSubview(backgroundImage)
-
-        let screenSizeWidth = UIScreen.main.bounds.width
-        NSLayoutConstraint.activate([
-            backgroundImage.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor,
-                                                 constant: 10),
-            backgroundImage.widthAnchor.constraint(equalTo: contentView.widthAnchor),
-            backgroundImage.heightAnchor.constraint(equalToConstant: screenSizeWidth * 1.3),
-            backgroundImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                     constant: -screenSizeWidth * 0.3)
-        ])
-    }
-
-    // MARK: - Views
     let originCurrencyView: CurrencyEntryView = {
         let view = CurrencyEntryView()
         view.currencyButton.tag = 0
@@ -111,6 +75,51 @@ class ExchangeMainView: UIView {
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
+    
+    private let mainStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 30
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+
+    // MARK: - Setup
+    /// Add the scrollView to  RateMainView  as a subview.
+    /// Add the contentView to the scrollView as a subView.
+    /// Set constraints to respect safeArea guides.
+    private func setScrollViewConstraints() {
+        addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        NSLayoutConstraint.activate([
+            scrollView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            scrollView.widthAnchor.constraint(equalTo: widthAnchor),
+            scrollView.topAnchor.constraint(equalTo: topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
+
+            contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+        ])
+    }
+
+    private func setBackgroundImageConstraints() {
+        contentView.addSubview(backgroundImage)
+
+        let screenSizeWidth = UIScreen.main.bounds.width
+        NSLayoutConstraint.activate([
+            backgroundImage.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor,
+                                                 constant: 10),
+            backgroundImage.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            backgroundImage.heightAnchor.constraint(equalToConstant: screenSizeWidth * 1.3),
+            backgroundImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                     constant: -screenSizeWidth * 0.3)
+        ])
+    }
 
     private func setCurrencySwapButtonConstaints() {
         contentView.addSubview(currencySwapButton)
@@ -122,17 +131,6 @@ class ExchangeMainView: UIView {
             currencySwapButton.widthAnchor.constraint(equalToConstant: 60)
         ])
     }
-
-    // MARK: - Main StackView
-    private let mainStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = 30
-        stack.distribution = .fill
-        stack.alignment = .fill
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
 
     /// Setup the mainStackView which hold all the UI subviews.
     private func setupMainstackView() {

@@ -7,72 +7,39 @@
 
 import UIKit
 
-class AllCurrenciesViewController: UIViewController {
-
-    private let tableView: UITableView = {
-        let tbv = UITableView(frame: .zero, style: .insetGrouped)
-        tbv.backgroundColor = .clear
-        tbv.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tbv.translatesAutoresizingMaskIntoConstraints = false
-        return tbv
-    }()
-
-    private var titleLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.font = .textFont(size: 21)
-        lbl.textColor = .label
-        lbl.text = "Devises disponibles"
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
-    }()
+class CurrencyListViewController: UIViewController {
 
     /// Intialise ExchangeDelegate protocol.
     weak var exchangeDelegate: ExchangeDelegate?
-
+    /// Create an instance of CurrencyListView
+    private let listView = CurrencyListView()
     /// Initialise an empty array of type Currencies.
     /// - When set, the tableView is reloaded.
     private var currencyList: [Currencies] = [] {
         didSet {
+            currencyList = currencyList.sorted { $0.symbol < $1.symbol }
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+                self.listView.tableView.reloadData()
             }
         }
     }
 
     // MARK: - Life Cycle
+    override func loadView() {
+        view = listView
+        view.backgroundColor = .viewControllerBackgroundColor
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .viewControllerBackgroundColor
         setDelegates()
-        setupTitleLabelConstraints()
-        setupTableViewConstraints()
         getCurrencies()
     }
 
     // MARK: - Setup
     private func setDelegates() {
-        tableView.delegate = self
-        tableView.dataSource = self
-    }
-
-    private func setupTableViewConstraints() {
-        view.addSubview(tableView)
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 30),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-    }
-
-    private func setupTitleLabelConstraints() {
-        view.addSubview(titleLabel)
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            titleLabel.heightAnchor.constraint(equalToConstant: 21)
-        ])
+        listView.tableView.delegate = self
+        listView.tableView.dataSource = self
     }
 
     // MARK: - Api Call
@@ -87,10 +54,10 @@ class AllCurrenciesViewController: UIViewController {
             // if successful iterate thru a currency dictionnary and add each items
             // to the currrencyList array.
             case .success(let currency):
-                self.createCurrenciesList(with: currency.symbols)
+               self.createCurrenciesList(with: currency.symbols)
                 // if call failed an error is presented to the user.
             case .failure(let error):
-                self.presentErrorAlert(with: error.localizedDescription)
+                self.presentErrorAlert(with: error.description)
             }
         }
     }
@@ -109,7 +76,7 @@ class AllCurrenciesViewController: UIViewController {
 }
 
 // MARK: - Extensions
-extension AllCurrenciesViewController: UITableViewDataSource {
+extension CurrencyListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        return currencyList.count
@@ -129,7 +96,7 @@ extension AllCurrenciesViewController: UITableViewDataSource {
     }
 }
 
-extension AllCurrenciesViewController: UITableViewDelegate {
+extension CurrencyListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currency = currencyList[indexPath.row]

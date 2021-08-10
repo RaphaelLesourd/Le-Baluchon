@@ -24,8 +24,7 @@ class WeatherMainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Scroll View
-
+    // MARK: - Subviews
     /// Create a vertical scrollView and set its properties.
     private let scrollView: UIScrollView = {
         let scv = UIScrollView()
@@ -45,6 +44,22 @@ class WeatherMainView: UIView {
         return uiv
     }()
 
+    let localWeatherView = OriginWeatherView()
+    let destinationWeatherView = DestinationWeatherView()
+    let destinationWeatherInfoView = DestinationWeatherInfoView()
+    private let dataProviderLabel = FooterLabel(title: "Météo par OpenWeatherMap")
+
+    private let mainStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 30
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+
+    // MARK: - Setup
     /// Add the scrollView to  RateMainView  as a subview.
     /// Add the contentView to the scrollView as a subView.
     /// Set constraints to respect safeArea guides.
@@ -65,34 +80,15 @@ class WeatherMainView: UIView {
         ])
     }
 
-    // MARK: - Views
-    let localWeatherView = OriginWeatherView()
     private func setOriginWeatherViewHeight() {
         localWeatherView.translatesAutoresizingMaskIntoConstraints = false
         localWeatherView.heightAnchor.constraint(equalToConstant: 70).isActive = true
     }
-
-    let destinationWeatherView = DestinationWeatherView()
-
-    let destinationWeatherInfoView = DestinationWeatherInfoView()
+    
     private func setDestinationWeatherInfoViewHeight() {
         destinationWeatherInfoView.translatesAutoresizingMaskIntoConstraints = false
         destinationWeatherInfoView.heightAnchor.constraint(equalToConstant: 235).isActive = true
     }
-
-    private let dataProviderLabel = FooterLabel(title: "Météo par OpenWeatherMap")
-
-    // MARK: - Main StackView
-    private let mainStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = 30
-        stack.distribution = .fill
-        stack.alignment = .fill
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-
     /// Setup the mainStackView which hold all the UI subviews.
     private func setupMainstackView() {
         contentView.addSubview(mainStackView)

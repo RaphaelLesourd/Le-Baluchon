@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class DestinationWeatherInfoView: UIView {
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setContainerViewConstraints()
@@ -19,7 +20,7 @@ class DestinationWeatherInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - ContrainerView
+    // MARK: - SubViews
     private let containerView: UIView = {
         let view = UIView()
         view.rounded()
@@ -27,17 +28,6 @@ class DestinationWeatherInfoView: UIView {
         return view
     }()
 
-    private func setContainerViewConstraints() {
-        addSubview(containerView)
-        NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: topAnchor),
-            containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            containerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            containerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-        ])
-    }
-
-    // MARK: - Info detail views
     let directionView = WeatherDetailInfoView(iconName: "direction", title: "Direction")
     let windView = WeatherDetailInfoView(iconName: "wind", title: "Vent")
     let visiblityView = WeatherDetailInfoView(iconName: "visibility", title: "Visibilité")
@@ -45,7 +35,6 @@ class DestinationWeatherInfoView: UIView {
     let pressureView = WeatherDetailInfoView(iconName: "pressure", title: "Préssion")
     let humidityView = WeatherDetailInfoView(iconName: "humidity", title: "Humidité")
 
-    // MARK: - StackViews
     private let topStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
@@ -54,7 +43,7 @@ class DestinationWeatherInfoView: UIView {
         stack.alignment = .fill
         return stack
     }()
-    // bottom stackView
+
     private let bottomStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
@@ -63,7 +52,7 @@ class DestinationWeatherInfoView: UIView {
         stack.alignment = .fill
         return stack
     }()
-    // main stackView
+
     private let mainStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -73,6 +62,17 @@ class DestinationWeatherInfoView: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
+
+    // MARK: - Setup
+    private func setContainerViewConstraints() {
+        addSubview(containerView)
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            containerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+        ])
+    }
 
     private func setupStackViews() {
 

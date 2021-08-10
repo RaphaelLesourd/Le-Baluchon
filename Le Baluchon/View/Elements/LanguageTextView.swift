@@ -29,7 +29,17 @@ class LanguageTextView: UIView {
         textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: rightInset)
     }
 
-    // MARK: - TextView
+    // MARK: - SubViews
+    let clearButton: UIButton = {
+        let btn = UIButton()
+        btn.tintColor = .tertiaryLabel
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .black, scale: .large)
+        let buttonImage = UIImage(systemName: "multiply.circle.fill", withConfiguration: imageConfig)
+        btn.setImage(buttonImage, for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+
     let textView: UITextView = {
         let txv = UITextView()
         txv.layer.masksToBounds = true
@@ -47,6 +57,7 @@ class LanguageTextView: UIView {
         return txv
     }()
 
+    // MARK: - Constraints
     private func setupTextViewConstraints() {
         addSubview(textView)
         NSLayoutConstraint.activate([
@@ -56,17 +67,6 @@ class LanguageTextView: UIView {
             textView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
         ])
     }
-
-    // MARK: - Clear Button
-    let clearButton: UIButton = {
-        let btn = UIButton()
-        btn.tintColor = .tertiaryLabel
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .black, scale: .large)
-        let buttonImage = UIImage(systemName: "multiply.circle.fill", withConfiguration: imageConfig)
-        btn.setImage(buttonImage, for: .normal)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
-    }()
 
     private func setupClearButtonConstraints() {
         addSubview(clearButton)

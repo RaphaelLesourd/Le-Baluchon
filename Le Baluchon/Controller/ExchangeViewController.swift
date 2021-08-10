@@ -101,13 +101,15 @@ class ExchangeViewController: UIViewController {
     // MARK: - Navigation
 
     /// Present a modal viewController with a list of all currencies available.
-    /// - Sets the currencyButtonTag to track which button has been tapped.
-    /// - Present the viewController.
-    /// - Parameter sender: UIButton tapped calling the function
+    /// - Parameter sender: Tapped UIButton
     @objc private func displayCurrenciesList(_ sender: UIButton) {
+        // set the UIbutton sender tag to the currencyButtonTag property to keep track which
+        // button has been pushed.
         currencyButtonTag = sender.tag
-        let currenciesList = AllCurrenciesViewController()
+        // Instanciate the viewController to call.
+        let currenciesList = CurrencyListViewController()
         currenciesList.exchangeDelegate = self
+        // Present the view controller modally.
         present(currenciesList, animated: true, completion: nil)
     }
 }

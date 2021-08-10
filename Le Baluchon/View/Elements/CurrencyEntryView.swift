@@ -40,7 +40,7 @@ class CurrencyEntryView: UIView {
         btn.setTitleColor(.subtitleColor, for: .normal)
         btn.titleLabel?.font = .textFont(size: 21)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        btn.widthAnchor.constraint(equalToConstant: 55).isActive = true
         btn.heightAnchor.constraint(equalToConstant: 22).isActive = true
         return btn
     }()

@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class WeatherDetailInfoView: UIView {
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setStackViewConstraints()
@@ -24,6 +25,7 @@ class WeatherDetailInfoView: UIView {
         self.titleLabel.text = title
     }
 
+    // MARK: - SubViews
     private let typeIcon: UIImageView = {
         let uiv = UIImageView()
         uiv.tintColor = .label
@@ -64,6 +66,7 @@ class WeatherDetailInfoView: UIView {
         return stack
     }()
 
+    // MARK: - Setup
     private func setStackViewConstraints() {
         addSubview(mainStackView)
         let mainStackSubViews: [UIView] = [typeIcon,

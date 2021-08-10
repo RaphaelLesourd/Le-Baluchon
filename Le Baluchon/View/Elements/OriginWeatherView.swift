@@ -18,7 +18,7 @@ class OriginWeatherView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-// MARK: - City
+    // MARK: - SubViews
     private let homeIcon: UIImageView = {
         let uiv = UIImageView()
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 18, weight: .regular, scale: .small)
@@ -54,7 +54,6 @@ class OriginWeatherView: UIView {
         return lbl
     }()
 
-    // MARK: - Weather detail
     let weatherIcon: UIImageView = {
         let uiv = UIImageView()
         uiv.addShadow()
@@ -81,7 +80,6 @@ class OriginWeatherView: UIView {
         return stack
     }()
 
-    // MARK: - Main StackView
     private let mainStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -92,6 +90,7 @@ class OriginWeatherView: UIView {
         return stack
     }()
 
+    // MARK: - Setup
     /// Setup the mainStackView which hold all the UI subviews.
     private func setupStackViews() {
         cityStackView.addArrangedSubview(homeIcon)
