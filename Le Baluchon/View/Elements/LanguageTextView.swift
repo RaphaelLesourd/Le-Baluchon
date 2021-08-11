@@ -10,6 +10,7 @@ import UIKit
 
 class LanguageTextView: UIView {
 
+    // MARK: - Initialiser
     override init(frame: CGRect) {
         super.init(frame: .zero)
         self.rounded()
@@ -29,7 +30,7 @@ class LanguageTextView: UIView {
         textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: rightInset)
     }
 
-    // MARK: - SubViews
+    // MARK: - Subviews
     let clearButton: UIButton = {
         let btn = UIButton()
         btn.tintColor = .tertiaryLabel
@@ -57,7 +58,7 @@ class LanguageTextView: UIView {
         return txv
     }()
 
-    // MARK: - Constraints
+    // MARK: - Setup
     private func setupTextViewConstraints() {
         addSubview(textView)
         NSLayoutConstraint.activate([
@@ -74,7 +75,7 @@ class LanguageTextView: UIView {
             clearButton.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             clearButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             clearButton.heightAnchor.constraint(equalToConstant: 32),
-            clearButton.widthAnchor.constraint(equalToConstant: 32),
+            clearButton.widthAnchor.constraint(equalToConstant: 32)
         ])
     }
 }

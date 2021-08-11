@@ -10,7 +10,7 @@ import UIKit
 
 class CurrencyEntryView: UIView {
 
-    // Intialise the view
+    // MARK: - Initialiser
     override init(frame: CGRect) {
         super.init(frame: .zero)
         self.rounded()
@@ -21,6 +21,7 @@ class CurrencyEntryView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Subviews
     let textfield: UITextField = {
         let txf = UITextField()
         txf.keyboardType = .decimalPad
@@ -40,12 +41,30 @@ class CurrencyEntryView: UIView {
         btn.setTitleColor(.subtitleColor, for: .normal)
         btn.titleLabel?.font = .textFont(size: 21)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.widthAnchor.constraint(equalToConstant: 55).isActive = true
+        btn.widthAnchor.constraint(equalToConstant: 100).isActive = true
         btn.heightAnchor.constraint(equalToConstant: 22).isActive = true
         return btn
     }()
 
-    // MARK: - Main stackView
+    let nameLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.font = .textFont(size: 12)
+        lbl.textColor = .subtitleColor
+        lbl.sizeToFit()
+        lbl.numberOfLines = 2
+        lbl.textAlignment = .center
+        return lbl
+    }()
+
+    private let currencyStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 5
+        stack.alignment = .fill
+        stack.distribution = .fill
+        return stack
+    }()
+
     private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
@@ -56,9 +75,14 @@ class CurrencyEntryView: UIView {
         return stack
     }()
 
+    // MARK: - Setup
     private func setStackViewConstraints() {
+        currencyStackView.addArrangedSubview(currencyButton)
+        currencyStackView.addArrangedSubview(nameLabel)
+
         stackView.addArrangedSubview(textfield)
-        stackView.addArrangedSubview(currencyButton)
+        stackView.addArrangedSubview(currencyStackView)
+
         addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor),

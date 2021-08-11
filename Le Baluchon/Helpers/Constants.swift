@@ -8,12 +8,12 @@
 import Foundation
 
 struct ApiKeys {
-    static let ifixerKEY = "d1527665530a1409b4d347ee105f3959"
+    static let ifixerKEY = "?access_key=d1527665530a1409b4d347ee105f3959"
+    static let openWeatherKEY = "a71a75abf1d38a8caed55d8254895474"
 }
 
 struct ApiURL {
     static let ifixerURL = "https://data.fixer.io/api//"
-    static let googleTranslateURL = ""
-    static let openWeatherMapURL = ""
+    static let openWeatherMapURL = "api.openweathermap.org/data/2.5/"
 }
 

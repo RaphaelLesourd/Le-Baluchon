@@ -10,6 +10,7 @@ import UIKit
 
 class DestinationWeatherView: UIView {
 
+    // MARK: - Initialiser
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setStackViewConstraints()
@@ -19,7 +20,7 @@ class DestinationWeatherView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - SubViews
+    // MARK: - Subviews
     let weatherIcon: UIImageView = {
         let uiv = UIImageView()
         uiv.contentMode = .scaleAspectFit

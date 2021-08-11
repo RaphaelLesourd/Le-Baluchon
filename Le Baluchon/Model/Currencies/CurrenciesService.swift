@@ -7,11 +7,12 @@
 
 import Foundation
 
-class MoneySymbolsService {
-    static let shared = MoneySymbolsService()
+class CurrenciesService {
+    
+    static let shared = CurrenciesService()
     private init() {}
 
-    private static let currenciesUrl = URL(string: ApiURL.ifixerURL + "symbols?access_key=" + ApiKeys.ifixerKEY)!
+    private static let currenciesUrl = URL(string: ApiURL.ifixerURL + "symbols" + ApiKeys.ifixerKEY)!
     private var task: URLSessionDataTask?
     private var session = URLSession(configuration: .default)
 
@@ -22,7 +23,7 @@ class MoneySymbolsService {
     /// Creates url request for fetching all currencies
     /// - Returns: URLRequest
     private func createRequest() -> URLRequest {
-        var request = URLRequest(url: MoneySymbolsService.currenciesUrl)
+        var request = URLRequest(url: CurrenciesService.currenciesUrl)
         request.httpMethod = "POST"
         return request
     }
@@ -44,13 +45,14 @@ class MoneySymbolsService {
             DispatchQueue.main.async {
                 // Unwrap data optional
                 guard let data = data else {
-                    completion(.failure(ApiError.errorFetching))
+                    completion(.failure(.errorFetching))
                     return
                 }
                 // check if the response code is 200. if true move on or return
                 // completion failure case.
                 guard let response = response as? HTTPURLResponse,
                       response.statusCode == 200 else {
+                    completion(.failure(.httpError))
                     return
                 }
                 // do/catch block for trying to decode data returned from session dataTask
@@ -60,7 +62,7 @@ class MoneySymbolsService {
                     completion(.success(responseJSON))
                 } catch {
                     // return an error in case of failure decoding JSON
-                    completion(.failure(ApiError.decodingData))
+                    completion(.failure(.decodingData))
                 }
             }
         }

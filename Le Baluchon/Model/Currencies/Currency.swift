@@ -8,10 +8,10 @@
 import Foundation
 
 struct CurrencyList: Decodable {
-    let symbols: [String: String]
+    var symbols: [String: String]
 }
 
-struct Currencies {
+struct Currency {
     var symbol: String
     var name: String
 }

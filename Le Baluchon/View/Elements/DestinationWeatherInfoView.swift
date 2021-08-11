@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 
 class DestinationWeatherInfoView: UIView {
-    
+
+    // MARK: - Initialiser
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setContainerViewConstraints()
@@ -20,7 +21,7 @@ class DestinationWeatherInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - SubViews
+    // MARK: - Subviews
     private let containerView: UIView = {
         let view = UIView()
         view.rounded()

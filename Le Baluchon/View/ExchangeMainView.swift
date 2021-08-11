@@ -10,6 +10,7 @@ import UIKit
 
 class ExchangeMainView: UIView {
 
+    // MARK: - Initialiser
     /// Initalise the view, and calls set up functions
     /// - Parameter frame: view frame set to .zero as it will be assigned to the UIViewController view frame.
     override init(frame: CGRect) {
@@ -24,7 +25,7 @@ class ExchangeMainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - SubViews
+    // MARK: - Subviews
     /// Create a vertical scrollView and set its properties.
     private let scrollView: UIScrollView = {
         let scv = UIScrollView()

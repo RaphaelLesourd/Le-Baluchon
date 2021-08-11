@@ -7,95 +7,126 @@
 
 import UIKit
 
-protocol ExchangeDelegate: AnyObject {
-    func updateCurrency(with symbol: String)
-}
-
 class ExchangeViewController: UIViewController {
 
     // MARK: - Properties
-    private let rateView = ExchangeMainView()
+    private var currentRate: Double? {
+        didSet {
+            guard let currentRate = currentRate else {return}
+            print(currentRate)
+            getConvertedAmount()
+        }
+    }
+    private let exchangeView = ExchangeMainView()
     private var currencyButtonTag: Int?
-    private var originCurrencySymbol = "" {
+    private var originCurrency: Currency? {
         didSet {
-            rateView.originCurrencyView.currencyButton.setTitle(originCurrencySymbol,
-                                                                for: .normal)
+            exchangeView.originCurrencyView.currencyButton.setTitle(originCurrency?.symbol,
+                                                                    for: .normal)
+            exchangeView.originCurrencyView.nameLabel.text = originCurrency?.name
         }
     }
-    private var destinationCurrencySymbol = "" {
+    private var destinationCurrency: Currency? {
         didSet {
-            rateView.convertedCurrencyView.currencyButton.setTitle(destinationCurrencySymbol,
-                                                                for: .normal)
+            exchangeView.convertedCurrencyView.currencyButton.setTitle(destinationCurrency?.symbol,
+                                                                       for: .normal)
+            exchangeView.convertedCurrencyView.nameLabel.text = destinationCurrency?.name
         }
     }
-    private var originCurrencyValue: Double? {
+    private var originAmount: String? {
         didSet {
-            guard let originCurrencyValue = originCurrencyValue else {return}
-            rateView.originCurrencyView.textfield.text = originCurrencyValue.formatted()
+            guard let originAmount = originAmount else {return}
+            RateService.shared.amountToConvert = originAmount
+
         }
     }
     // MARK: - Lifecycle
     /// Set the view as rateView.
     /// All UI elements are contained in a seperate UIView file.
     override func loadView() {
-        view = rateView
+        view = exchangeView
         view.backgroundColor = .viewControllerBackgroundColor
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setDefaultValues()
         setDelegates()
         addKeyboardDismissGesture()
         buttonTargets()
+        setDefaultValues()
     }
 
     // MARK: - Setup
     private func setDelegates() {
-        rateView.originCurrencyView.textfield.delegate = self
+        exchangeView.originCurrencyView.textfield.delegate = self
     }
 
     /// Set up a default currency symbol, as per projet requirements, origin value is set with Euro symbol
     /// and destination symbol as US Dollars. The origin value is set to 1 to show the current exchange rate.
     private func setDefaultValues() {
-        originCurrencySymbol = "EUR"
-        destinationCurrencySymbol = "USD"
-        originCurrencyValue = 1
+        originCurrency = Currency(symbol: "EUR", name: "Euro")
+        destinationCurrency = Currency(symbol: "USD", name: "Dollars")
+        originAmount = "1"
+        exchangeView.originCurrencyView.textfield.text = originAmount
+        getRate()
     }
 
     private func buttonTargets() {
-        rateView
+        exchangeView
             .originCurrencyView
             .currencyButton
             .addTarget(self,action: #selector(displayCurrenciesList(_:)),
                        for: .touchUpInside)
-        rateView
+        exchangeView
             .convertedCurrencyView
             .currencyButton
             .addTarget(self,action: #selector(displayCurrenciesList(_:)),
                        for: .touchUpInside)
-        rateView.currencySwapButton.addTarget(self, action: #selector(currencySwapButtonTapped),
+        exchangeView.currencySwapButton.addTarget(self, action: #selector(currencySwapButtonTapped),
                                               for: .touchUpInside)
     }
 
     // MARK: - Data Request
-
     //  - Request exhange rate for currencies.
-    //  - update converted currency view
+    private func getRate() {
+        guard let originCurrency = originCurrency else {return}
+        guard let destinationCurrency = destinationCurrency else {return}
+        RateService.shared.getRateData(for: originCurrency.symbol,
+                                       destination: destinationCurrency.symbol) { [weak self] result in
+            guard let self = self else {return}
+            switch result {
+            case .success(let rate):
+                guard let rateValue = rate.values.first else {return}
+                self.currentRate = rateValue
+            case .failure(let error):
+                self.presentErrorAlert(with: error.description)
+            }
+        }
+    }
+
+    // MARK: - Calculate
+    private func getConvertedAmount() {
+        guard let currentRate = currentRate else {return}
+        RateService.shared.convertAmount(with: currentRate) { result in
+            switch result {
+            case .success(let amount):
+                exchangeView.convertedCurrencyView.textfield.text = amount.formatted()
+            case .failure(let error):
+                presentErrorAlert(with: error.description)
+            }
+        }
+    }
 
     // MARK: - Currencies swap
     /// Call swap currency function.
     @objc private func currencySwapButtonTapped() {
-        swapCurrencies(&originCurrencySymbol, &destinationCurrencySymbol)
-    }
-
-    /// Swap oigin and destination currency.
-    /// - Use of tuple to reduce the amount of code, instead of having a temporary transit value to store the destination currency.
-    /// - Parameters:
-    ///   - origin: originCurrencySymbol property.
-    ///   - destination: destinationcurrencySymbol protperty.
-    private func swapCurrencies(_ origin: inout String, _ destination: inout String) {
-        (origin, destination) = (destination, origin)
+        guard let originCurrency = originCurrency else {return}
+        guard let destinationCurrency = destinationCurrency else {return}
+        var tempCurrency: Currency
+        tempCurrency = originCurrency
+        self.originCurrency = destinationCurrency
+        self.destinationCurrency = tempCurrency
+        getRate()
     }
 
     // MARK: - Navigation
@@ -114,26 +145,39 @@ class ExchangeViewController: UIViewController {
     }
 }
 
+
+
 // MARK: - Extensions
 
-extension ExchangeViewController: ExchangeDelegate {
+extension ExchangeViewController: CurrencyListDelegate {
 
     /// Set origin or destination currency.
     /// - The tapped button is tracked by the currencyButtonTag property.
-    /// - Parameter symbol: Currency 3 letters code symbol returned from ExchangeDelegate protocol.
-    func updateCurrency(with symbol: String) {
+    /// - When one of the currency is change, new echange rate is fetched.
+    /// - Parameter symbol: Currency object returned from ExchangeDelegate protocol.
+    func updateCurrency(with currency: Currency) {
         if currencyButtonTag == 0 {
-            originCurrencySymbol = symbol
+            originCurrency = currency
         } else {
-            destinationCurrencySymbol = symbol
+            destinationCurrency = currency
         }
+        getRate()
     }
 }
 
 extension ExchangeViewController: UITextFieldDelegate {
 
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+
+        if let text = textField.text,
+           let textRange = Range(range, in: text) {
+            let updatedText = text.replacingCharacters(in: textRange, with: string)
+            print(updatedText)
+            originAmount = updatedText
+            getConvertedAmount()
+        }
         return true
     }
 }

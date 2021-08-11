@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 
 class TranslationMainView: UIView {
-    
+
+    // MARK: - Initialiser
     /// Initalise the view, and calls set up functions
     /// - Parameter frame: view frame set to .zero as it will be assigned to the UIViewController view frame.
     override init(frame: CGRect) {
@@ -26,7 +27,7 @@ class TranslationMainView: UIView {
     }
     private let screenSizeWidth = UIScreen.main.bounds.width
     
-    // MARK: - Scroll View
+    // MARK: - Subviews
     /// Create a vertical scrollView and set its properties.
     private let scrollView: UIScrollView = {
         let scv = UIScrollView()
@@ -82,6 +83,7 @@ class TranslationMainView: UIView {
         stack.distribution = .fillProportionally
         stack.spacing = 10
         stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.heightAnchor.constraint(equalToConstant: 30).isActive = true
         return stack
     }()
 
@@ -136,6 +138,7 @@ class TranslationMainView: UIView {
     private func setupLanguageViews() {
         originLanguageView.translatesAutoresizingMaskIntoConstraints = false
         originLanguageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+
         translatedLanguageView.translatesAutoresizingMaskIntoConstraints = false
         translatedLanguageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
     }
@@ -144,10 +147,8 @@ class TranslationMainView: UIView {
         languageChoiceStackView.addArrangedSubview(originLanguageLabel)
         languageChoiceStackView.addArrangedSubview(translationDirectionImage)
         languageChoiceStackView.addArrangedSubview(translatedLanguageLabel)
-        NSLayoutConstraint.activate([
-            languageChoiceStackView.heightAnchor.constraint(equalToConstant: 30)
-        ])
     }
+
     /// Setup the mainStackView which hold all the UI subviews.
     private func setupMainstackView() {
         contentView.addSubview(mainStackView)
@@ -171,7 +172,7 @@ class TranslationMainView: UIView {
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
                                                     constant: -16),
             mainStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor,
-                                                  multiplier: 0.99)
+                                                  multiplier: 0.95)
         ])
     }
 }

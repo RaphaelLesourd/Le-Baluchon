@@ -10,6 +10,7 @@ import UIKit
 
 class OriginWeatherView: UIView {
 
+    // MARK: - Initialiser
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupStackViews()
@@ -18,7 +19,7 @@ class OriginWeatherView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    // MARK: - SubViews
+    // MARK: - Subviews
     private let homeIcon: UIImageView = {
         let uiv = UIImageView()
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 18, weight: .regular, scale: .small)

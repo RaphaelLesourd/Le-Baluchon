@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 
 class WeatherMainView: UIView {
-    
+
+    // MARK: - Initialiser
     /// Initalise the view, and calls set up functions
     /// - Parameter frame: view frame set to .zero as it will be assigned to the UIViewController view frame.
     override init(frame: CGRect) {

@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 
 class WeatherDetailInfoView: UIView {
-    
+
+    // MARK: - Initialiser
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setStackViewConstraints()
@@ -25,7 +26,7 @@ class WeatherDetailInfoView: UIView {
         self.titleLabel.text = title
     }
 
-    // MARK: - SubViews
+    // MARK: - Subviews
     private let typeIcon: UIImageView = {
         let uiv = UIImageView()
         uiv.tintColor = .label

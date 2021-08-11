@@ -10,14 +10,21 @@ import UIKit
 class CurrencyListViewController: UIViewController {
 
     /// Intialise ExchangeDelegate protocol.
-    weak var exchangeDelegate: ExchangeDelegate?
+    weak var exchangeDelegate: CurrencyListDelegate?
     /// Create an instance of CurrencyListView
     private let listView = CurrencyListView()
-    /// Initialise an empty array of type Currencies.
-    /// - When set, the tableView is reloaded.
-    private var currencyList: [Currencies] = [] {
+    /// Initialise an empty array of type Currencies to use as a full list of currencies.
+    /// - Stores the full list of currencies and copy  it to the filtered currency list array when set.
+    private var currencyList: [Currency] = [] {
+        didSet{
+            filteredCurrencyList = currencyList
+        }
+    }
+    /// Initialise an empty array of type Currencies to use to dsplay a full or filtererd list of currencies.
+    private var filteredCurrencyList: [Currency] = [] {
         didSet {
-            currencyList = currencyList.sorted { $0.symbol < $1.symbol }
+            // Sort array alphabetically
+            filteredCurrencyList = filteredCurrencyList.sorted { $0.symbol < $1.symbol }
             DispatchQueue.main.async {
                 self.listView.tableView.reloadData()
             }
@@ -33,6 +40,7 @@ class CurrencyListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setDelegates()
+    
         getCurrencies()
     }
 
@@ -40,6 +48,7 @@ class CurrencyListViewController: UIViewController {
     private func setDelegates() {
         listView.tableView.delegate = self
         listView.tableView.dataSource = self
+        listView.searchBar.delegate = self
     }
 
     // MARK: - Api Call
@@ -47,7 +56,7 @@ class CurrencyListViewController: UIViewController {
     /// success case:  dictionnary of all currencies available.
     /// failure case : an error.
     private func getCurrencies() {
-        MoneySymbolsService.shared.getData { [weak self] result in
+        CurrenciesService.shared.getData { [weak self] result in
             guard let self = self else {return}
             // switch between the result 2 cases
             switch result {
@@ -69,7 +78,7 @@ class CurrencyListViewController: UIViewController {
     /// - Parameter currencyDictionnary: Dictionnary of type [String : String]
     private func createCurrenciesList(with currencyDictionnary: [String: String]) {
         for (keys, values) in currencyDictionnary {
-            let post = Currencies(symbol: keys, name: values)
+            let post = Currency(symbol: keys, name: values)
             self.currencyList.append(post)
         }
     }
@@ -79,7 +88,7 @@ class CurrencyListViewController: UIViewController {
 extension CurrencyListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return currencyList.count
+       return filteredCurrencyList.count
     }
 
     func tableView(_ tableView: UITableView,
@@ -89,7 +98,7 @@ extension CurrencyListViewController: UITableViewDataSource {
         // a custom UITableViewcCell.
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
         // Set the currency list data to the title and subtitle label.
-        let currency = currencyList[indexPath.row]
+        let currency = filteredCurrencyList[indexPath.row]
         cell.textLabel?.text = currency.symbol
         cell.detailTextLabel?.text = currency.name
         return cell
@@ -99,11 +108,31 @@ extension CurrencyListViewController: UITableViewDataSource {
 extension CurrencyListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let currency = currencyList[indexPath.row]
-        // pass the selected row currency 3 letters symbol to the ExchangeViewController
+        let currency = filteredCurrencyList[indexPath.row]
+        // pass the selected row currency object to the ExchangeViewController
         // thru a protocol and dismiss the current modal ViewController.
-        exchangeDelegate?.updateCurrency(with: currency.symbol)
+        let chosenCurrency = Currency(symbol: currency.symbol, name: currency.name)
+        exchangeDelegate?.updateCurrency(with: chosenCurrency)
         dismiss(animated: true, completion: nil)
+    }
+}
+
+extension CurrencyListViewController: UISearchBarDelegate {
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        // Monitors if the text is changed in the searchBar and
+        // filters the currencyList Array with search bar text either as currency symbol or
+        // name. If the searchBar text is empty, the list is reset with the full list from
+        // the currencyList array
+        if searchText.isEmpty == false {
+            filteredCurrencyList = currencyList.filter({ $0.symbol.contains(searchText.uppercased()) || $0.name.contains(searchText.capitalized) })
+        } else {
+            filteredCurrencyList = currencyList
+        }
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        listView.searchBar.resignFirstResponder()
     }
 }
 
