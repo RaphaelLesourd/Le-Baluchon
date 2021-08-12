@@ -26,8 +26,9 @@ class WeatherMainView: UIView {
     }
 
     // MARK: - Subviews
+    let refresherControl = Refresher(frame: .zero)
     /// Create a vertical scrollView and set its properties.
-    private let scrollView: UIScrollView = {
+    let scrollView: UIScrollView = {
         let scv = UIScrollView()
         scv.alwaysBounceVertical = true
         scv.alwaysBounceHorizontal = false
@@ -45,7 +46,7 @@ class WeatherMainView: UIView {
         return uiv
     }()
 
-    let localWeatherView = OriginWeatherView()
+    let localWeatherView = LocalWeatherView()
     let destinationWeatherView = DestinationWeatherView()
     let destinationWeatherInfoView = DestinationWeatherInfoView()
     private let dataProviderLabel = FooterLabel(title: "Météo par OpenWeatherMap")

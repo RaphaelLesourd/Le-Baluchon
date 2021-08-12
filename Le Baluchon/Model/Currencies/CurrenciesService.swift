@@ -24,7 +24,7 @@ class CurrenciesService {
     /// - Returns: URLRequest
     private func createRequest() -> URLRequest {
         var request = URLRequest(url: CurrenciesService.currenciesUrl)
-        request.httpMethod = "POST"
+        request.httpMethod = "GET"
         return request
     }
 

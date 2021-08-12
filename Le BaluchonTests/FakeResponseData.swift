@@ -19,11 +19,11 @@ class FakeResponseData {
     static let incorrectData = "error".data(using: .utf8)!
 
     // MARK: - Response
-    static let responseOK = HTTPURLResponse(url: URL(string: "http://google.com")!,
+    static let responseOK = HTTPURLResponse(url: URL(string: "https://google.com")!,
                                      statusCode: 200,
                                      httpVersion: nil,
                                      headerFields: nil)!
-    static let responseKO = HTTPURLResponse(url: URL(string: "http://google.com")!,
+    static let responseKO = HTTPURLResponse(url: URL(string: "https://google.com")!,
                                      statusCode: 500,
                                      httpVersion: nil,
                                      headerFields: nil)!

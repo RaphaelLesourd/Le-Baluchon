@@ -12,10 +12,10 @@ extension Double {
     /// Format result displayed to the user. If result is a is whole number then no digiti is displayed.
     /// - Parameter value: Pass in a double value to be converted.
     /// - Returns: Result value converted to a string.
-    func formatted() -> String {
+    func formatted(decimals: Int = 2) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 2
+        formatter.maximumFractionDigits = decimals
         formatter.decimalSeparator = "."
         formatter.groupingSeparator = ","
         let number = NSNumber(value: self)

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class OriginWeatherView: UIView {
+class LocalWeatherView: UIView {
 
     // MARK: - Initialiser
     override init(frame: CGRect) {
@@ -65,7 +65,7 @@ class OriginWeatherView: UIView {
 
     let temperatureLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = .temperatureFont(size: 23)
+        lbl.font = .temperatureFont(size: 33)
         lbl.textColor = .subtitleColor
         lbl.numberOfLines = 1
         lbl.textAlignment = .right

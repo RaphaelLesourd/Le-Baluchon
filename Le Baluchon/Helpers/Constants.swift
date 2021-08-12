@@ -14,6 +14,6 @@ struct ApiKeys {
 
 struct ApiURL {
     static let ifixerURL = "https://data.fixer.io/api//"
-    static let openWeatherMapURL = "api.openweathermap.org/data/2.5/"
+    static let openWeatherMapURL = "https://api.openweathermap.org/data/2.5/"
 }
 

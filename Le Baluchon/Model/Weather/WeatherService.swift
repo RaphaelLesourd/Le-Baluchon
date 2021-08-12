@@ -1,22 +1,20 @@
 //
-//  RateService.swift
+//  Weatherservice.swift
 //  Le Baluchon
 //
-//  Created by Birkyboy on 11/08/2021.
+//  Created by Birkyboy on 12/08/2021.
 //
 
 import Foundation
 
+class WeatherService {
 
-class RateService {
-
-    // MARK: - Properties
-    static let shared = RateService()
+    static let shared = WeatherService()
     private init() {}
 
+    private static let currenciesUrl = URL(string: ApiURL.openWeatherMapURL)!
     private var task: URLSessionDataTask?
     private var session = URLSession(configuration: .default)
-    var amountToConvert: String?
 
     init(session: URLSession) {
         self.session = session
@@ -25,10 +23,8 @@ class RateService {
     // MARK: - Network call
     /// Creates url request for fetching all currencies
     /// - Returns: URLRequest
-    private func createRequest(base: String, destination: String) -> URLRequest {
-        let endPoint = "&base=\(base)&symbols=\(destination)"
-        let rateURL = URL(string: ApiURL.ifixerURL + "latest?access_key=" + ApiKeys.ifixerKEY + endPoint)!
-        var request = URLRequest(url: rateURL)
+    private func createRequest(_ weatherURL: URL) -> URLRequest {
+        var request = URLRequest(url: weatherURL)
         request.httpMethod = "GET"
         return request
     }
@@ -38,11 +34,15 @@ class RateService {
     /// - Parameter completion: Returns a Result.
     /// - Succes case:  currency list dictionary.
     /// - Error case :  Error of type ApiError.
-    func getRateData(for originCurrency: String,
-                     destination: String,
-                     completion: @escaping (Result<Rate, ApiError>) -> Void) {
+    func getRateData(for city: String,
+                     completion: @escaping (Result<Weather, ApiError>) -> Void) {
+
+        guard let formattedCity = city.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {return}
+        guard let weatherURL = URL(string: ApiURL.openWeatherMapURL + "weather?q=\(formattedCity)&units=metric&lang=fr&appid=" + ApiKeys.openWeatherKEY) else {return}
+
         // set current request returned from the createRequest method.
-        let request = createRequest(base: originCurrency, destination: destination)
+        let request = createRequest(weatherURL)
+
         // cancel previous task
         task?.cancel()
         // set current tast with a session datatask for the current request
@@ -64,11 +64,12 @@ class RateService {
                 }
                 // do/catch block for trying to decode data returned from session dataTask
                 do {
-                    let responseJSON = try JSONDecoder().decode(Rate.self, from: data)
+                    let responseJSON = try JSONDecoder().decode(Weather.self, from: data)
                     // return decoded JSON
                     completion(.success(responseJSON))
                 } catch {
                     // return an error in case of failure decoding JSON
+                    print(error)
                     completion(.failure(.decodingData))
                 }
             }
@@ -76,24 +77,5 @@ class RateService {
         // start the task
         task?.resume()
     }
-
-// MARK: - Calculation
-
-    func convertAmount(with rate: Double,
-                       completion: (Result<Double,ConversionError>) -> Void) {
-
-        guard amountToConvert != "0" else {
-            completion(.failure(.zeroDivision))
-            return
-        }
-        guard let currency = amountToConvert?.replaceDecimal() else {
-            completion(.failure(.calculation))
-            return
-        }
-        guard let doubleCurrency = Double(currency) else {
-            return
-        }
-        completion(.success(doubleCurrency * rate))
-    }
+   
 }
-
