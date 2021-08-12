@@ -58,8 +58,11 @@ class CurrencyListView: UIView {
         bar.translatesAutoresizingMaskIntoConstraints = false
         return bar
     }()
+}
 
-    // MARK: - Setup
+    // MARK: - Constraints
+extension CurrencyListView {
+
     private func setTitleLabelConstraints() {
         addSubview(titleLabel)
         NSLayoutConstraint.activate([

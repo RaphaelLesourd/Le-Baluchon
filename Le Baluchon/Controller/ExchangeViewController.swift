@@ -66,7 +66,7 @@ class ExchangeViewController: UIViewController {
     private func setDefaultValues() {
         originCurrency = Currency(symbol: "EUR", name: "Euro")
         destinationCurrency = Currency(symbol: "USD", name: "Dollars")
-        originAmount = "1"
+        originAmount = currentRate.formatted()
         exchangeView.originCurrencyView.textfield.text = originAmount
     }
 

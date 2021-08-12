@@ -60,8 +60,10 @@ class WeatherMainView: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
+}
 
-    // MARK: - Setup
+// MARK: - Constraints
+extension WeatherMainView {
     /// Add the scrollView to  RateMainView  as a subview.
     /// Add the contentView to the scrollView as a subView.
     /// Set constraints to respect safeArea guides.

@@ -101,8 +101,10 @@ class TranslationMainView: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
+}
 
-    // MARK: - Setup
+// MARK: - Constraints
+extension TranslationMainView {
     /// Add the scrollView to  RateMainView  as a subview.
     /// Add the contentView to the scrollView as a subView.
     /// Set constraints to respect safeArea guides.

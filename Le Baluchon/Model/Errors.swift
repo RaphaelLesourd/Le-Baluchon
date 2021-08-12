@@ -10,6 +10,7 @@ import Foundation
 enum ApiError: Error {
     case errorFetching
     case httpError
+    case noNetwork
     case decodingData
 
     var description: String {
@@ -18,6 +19,8 @@ enum ApiError: Error {
             return "Nous avons rencontré un problème pour récupérer les données."
         case .httpError:
             return "Erreur de réseau, verifiez que vous êtes bien connecté."
+        case .noNetwork:
+            return "Il semble que vous soyez hors ligne."
         case .decodingData:
             return "Format de données non valide."
         }

@@ -88,11 +88,13 @@ class ExchangeMainView: UIView {
         return stack
     }()
 
-    // MARK: - Setup
+}
+    // MARK: - Constraints
+extension ExchangeMainView {
     /// Add the scrollView to  RateMainView  as a subview.
     /// Add the contentView to the scrollView as a subView.
     /// Set constraints to respect safeArea guides.
-    private func setScrollViewConstraints() {
+     private func setScrollViewConstraints() {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
         NSLayoutConstraint.activate([
@@ -109,7 +111,7 @@ class ExchangeMainView: UIView {
         ])
     }
 
-    private func setBackgroundImageConstraints() {
+     private func setBackgroundImageConstraints() {
         contentView.addSubview(backgroundImage)
 
         let screenSizeWidth = UIScreen.main.bounds.width
@@ -123,7 +125,7 @@ class ExchangeMainView: UIView {
         ])
     }
 
-    private func setCurrencySwapButtonConstaints() {
+     private func setCurrencySwapButtonConstaints() {
         contentView.addSubview(currencySwapButton)
         NSLayoutConstraint.activate([
             currencySwapButton.topAnchor.constraint(equalTo: originCurrencyView.bottomAnchor,
@@ -135,7 +137,7 @@ class ExchangeMainView: UIView {
     }
 
     /// Setup the mainStackView which hold all the UI subviews.
-    private func setupMainstackView() {
+     private func setupMainstackView() {
         contentView.addSubview(mainStackView)
         // Create an array of the subviews to add to the stackView
         let mainStackSubViews: [UIView] = [originCurrencyView,
@@ -160,3 +162,4 @@ class ExchangeMainView: UIView {
         ])
     }
 }
+

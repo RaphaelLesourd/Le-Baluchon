@@ -74,8 +74,10 @@ class CurrencyEntryView: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
+}
+// MARK: - Constraints
+extension CurrencyEntryView {
 
-    // MARK: - Setup
     private func setStackViewConstraints() {
         currencyStackView.addArrangedSubview(currencyButton)
         currencyStackView.addArrangedSubview(nameLabel)

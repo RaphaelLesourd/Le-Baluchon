@@ -90,8 +90,10 @@ class LocalWeatherView: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
-
-    // MARK: - Setup
+}
+// MARK: - Constraints
+extension LocalWeatherView {
+    
     /// Setup the mainStackView which hold all the UI subviews.
     private func setupStackViews() {
         cityStackView.addArrangedSubview(homeIcon)

@@ -39,6 +39,7 @@ class CurrencyListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        addKeyboardDismissGesture()
         setDelegates()
         setTableViewRefresherControl()
         getCurrencies()

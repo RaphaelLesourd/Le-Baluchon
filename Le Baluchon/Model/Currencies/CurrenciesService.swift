@@ -43,6 +43,11 @@ class CurrenciesService {
         task = session.dataTask(with: request) { (data, response, error) in
             // run the rest of the code in the main thread
             DispatchQueue.main.async {
+                // Check if there is an error
+                guard error == nil else {
+                    completion(.failure(.noNetwork))
+                    return
+                }
                 // Unwrap data optional
                 guard let data = data else {
                     completion(.failure(.errorFetching))

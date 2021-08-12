@@ -70,8 +70,10 @@ class DestinationWeatherView: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
+}
 
-    // MARK: - Setup
+// MARK: - Constraints
+extension DestinationWeatherView {
     private func setStackViewConstraints() {
         addSubview(mainStackView)
         let mainStackSubViews: [UIView] = [cityLabel,

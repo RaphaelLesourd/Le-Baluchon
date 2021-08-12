@@ -63,8 +63,11 @@ class DestinationWeatherInfoView: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
+}
 
-    // MARK: - Setup
+// MARK: - Constraints
+extension DestinationWeatherInfoView {
+
     private func setContainerViewConstraints() {
         addSubview(containerView)
         NSLayoutConstraint.activate([
@@ -100,5 +103,5 @@ class DestinationWeatherInfoView: UIView {
                                                     constant: -10),
         ])
     }
-    
+
 }

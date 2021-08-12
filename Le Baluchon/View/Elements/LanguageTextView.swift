@@ -57,8 +57,10 @@ class LanguageTextView: UIView {
         txv.translatesAutoresizingMaskIntoConstraints = false
         return txv
     }()
+}
+// MARK: - Constraints
+extension LanguageTextView {
 
-    // MARK: - Setup
     private func setupTextViewConstraints() {
         addSubview(textView)
         NSLayoutConstraint.activate([
