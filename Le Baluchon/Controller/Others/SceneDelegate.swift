@@ -18,6 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             let tabController = TabBarViewController()
             window.rootViewController = tabController
+            window.tintColor = .label
             self.window = window
             window.makeKeyAndVisible()
         }

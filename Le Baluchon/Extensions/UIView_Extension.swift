@@ -9,6 +9,13 @@ import Foundation
 import UIKit
 
 extension UIView {
+
+    /// Helper function to round corners of a view.
+    /// - A default view in the app is rounded with no background color (clear) and has a blur effect.
+    /// - Parameters:
+    ///   - radius: Corner radius value, 17 by default.
+    ///   - backgroundcolor: Color of the background, clear by default.
+    ///   - withBlur: Boolean value if a blur effect should be added, true by default.
     func rounded(radius: CGFloat = 17,
                  backgroundcolor: UIColor = .clear,
                  withBlur: Bool = true) {
@@ -20,6 +27,7 @@ extension UIView {
         }
     }
 
+    /// Adds a blur effet to a view.
     func addBlurEffect() {
         let blurEffect = UIBlurEffect(style: .systemMaterial)
         let blurredEffectView = UIVisualEffectView(effect: blurEffect)
@@ -29,12 +37,16 @@ extension UIView {
         addSubview(blurredEffectView)
     }
 
-    func addShadow() {
+    /// Add a shadow to a view.
+    /// - Parameters:
+    ///   - opacity: Opacity of the shadow, by default 0.5
+    ///   - radius: Shadow spread, by default 20
+    func addShadow(opacity: Float = 0.5, radius: CGFloat = 20) {
         layer.masksToBounds = false
         layer.shadowOffset = CGSize(width: 1, height: 1)
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowRadius = 20
-        layer.shadowOpacity = 0.5
+        layer.shadowRadius = radius
+        layer.shadowOpacity = opacity
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
     }

@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+/// Custom fonts use in the app
 extension UIFont {
     static func textFont(size: CGFloat) -> UIFont {
         return UIFont(name: "GalanoGrotesque-Medium", size: size)!

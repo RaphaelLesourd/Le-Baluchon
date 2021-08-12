@@ -25,7 +25,7 @@ class TranslationMainView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    private let screenSizeWidth = UIScreen.main.bounds.width
+    private let screenSize = UIScreen.main.bounds
     
     // MARK: - Subviews
     /// Create a vertical scrollView and set its properties.
@@ -126,21 +126,26 @@ class TranslationMainView: UIView {
     private func setBackgroundImageConstraints() {
         contentView.addSubview(backgroundImage)
         NSLayoutConstraint.activate([
-            backgroundImage.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor,
-                                                 constant: 20),
-            backgroundImage.widthAnchor.constraint(equalToConstant: screenSizeWidth),
-            backgroundImage.heightAnchor.constraint(equalToConstant: screenSizeWidth * 0.8),
+            backgroundImage.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 20),
+            backgroundImage.widthAnchor.constraint(equalToConstant: screenSize.width),
+            backgroundImage.heightAnchor.constraint(equalToConstant: screenSize.width * 0.8),
             backgroundImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                     constant: -screenSizeWidth * 0.3)
+                                                     constant: -screenSize.width * 0.3)
         ])
     }
 
     private func setupLanguageViews() {
         originLanguageView.translatesAutoresizingMaskIntoConstraints = false
-        originLanguageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        originLanguageView
+            .heightAnchor
+            .constraint(equalToConstant: screenSize.height * 0.25)
+            .isActive = true
 
         translatedLanguageView.translatesAutoresizingMaskIntoConstraints = false
-        translatedLanguageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        translatedLanguageView
+            .heightAnchor
+            .constraint(equalToConstant: screenSize.height * 0.25)
+            .isActive = true
     }
 
     private func setupLanguageChoiceStackView() {
@@ -166,7 +171,8 @@ class TranslationMainView: UIView {
         mainStackView.setCustomSpacing(30, after: originLanguageView)
         // Add constraints for the mainstackView
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                               constant: 20),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
                                                    constant: 16),
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,

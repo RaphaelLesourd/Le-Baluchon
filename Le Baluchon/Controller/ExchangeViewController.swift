@@ -10,9 +10,8 @@ import UIKit
 class ExchangeViewController: UIViewController {
 
     // MARK: - Properties
-    private var currentRate: Double? {
+    private var currentRate: Double = 1.0 {
         didSet {
-            guard let currentRate = currentRate else {return}
             print(currentRate)
             getConvertedAmount()
         }
@@ -51,6 +50,7 @@ class ExchangeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setDelegates()
+        addNavigationBarItem()
         addKeyboardDismissGesture()
         buttonTargets()
         setDefaultValues()
@@ -71,6 +71,15 @@ class ExchangeViewController: UIViewController {
         getRate()
     }
 
+    private func addNavigationBarItem() {
+        let refreshImage = UIImage(systemName: "arrow.clockwise")
+        let refreshButton = UIBarButtonItem(image: refreshImage,
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(getRate))
+        navigationItem.rightBarButtonItem = refreshButton
+    }
+
     private func buttonTargets() {
         exchangeView
             .originCurrencyView
@@ -82,13 +91,15 @@ class ExchangeViewController: UIViewController {
             .currencyButton
             .addTarget(self,action: #selector(displayCurrenciesList(_:)),
                        for: .touchUpInside)
-        exchangeView.currencySwapButton.addTarget(self, action: #selector(currencySwapButtonTapped),
-                                              for: .touchUpInside)
+        exchangeView
+            .currencySwapButton
+            .addTarget(self,action: #selector(currencySwapButtonTapped),
+                       for: .touchUpInside)
     }
 
     // MARK: - Data Request
     //  - Request exhange rate for currencies.
-    private func getRate() {
+    @objc private func getRate() {
         guard let originCurrency = originCurrency else {return}
         guard let destinationCurrency = destinationCurrency else {return}
         RateService.shared.getRateData(for: originCurrency.symbol,
@@ -106,7 +117,7 @@ class ExchangeViewController: UIViewController {
 
     // MARK: - Calculate
     private func getConvertedAmount() {
-        guard let currentRate = currentRate else {return}
+     //   guard let currentRate = currentRate else {return}
         RateService.shared.convertAmount(with: currentRate) { result in
             switch result {
             case .success(let amount):
@@ -118,15 +129,26 @@ class ExchangeViewController: UIViewController {
     }
 
     // MARK: - Currencies swap
-    /// Call swap currency function.
+    /// Swap currency function and update echange rate value.
     @objc private func currencySwapButtonTapped() {
+        swapCurrencies()
+        updateRateValue()
+    }
+
+    /// Swaps origin and destination currency object.
+    private func swapCurrencies() {
         guard let originCurrency = originCurrency else {return}
         guard let destinationCurrency = destinationCurrency else {return}
-        var tempCurrency: Currency
-        tempCurrency = originCurrency
+        // local cotanstant to store origin currency
+        let tempCurrency = originCurrency
         self.originCurrency = destinationCurrency
         self.destinationCurrency = tempCurrency
-        getRate()
+    }
+
+    /// Update the exchange rate value after a swap.
+    /// devides 1 by the currentValue rather than making another network call to get the new exchange rate.
+    private func updateRateValue() {
+        currentRate = 1 / currentRate
     }
 
     // MARK: - Navigation
@@ -143,6 +165,7 @@ class ExchangeViewController: UIViewController {
         // Present the view controller modally.
         present(currenciesList, animated: true, completion: nil)
     }
+
 }
 
 

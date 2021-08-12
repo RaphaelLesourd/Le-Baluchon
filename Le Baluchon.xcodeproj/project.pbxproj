@@ -176,8 +176,8 @@
 			children = (
 				8140575026BC4E6800D4D31A /* Info.plist */,
 				81B724FD26BF44020051C909 /* Helpers */,
-				81D1556526BEF89700709499 /* Extensions */,
 				8140577526BC4EFA00D4D31A /* Assets */,
+				81D1556526BEF89700709499 /* Extensions */,
 				8140577226BC4ED600D4D31A /* Model */,
 				8140577326BC4EDE00D4D31A /* View */,
 				8140577426BC4EEA00D4D31A /* Controller */,
@@ -210,8 +210,10 @@
 		8140577226BC4ED600D4D31A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				81B7250A26C0693E0051C909 /* Errors.swift */,
 				81DE3D1F26C3BAAF003E0F77 /* Rate */,
 				81DE3D1B26C3B38C003E0F77 /* Currencies */,
+				81B1018426C4EF1700554ADD /* Translation */,
 				81DE3D1C26C3B39E003E0F77 /* Weather */,
 			);
 			path = Model;
@@ -251,6 +253,13 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
+		81B1018426C4EF1700554ADD /* Translation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Translation;
+			sourceTree = "<group>";
+		};
 		81B724F626BF242D0051C909 /* Elements */ = {
 			isa = PBXGroup;
 			children = (
@@ -270,7 +279,6 @@
 			isa = PBXGroup;
 			children = (
 				81B724FE26BF44260051C909 /* Constants.swift */,
-				81B7250A26C0693E0051C909 /* Errors.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
