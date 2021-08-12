@@ -34,6 +34,8 @@ class CurrencyListView: UIView {
         return tbv
     }()
 
+    let refresherControl = Refresher(frame: .zero)
+
     private var titleLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = .textFont(size: 21)

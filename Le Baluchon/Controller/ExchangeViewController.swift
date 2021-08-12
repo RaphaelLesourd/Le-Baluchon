@@ -47,12 +47,13 @@ class ExchangeViewController: UIViewController {
         view.backgroundColor = .viewControllerBackgroundColor
     }
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setDelegates()
-        addNavigationBarItem()
         addKeyboardDismissGesture()
         buttonTargets()
+        setRefresherControl()
         setDefaultValues()
     }
 
@@ -71,15 +72,13 @@ class ExchangeViewController: UIViewController {
         getRate()
     }
 
-    private func addNavigationBarItem() {
-        let refreshImage = UIImage(systemName: "arrow.clockwise")
-        let refreshButton = UIBarButtonItem(image: refreshImage,
-                                             style: .plain,
-                                             target: self,
-                                             action: #selector(getRate))
-        navigationItem.rightBarButtonItem = refreshButton
+    /// Adds a refreshed to the scrollView, trigger a neworl call to fetch latest exchange rate.
+    private func setRefresherControl() {
+        exchangeView.scrollView.refreshControl = exchangeView.refresherControl
+        exchangeView.refresherControl.addTarget(self, action: #selector(getRate), for: .valueChanged)
     }
 
+    /// Add targets to UIButtons.
     private func buttonTargets() {
         exchangeView
             .originCurrencyView
@@ -105,6 +104,9 @@ class ExchangeViewController: UIViewController {
         RateService.shared.getRateData(for: originCurrency.symbol,
                                        destination: destinationCurrency.symbol) { [weak self] result in
             guard let self = self else {return}
+            self.exchangeView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
+                                                       with: nil,
+                                                       afterDelay: 0.1)
             switch result {
             case .success(let rate):
                 guard let rateValue = rate.values.first else {return}

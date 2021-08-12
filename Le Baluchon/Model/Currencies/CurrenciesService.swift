@@ -12,7 +12,7 @@ class CurrenciesService {
     static let shared = CurrenciesService()
     private init() {}
 
-    private static let currenciesUrl = URL(string: ApiURL.ifixerURL + "symbols" + ApiKeys.ifixerKEY)!
+    private static let currenciesUrl = URL(string: ApiURL.ifixerURL + "symbols?access_key=" + ApiKeys.ifixerKEY)!
     private var task: URLSessionDataTask?
     private var session = URLSession(configuration: .default)
 

@@ -40,7 +40,7 @@ class CurrencyListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setDelegates()
-    
+        setTableViewRefresherControl()
         getCurrencies()
     }
 
@@ -51,6 +51,12 @@ class CurrencyListViewController: UIViewController {
         listView.searchBar.delegate = self
     }
 
+    private func setTableViewRefresherControl() {
+        listView.tableView.refreshControl = listView.refresherControl
+        listView.refresherControl.addTarget(self,
+                                            action: #selector(reloadCurrencyList),
+                                            for: .valueChanged)
+    }
     // MARK: - Api Call
     /// Get all available currencies from API and receive a result  type.
     /// success case:  dictionnary of all currencies available.
@@ -58,6 +64,9 @@ class CurrencyListViewController: UIViewController {
     private func getCurrencies() {
         CurrenciesService.shared.getData { [weak self] result in
             guard let self = self else {return}
+            self.listView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
+                                                       with: nil,
+                                                       afterDelay: 0.1)
             // switch between the result 2 cases
             switch result {
             // if successful iterate thru a currency dictionnary and add each items
@@ -70,7 +79,6 @@ class CurrencyListViewController: UIViewController {
             }
         }
     }
-
     /// Iterate through a currency dictionnary returned from a JSON
     /// and add data to currencyList array of type Currencies.
     /// - Dictionnary key: currency 3 letter code symbol
@@ -81,6 +89,14 @@ class CurrencyListViewController: UIViewController {
             let post = Currency(symbol: keys, name: values)
             self.currencyList.append(post)
         }
+    }
+
+    /// Reload the entire currency list.
+    @objc private func reloadCurrencyList() {
+        currencyList.removeAll()
+        listView.searchBar.text = nil
+        listView.searchBar.resignFirstResponder()
+        getCurrencies()
     }
 }
 

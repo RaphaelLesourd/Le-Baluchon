@@ -23,7 +23,7 @@ class FooterLabel: UILabel {
 
     convenience init(title: String) {
         self.init()
-        self.text = title
+        self.text = title + "\nTirez pour rafraichir"
     }
 
     required init?(coder: NSCoder) {

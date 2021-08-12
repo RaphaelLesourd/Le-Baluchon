@@ -26,8 +26,9 @@ class ExchangeMainView: UIView {
     }
 
     // MARK: - Subviews
+    let refresherControl = Refresher(frame: .zero)
     /// Create a vertical scrollView and set its properties.
-    private let scrollView: UIScrollView = {
+    let scrollView: UIScrollView = {
         let scv = UIScrollView()
         scv.alwaysBounceVertical = true
         scv.alwaysBounceHorizontal = false

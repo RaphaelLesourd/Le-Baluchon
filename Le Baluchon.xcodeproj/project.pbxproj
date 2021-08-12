@@ -52,6 +52,7 @@
 		81DE3D1A26C3B0B2003E0F77 /* Rate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE3D1926C3B0B2003E0F77 /* Rate.swift */; };
 		81DE3D1E26C3B3CF003E0F77 /* RateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE3D1D26C3B3CF003E0F77 /* RateService.swift */; };
 		81DE3D2226C3DCDC003E0F77 /* String_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE3D2126C3DCDC003E0F77 /* String_Extension.swift */; };
+		81DF729726C52E6E005D8ACF /* Refresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DF729626C52E6E005D8ACF /* Refresher.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +125,7 @@
 		81DE3D1926C3B0B2003E0F77 /* Rate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rate.swift; sourceTree = "<group>"; };
 		81DE3D1D26C3B3CF003E0F77 /* RateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateService.swift; sourceTree = "<group>"; };
 		81DE3D2126C3DCDC003E0F77 /* String_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String_Extension.swift; sourceTree = "<group>"; };
+		81DF729626C52E6E005D8ACF /* Refresher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Refresher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,6 +265,7 @@
 		81B724F626BF242D0051C909 /* Elements */ = {
 			isa = PBXGroup;
 			children = (
+				81DF729626C52E6E005D8ACF /* Refresher.swift */,
 				81B724F226BF1CC40051C909 /* BackgroundImage.swift */,
 				81B724F026BF190D0051C909 /* FooterLabel.swift */,
 				81D1556126BEF04500709499 /* CurrencyEntryView.swift */,
@@ -509,6 +512,7 @@
 				81DE3D2226C3DCDC003E0F77 /* String_Extension.swift in Sources */,
 				81DE3D1A26C3B0B2003E0F77 /* Rate.swift in Sources */,
 				81DE3D1426C2E14B003E0F77 /* CurrencyListView.swift in Sources */,
+				81DF729726C52E6E005D8ACF /* Refresher.swift in Sources */,
 				8140577B26BC519300D4D31A /* TabBarViewController.swift in Sources */,
 				81DE3D1226C29A54003E0F77 /* WeatherDetailInfoView.swift in Sources */,
 				81D1556426BEF88200709499 /* UIView_Extension.swift in Sources */,

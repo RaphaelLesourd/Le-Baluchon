@@ -27,7 +27,7 @@ class RateService {
     /// - Returns: URLRequest
     private func createRequest(base: String, destination: String) -> URLRequest {
         let endPoint = "&base=\(base)&symbols=\(destination)"
-        let rateURL = URL(string: ApiURL.ifixerURL + "latest" + ApiKeys.ifixerKEY + endPoint)!
+        let rateURL = URL(string: ApiURL.ifixerURL + "latest?access_key=" + ApiKeys.ifixerKEY + endPoint)!
         var request = URLRequest(url: rateURL)
         request.httpMethod = "GET"
         return request
