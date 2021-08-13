@@ -29,16 +29,16 @@ class TabBarViewController: UITabBarController {
     /// - SFSymbols are used for icon images.
     private func setupViewcontrollers() {
         let rateIconImage = UIImage(systemName: "arrow.up.arrow.down.circle")!
-        let rateViewController = createController(for: ExchangeViewController(),
+        let rateViewController = updateTabBarItem(for: ExchangeViewController(),
                                                   title: "Taux de change",
                                                   image: rateIconImage)
 
         let translateIconImage = UIImage(systemName: "globe")!
-        let translationViewController = createController(for: TranslationViewController(),
+        let translationViewController = updateTabBarItem(for: TranslationViewController(),
                                                          title: "Traduction",
                                                          image: translateIconImage)
         let weatherIconImage = UIImage(systemName: "cloud.sun.fill")!
-        let weatherViewController = createController(for: WeatherViewController(),
+        let weatherViewController = updateTabBarItem(for: WeatherViewController(),
                                                      title: "Météo",
                                                      image: weatherIconImage)
         viewControllers = [rateViewController,
@@ -47,26 +47,20 @@ class TabBarViewController: UITabBarController {
         ]
     }
 
-    /// Create a navigation controller  for each tab with an icon inmage and a title.
+    /// Adds tab with an icon image and a title.
     /// - Parameters:
     ///   - rootViewController: Name of the ViewController assiciated to the tab
     ///   - title: Title name of the tab
     ///   - image: Name of the image
     /// - Returns: A modified ViewController
-    private func createController(for rootViewController: UIViewController,
+    private func updateTabBarItem(for viewController: UIViewController,
                                          title: String,
                                          image: UIImage) -> UIViewController {
-        // Create a navigation controller for the rootViewController
-        let navController = UINavigationController(rootViewController: rootViewController)
         // Sets the name and image for the tabBarItem
-        navController.tabBarItem.title = title
-        navController.tabBarItem.image = image
-        // Large title have been set as default to keep the iOS look and feel.
-        navController.navigationBar.prefersLargeTitles = true
-        // Set the navigationBar title
-        rootViewController.navigationItem.title = title
-        // return a UIViewController with an enbeded UINavigationController
-        return navController
+        viewController.tabBarItem.title = title
+        viewController.tabBarItem.image = image
+        // return modified UIViewController
+        return viewController
     }
 }
 
