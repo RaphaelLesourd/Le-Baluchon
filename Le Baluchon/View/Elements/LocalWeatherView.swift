@@ -60,6 +60,7 @@ class LocalWeatherView: UIView {
         uiv.addShadow()
         uiv.contentMode = .scaleAspectFit
         uiv.translatesAutoresizingMaskIntoConstraints = false
+        uiv.widthAnchor.constraint(equalToConstant: 50).isActive = true
         return uiv
     }()
 
@@ -69,6 +70,8 @@ class LocalWeatherView: UIView {
         lbl.textColor = .subtitleColor
         lbl.numberOfLines = 1
         lbl.textAlignment = .right
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.heightAnchor.constraint(equalToConstant: 35).isActive = true
         return lbl
     }()
 
@@ -99,7 +102,6 @@ extension LocalWeatherView {
         cityStackView.addArrangedSubview(homeIcon)
         cityStackView.addArrangedSubview(cityLabel)
 
-        weatherIcon.widthAnchor.constraint(equalToConstant: 50).isActive = true
         weatherStackView.addArrangedSubview(weatherIcon)
         weatherStackView.addArrangedSubview(temperatureLabel)
 
@@ -117,8 +119,8 @@ extension LocalWeatherView {
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: topAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
     }
 }

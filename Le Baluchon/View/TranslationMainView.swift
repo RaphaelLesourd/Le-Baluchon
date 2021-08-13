@@ -28,6 +28,7 @@ class TranslationMainView: UIView {
     private let screenSize = UIScreen.main.bounds
     
     // MARK: - Subviews
+    private let titleLabel = TitleLabel(title: "Traduction")
     /// Create a vertical scrollView and set its properties.
     private let scrollView: UIScrollView = {
         let scv = UIScrollView()
@@ -160,7 +161,8 @@ extension TranslationMainView {
     private func setupMainstackView() {
         contentView.addSubview(mainStackView)
         // Create an array of the subviews to add to the stackView
-        let mainStackSubViews: [UIView] = [languageChoiceStackView,
+        let mainStackSubViews: [UIView] = [titleLabel,
+                                           languageChoiceStackView,
                                            originLanguageView,
                                            translatedLanguageView,
                                            dataProviderLabel
@@ -170,6 +172,7 @@ extension TranslationMainView {
             mainStackView.addArrangedSubview(view)
         }
         // Change spacing between certain view
+        mainStackView.setCustomSpacing(40, after: titleLabel)
         mainStackView.setCustomSpacing(30, after: originLanguageView)
         // Add constraints for the mainstackView
         NSLayoutConstraint.activate([

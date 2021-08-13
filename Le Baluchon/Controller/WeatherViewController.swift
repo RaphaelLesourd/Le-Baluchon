@@ -55,7 +55,7 @@ class WeatherViewController: UIViewController {
     // MARK: - Fetch Data
 
     @objc private func getData() {
-        getWeatherData(of: "Londres") { [weak self] weather in
+        getWeatherData(of: "Paris") { [weak self] weather in
             self?.localWeather = weather
             self?.getWeatherData(of: "New york") { [weak self] weather in
                 self?.destinationWeather = weather
@@ -119,7 +119,8 @@ class WeatherViewController: UIViewController {
             weatherInfo.directionView.valueLabel.text = "\(windDirection)°"
         }
         if let windSpeed = weather.wind?.speed {
-            weatherInfo.windView.valueLabel.text = "\(windSpeed * 3.6)km/h"
+            let speedInKmPerHour = windSpeed * 3.6
+            weatherInfo.windView.valueLabel.text = speedInKmPerHour.formatted(decimals: 0) + "km/h"
         }
         if let visibility = weather.visibility {
             weatherInfo.visiblityView.valueLabel.text = "\(visibility / 1000)km"

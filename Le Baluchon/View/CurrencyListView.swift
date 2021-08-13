@@ -36,14 +36,7 @@ class CurrencyListView: UIView {
 
     let refresherControl = Refresher(frame: .zero)
 
-    private var titleLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.font = .textFont(size: 21)
-        lbl.textColor = .label
-        lbl.text = "Devises disponibles"
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
-    }()
+    private var titleLabel = TitleLabel(title: "Devises Disponibles")
 
     let searchBar: UISearchBar = {
         let bar = UISearchBar()
@@ -69,7 +62,6 @@ extension CurrencyListView {
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 30),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            titleLabel.heightAnchor.constraint(equalToConstant: 21)
         ])
     }
 

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class ExchangeMainView: UIView {
-
+    
     // MARK: - Initialiser
     /// Initalise the view, and calls set up functions
     /// - Parameter frame: view frame set to .zero as it will be assigned to the UIViewController view frame.
@@ -17,16 +17,19 @@ class ExchangeMainView: UIView {
         super.init(frame: .zero)
         setScrollViewConstraints()
         setBackgroundImageConstraints()
+        setDailyRateViewConstraits()
         setupMainstackView()
         setCurrencySwapButtonConstaints()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     // MARK: - Subviews
     let refresherControl = Refresher(frame: .zero)
+    private let titleLabel = TitleLabel(title: "Taux de change")
+    let dailyRateView = DailyRateView()
     /// Create a vertical scrollView and set its properties.
     let scrollView: UIScrollView = {
         let scv = UIScrollView()
@@ -37,7 +40,7 @@ class ExchangeMainView: UIView {
         scv.translatesAutoresizingMaskIntoConstraints = false
         return scv
     }()
-
+    
     /// Create the contentView in the scrollView that will contain all the UI elements.
     private let contentView: UIView = {
         let uiv = UIView()
@@ -45,9 +48,9 @@ class ExchangeMainView: UIView {
         uiv.translatesAutoresizingMaskIntoConstraints = false
         return uiv
     }()
-
+    
     private let backgroundImage = BackgroundImage(image: #imageLiteral(resourceName: "rocketIcon"))
-
+    
     let originCurrencyView: CurrencyEntryView = {
         let view = CurrencyEntryView()
         view.currencyButton.tag = 0
@@ -55,7 +58,7 @@ class ExchangeMainView: UIView {
         view.heightAnchor.constraint(equalToConstant: 110).isActive = true
         return view
     }()
-
+    
     let convertedCurrencyView: CurrencyEntryView = {
         let view = CurrencyEntryView()
         view.currencyButton.tag = 1
@@ -64,9 +67,9 @@ class ExchangeMainView: UIView {
         view.heightAnchor.constraint(equalToConstant: 110).isActive = true
         return view
     }()
-
+    
     private let dataProviderLabel = FooterLabel(title: "Taux de change par fixer.io")
-
+    
     let currencySwapButton: UIButton = {
         let btn = UIButton()
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 60, weight: .black, scale: .large)
@@ -87,14 +90,14 @@ class ExchangeMainView: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
-
+    
 }
-    // MARK: - Constraints
+// MARK: - Constraints
 extension ExchangeMainView {
     /// Add the scrollView to  RateMainView  as a subview.
     /// Add the contentView to the scrollView as a subView.
     /// Set constraints to respect safeArea guides.
-     private func setScrollViewConstraints() {
+    private func setScrollViewConstraints() {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
         NSLayoutConstraint.activate([
@@ -102,7 +105,7 @@ extension ExchangeMainView {
             scrollView.widthAnchor.constraint(equalTo: widthAnchor),
             scrollView.topAnchor.constraint(equalTo: topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
-
+            
             contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor),
@@ -110,10 +113,10 @@ extension ExchangeMainView {
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
     }
-
-     private func setBackgroundImageConstraints() {
+    
+    private func setBackgroundImageConstraints() {
         contentView.addSubview(backgroundImage)
-
+        
         let screenSizeWidth = UIScreen.main.bounds.width
         NSLayoutConstraint.activate([
             backgroundImage.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor,
@@ -124,8 +127,13 @@ extension ExchangeMainView {
                                                      constant: -screenSizeWidth * 0.3)
         ])
     }
-
-     private func setCurrencySwapButtonConstaints() {
+    
+    private func setDailyRateViewConstraits() {
+        dailyRateView.translatesAutoresizingMaskIntoConstraints = false
+        dailyRateView.heightAnchor.constraint(equalToConstant: 80).isActive = true
+    }
+    
+    private func setCurrencySwapButtonConstaints() {
         contentView.addSubview(currencySwapButton)
         NSLayoutConstraint.activate([
             currencySwapButton.topAnchor.constraint(equalTo: originCurrencyView.bottomAnchor,
@@ -135,13 +143,15 @@ extension ExchangeMainView {
             currencySwapButton.widthAnchor.constraint(equalToConstant: 60)
         ])
     }
-
+    
     /// Setup the mainStackView which hold all the UI subviews.
-     private func setupMainstackView() {
+    private func setupMainstackView() {
         contentView.addSubview(mainStackView)
         // Create an array of the subviews to add to the stackView
-        let mainStackSubViews: [UIView] = [originCurrencyView,
+        let mainStackSubViews: [UIView] = [titleLabel,
+                                           originCurrencyView,
                                            convertedCurrencyView,
+                                           dailyRateView,
                                            dataProviderLabel
         ]
         // Iterate thru the subviews array to add them to the stak view
@@ -149,7 +159,9 @@ extension ExchangeMainView {
             mainStackView.addArrangedSubview(view)
         }
         // Change spacing between certain view
-        mainStackView.setCustomSpacing(10, after: convertedCurrencyView)
+        mainStackView.setCustomSpacing(40, after: titleLabel)
+        mainStackView.setCustomSpacing(30, after: convertedCurrencyView)
+        mainStackView.setCustomSpacing(10, after: dailyRateView)
         // Add constraints for the mainstackView
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),

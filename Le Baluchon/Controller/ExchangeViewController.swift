@@ -12,6 +12,7 @@ class ExchangeViewController: UIViewController {
     // MARK: - Properties
     private var currentRate: Double = 1.0 {
         didSet {
+            updateDailyRate(with: currentRate)
             getConvertedAmount()
         }
     }
@@ -163,6 +164,13 @@ class ExchangeViewController: UIViewController {
         } completion: { _ in
             self.exchangeView.currencySwapButton.transform = .identity
         }
+    }
+
+    // MARK: - Daily Rate
+    private func updateDailyRate(with rate: Double) {
+        guard let originCurrency = originCurrency else {return}
+        guard let destinationCurrency = destinationCurrency else {return}
+        exchangeView.dailyRateView.rateLabel.text = "1 \(originCurrency.symbol) = \(rate.formatted()) \(destinationCurrency.symbol)"
     }
 
     // MARK: - Navigation

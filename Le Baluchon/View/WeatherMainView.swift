@@ -27,6 +27,7 @@ class WeatherMainView: UIView {
 
     // MARK: - Subviews
     let refresherControl = Refresher(frame: .zero)
+    private let titleLabel = TitleLabel(title: "Météo")
     /// Create a vertical scrollView and set its properties.
     let scrollView: UIScrollView = {
         let scv = UIScrollView()
@@ -97,7 +98,8 @@ extension WeatherMainView {
     private func setupMainstackView() {
         contentView.addSubview(mainStackView)
         // Create an array of the subviews to add to the stackView
-        let mainStackSubViews: [UIView] = [localWeatherView,
+        let mainStackSubViews: [UIView] = [titleLabel,
+                                           localWeatherView,
                                            destinationWeatherView,
                                            destinationWeatherInfoView,
                                            dataProviderLabel
@@ -107,12 +109,16 @@ extension WeatherMainView {
             mainStackView.addArrangedSubview(view)
         }
         // Set custom spacing between 2 views
+        mainStackView.setCustomSpacing(40, after: titleLabel)
         mainStackView.setCustomSpacing(10, after: destinationWeatherInfoView)
         // Add constraints for the mainstackView
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                               constant: 20),
+            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                   constant: 16),
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                    constant: -16),
             mainStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor,
                                                   multiplier: 0.97)
         ])
