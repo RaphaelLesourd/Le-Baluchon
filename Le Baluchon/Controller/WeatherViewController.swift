@@ -10,30 +10,17 @@ import UIKit
 class WeatherViewController: UIViewController {
 
     // MARK: - Properties
-    private enum cityType {
-        case local
-        case destination
-    }
-
-    let weatherView = WeatherMainView()
-    private let weatherIconParser = WeatherIconParser()
-    private var localWeather: Weather? {
-        didSet {
-            guard let localWeather = localWeather else {return}
-            updateLocalWeatherView(with: localWeather)
-        }
-    }
-    private var destinationWeather: Weather? {
-        didSet {
-            guard let destinationWeather = destinationWeather else {return}
-            updateDestinationWeatherView(with: destinationWeather)
-            updateDestinationWeatherInfoView(with: destinationWeather)
+    private let weatherView = WeatherMainView()
+    private var localWeather: Weather?
+    private var destinationWeather: Weather?
+    private var destinationCityName = "New york" {
+        didSet{
+            getWeatherData()
         }
     }
     // MARK: - Lifecycle
-
-    /// Set the view as rateView.
-    /// All UI elements are contained in a seperate UIView file.
+    // Set the view as rateView.
+    // All UI elements are contained in a seperate UIView file.
     override func loadView() {
         view = weatherView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -42,33 +29,70 @@ class WeatherViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        weatherView.searchBar.delegate = self
+        addKeyboardDismissGesture()
         setRefresherControl()
-        getData()
+        getWeatherData()
     }
     // MARK: - Setup
     /// Adds a refreshed to the scrollView, trigger a neworl call to fetch latest exchange rate.
     private func setRefresherControl() {
         weatherView.scrollView.refreshControl = weatherView.refresherControl
-        weatherView.refresherControl.addTarget(self, action: #selector(getData), for: .valueChanged)
+        weatherView.refresherControl.addTarget(self, action: #selector(getWeatherData),
+                                               for: .valueChanged)
     }
 
     // MARK: - Fetch Data
 
-    @objc private func getData() {
-        getWeatherData(of: "Paris") { [weak self] weather in
+    /// Get weather data for local and destination city.
+    ///  - Note: Usage of DispatchGroup() to avoid nested API calls, iimplementing this  processes  to wait for all calls
+    ///  to complete before doing the next thing,
+    /// - Create a dispatchGRoup object
+    /// - Enter the function
+    /// - Excute the task
+    /// - Leave the the function when the task is completed
+    /// - Once all entered calls are left, it will call the closure passed to `notify(queue: .main)` and will to display all weather data at the same time.
+    @objc private func getWeatherData() {
+        let dispatchGroup = DispatchGroup()
+        // Start refreshIndicator
+        toggleActiviyIndicator(for: weatherView.headerView.activityIndicator,
+                               shown: true)
+        // Local weather
+        dispatchGroup.enter()
+        getWeather(for: "Paris") { [weak self] weather in
             self?.localWeather = weather
-            self?.getWeatherData(of: "New york") { [weak self] weather in
-                self?.destinationWeather = weather
+            dispatchGroup.leave()
+        }
+        // Destination weather
+        dispatchGroup.enter()
+        getWeather(for: self.destinationCityName) { [weak self] weather in
+            self?.destinationWeather = weather
+            dispatchGroup.leave()
+        }
+        // Stop refreshIndicators and display weather
+        dispatchGroup.notify(queue: .main) {
+            self.toggleActiviyIndicator(for: self.weatherView.headerView.activityIndicator,
+                                        shown: false)
+            self.weatherView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
+                                                      with: nil,
+                                                      afterDelay: 0.1)
+            if let localWeather = self.localWeather {
+                self.updateLocalWeatherView(with: localWeather)
+            }
+            if let destinationWeather = self.destinationWeather {
+                self.updateDestinationWeatherView(with: destinationWeather)
+                self.updateDestinationWeatherInfoView(with: destinationWeather)
             }
         }
     }
 
-    private func getWeatherData(of city: String, completion: @escaping (Weather) -> Void) {
-        WeatherService.shared.getRateData(for: city) { [weak self] result in
+    /// Get weather data from API.
+    /// - Parameters:
+    ///   - city: city name.
+    ///   - completion: Weather object
+    private func getWeather(for city: String, completion: @escaping (Weather) -> Void) {
+        WeatherService.shared.getData(for: city) { [weak self] result in
             guard let self = self else {return}
-            self.weatherView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
-                                                      with: nil,
-                                                      afterDelay: 0.1)
             switch result {
             case .success(let weather):
                 completion(weather)
@@ -79,7 +103,8 @@ class WeatherViewController: UIViewController {
     }
 
     // MARK: - Update views
-    // update local weather
+    /// Update local weather view with `Weather`object data
+    /// - Parameter weather: Local `Weather` object.
     private func updateLocalWeatherView(with weather: Weather) {
         let localWeather = weatherView.localWeatherView
         if let city = weather.name, let country = weather.sys?.country {
@@ -88,13 +113,13 @@ class WeatherViewController: UIViewController {
         if let temperature = weather.main?.temp {
             localWeather.temperatureLabel.text = "\(temperature.formatted(decimals: 0))°"
         }
-        if let weatherIcon = weather.weather?[0].id {
-            let iconImage = weatherIconParser.setWeatherIcon(for: weatherIcon)
-            localWeather.weatherIcon.image = UIImage(named: iconImage)
+        if let weatherIcon = weather.weather?[0].icon {
+            localWeather.weatherIcon.image = UIImage(named: weatherIcon)
         }
     }
 
-    // update destination weather
+    /// Update destination weather view with `Weather`object data
+    /// - Parameter weather: Destination `Weather`object.
     private func updateDestinationWeatherView(with weather: Weather) {
         let destinationWeather = weatherView.destinationWeatherView
         if let city = weather.name, let country = weather.sys?.country {
@@ -106,13 +131,13 @@ class WeatherViewController: UIViewController {
         if let weatherCondition = weather.weather?[0].description {
             destinationWeather.conditionsLabel.text = "\(weatherCondition)".capitalized
         }
-        if let weatherIcon = weather.weather?[0].id {
-            let iconImage = weatherIconParser.setWeatherIcon(for: weatherIcon)
-            destinationWeather.weatherIcon.image = UIImage(named: iconImage)
+        if let weatherIcon = weather.weather?[0].icon {
+            destinationWeather.weatherIcon.image = UIImage(named: weatherIcon)
         }
-
     }
-    // update destination extended weather
+
+    /// Update destination weather extended info  view with `Weather`object data
+    /// - Parameter weather: Destination `Weather`object.
     private func updateDestinationWeatherInfoView(with weather: Weather) {
         let weatherInfo = weatherView.destinationWeatherInfoView
         if let windDirection = weather.wind?.deg {
@@ -134,5 +159,14 @@ class WeatherViewController: UIViewController {
         if let humidity = weather.main?.humidity {
             weatherInfo.humidityView.valueLabel.text = "\(humidity)%"
         }
+    }
+}
+// MARK: - SearchBar Delegate
+extension WeatherViewController: UISearchBarDelegate {
+    // Sets the `destinationCityName`property when the searchBar keybord return key is triggered.
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchedCity = weatherView.searchBar.text, !searchedCity.isEmpty else {return}
+        destinationCityName = searchedCity
+        weatherView.searchBar.resignFirstResponder()
     }
 }

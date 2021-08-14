@@ -22,7 +22,7 @@ class LocalWeatherView: UIView {
     // MARK: - Subviews
     private let homeIcon: UIImageView = {
         let uiv = UIImageView()
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 18, weight: .regular, scale: .small)
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 18, weight: .black, scale: .small)
         uiv.image = UIImage(systemName: "house.fill", withConfiguration: imageConfig)
         uiv.tintColor = .titleColor
         return uiv
@@ -30,7 +30,7 @@ class LocalWeatherView: UIView {
 
     let cityLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = .textFont(size: 18)
+        lbl.font = .textFontSemiBold(size: 18)
         lbl.textColor = .titleColor
         lbl.numberOfLines = 1
         lbl.textAlignment = .right

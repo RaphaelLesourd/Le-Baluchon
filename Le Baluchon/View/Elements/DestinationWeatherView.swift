@@ -85,7 +85,7 @@ extension DestinationWeatherView {
             mainStackView.addArrangedSubview(view)
         }
         mainStackView.setCustomSpacing(10, after: cityLabel)
-        mainStackView.setCustomSpacing(-30, after: weatherIcon)
+        mainStackView.setCustomSpacing(-10, after: weatherIcon)
         mainStackView.setCustomSpacing(-20, after: temperatureLabel)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: topAnchor),

@@ -36,8 +36,14 @@ class CurrencyListView: UIView {
 
     let refresherControl = Refresher(frame: .zero)
 
-    private var titleLabel = TitleLabel(title: "Devises Disponibles")
-
+    let headerView: HeaderView = {
+        let view = HeaderView()
+        view.titleLabel.text = "Devises Disponibles"
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        return view
+    }()
+  
     let searchBar: UISearchBar = {
         let bar = UISearchBar()
         bar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
@@ -57,18 +63,18 @@ class CurrencyListView: UIView {
 extension CurrencyListView {
 
     private func setTitleLabelConstraints() {
-        addSubview(titleLabel)
+        addSubview(headerView)
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 30),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            headerView.topAnchor.constraint(equalTo: topAnchor, constant: 30),
+            headerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            headerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
         ])
     }
 
     private func setSearchBarConstraints() {
         addSubview(searchBar)
         NSLayoutConstraint.activate([
-            searchBar.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            searchBar.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 20),
             searchBar.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             searchBar.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             searchBar.heightAnchor.constraint(equalToConstant: 50)

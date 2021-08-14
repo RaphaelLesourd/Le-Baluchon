@@ -10,7 +10,7 @@ import UIKit
 class TranslationViewController: UIViewController {
 
     // MARK: - Properties
-    let translationView = TranslationMainView()
+    private let translationView = TranslationMainView()
     // MARK: - Lifecycle
 
     /// Set the view as rateView.

@@ -41,32 +41,27 @@ class CurrenciesService {
         // set current tast with a session datatask for the current request
         // returns data, a responses status and and eventually an error
         task = session.dataTask(with: request) { (data, response, error) in
-            // run the rest of the code in the main thread
             DispatchQueue.main.async {
-                // Check if there is an error
-                guard error == nil else {
-                    completion(.failure(.noNetwork))
+                if let error = error {
+                    completion(.failure(.requestError(error)))
                     return
                 }
-                // Unwrap data optional
                 guard let data = data else {
-                    completion(.failure(.errorFetching))
+                    completion(.failure(.dataError))
                     return
                 }
-                // check if the response code is 200. if true move on or return
-                // completion failure case.
-                guard let response = response as? HTTPURLResponse,
-                      response.statusCode == 200 else {
-                    completion(.failure(.httpError))
+                guard let response = response as? HTTPURLResponse else {
+                    completion(.failure(.responseError))
                     return
                 }
-                // do/catch block for trying to decode data returned from session dataTask
+                guard response.statusCode == 200 else {
+                    completion(.failure(.httpError(response.statusCode)))
+                    return
+                }
                 do {
                     let responseJSON = try JSONDecoder().decode(CurrencyList.self, from: data)
-                    // return decoded JSON
                     completion(.success(responseJSON))
                 } catch {
-                    // return an error in case of failure decoding JSON
                     completion(.failure(.decodingData))
                 }
             }

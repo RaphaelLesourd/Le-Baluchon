@@ -27,9 +27,10 @@ class ExchangeMainView: UIView {
     }
     
     // MARK: - Subviews
+    private let backgroundImage = BackgroundImage(image: #imageLiteral(resourceName: "rocketIcon"))
     let refresherControl = Refresher(frame: .zero)
-    private let titleLabel = TitleLabel(title: "Taux de change")
     let dailyRateView = DailyRateView()
+
     /// Create a vertical scrollView and set its properties.
     let scrollView: UIScrollView = {
         let scv = UIScrollView()
@@ -48,9 +49,15 @@ class ExchangeMainView: UIView {
         uiv.translatesAutoresizingMaskIntoConstraints = false
         return uiv
     }()
-    
-    private let backgroundImage = BackgroundImage(image: #imageLiteral(resourceName: "rocketIcon"))
-    
+
+    let headerView: HeaderView = {
+        let view = HeaderView()
+        view.titleLabel.text = "Taux de change"
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        return view
+    }()
+
     let originCurrencyView: CurrencyEntryView = {
         let view = CurrencyEntryView()
         view.currencyButton.tag = 0
@@ -68,7 +75,7 @@ class ExchangeMainView: UIView {
         return view
     }()
     
-    private let dataProviderLabel = FooterLabel(title: "Taux de change par fixer.io")
+    private let dataProviderLabel = LegendLabel(title: "Taux de change par fixer.io")
     
     let currencySwapButton: UIButton = {
         let btn = UIButton()
@@ -130,7 +137,7 @@ extension ExchangeMainView {
     
     private func setDailyRateViewConstraits() {
         dailyRateView.translatesAutoresizingMaskIntoConstraints = false
-        dailyRateView.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        dailyRateView.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
     private func setCurrencySwapButtonConstaints() {
@@ -148,7 +155,7 @@ extension ExchangeMainView {
     private func setupMainstackView() {
         contentView.addSubview(mainStackView)
         // Create an array of the subviews to add to the stackView
-        let mainStackSubViews: [UIView] = [titleLabel,
+        let mainStackSubViews: [UIView] = [headerView,
                                            originCurrencyView,
                                            convertedCurrencyView,
                                            dailyRateView,
@@ -159,8 +166,6 @@ extension ExchangeMainView {
             mainStackView.addArrangedSubview(view)
         }
         // Change spacing between certain view
-        mainStackView.setCustomSpacing(40, after: titleLabel)
-        mainStackView.setCustomSpacing(30, after: convertedCurrencyView)
         mainStackView.setCustomSpacing(10, after: dailyRateView)
         // Add constraints for the mainstackView
         NSLayoutConstraint.activate([

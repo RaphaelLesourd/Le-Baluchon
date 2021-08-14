@@ -9,7 +9,6 @@ import UIKit
 
 class CurrencyListViewController: UIViewController {
 
-    /// Intialise ExchangeDelegate protocol.
     weak var exchangeDelegate: CurrencyListDelegate?
     /// Create an instance of CurrencyListView
     private let listView = CurrencyListView()
@@ -58,13 +57,15 @@ class CurrencyListViewController: UIViewController {
                                             action: #selector(reloadCurrencyList),
                                             for: .valueChanged)
     }
-    // MARK: - Api Call
+    // MARK: - Data resquest
     /// Get all available currencies from API and receive a result  type.
     /// success case:  dictionnary of all currencies available.
     /// failure case : an error.
     private func getCurrencies() {
+        toggleActiviyIndicator(for: listView.headerView.activityIndicator, shown: true)
         CurrenciesService.shared.getData { [weak self] result in
             guard let self = self else {return}
+            self.toggleActiviyIndicator(for: self.listView.headerView.activityIndicator, shown: false)
             self.listView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
                                                        with: nil,
                                                        afterDelay: 0.1)
@@ -137,9 +138,10 @@ extension CurrencyListViewController: UITableViewDelegate {
 extension CurrencyListViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        // Monitors if the text is changed in the searchBar and
-        // filters the currencyList Array with search bar text either as currency symbol or
-        // name. If the searchBar text is empty, the list is reset with the full list from
+        // Oberve if the text did changed in the searchBar.
+        // Filters the currencyList array with search bar text either as currency symbol or
+        // name.
+        // If the searchBar text is empty, the list is reset with the full list from
         // the currencyList array
         if searchText.isEmpty == false {
             filteredCurrencyList = currencyList.filter({ $0.symbol.contains(searchText.uppercased()) || $0.name.contains(searchText.capitalized) })

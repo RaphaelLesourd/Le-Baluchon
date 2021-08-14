@@ -28,7 +28,6 @@ class TranslationMainView: UIView {
     private let screenSize = UIScreen.main.bounds
     
     // MARK: - Subviews
-    private let titleLabel = TitleLabel(title: "Traduction")
     /// Create a vertical scrollView and set its properties.
     private let scrollView: UIScrollView = {
         let scv = UIScrollView()
@@ -49,6 +48,14 @@ class TranslationMainView: UIView {
     }()
 
     private let backgroundImage = BackgroundImage(image: #imageLiteral(resourceName: "translateIcon"))
+
+    let headerView: HeaderView = {
+        let view = HeaderView()
+        view.titleLabel.text = "Traduction"
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        return view
+    }()
 
     let originLanguageLabel: UILabel = {
         let lbl = UILabel()
@@ -91,7 +98,7 @@ class TranslationMainView: UIView {
     let originLanguageView = LanguageTextView(isEditable: true)
     let translatedLanguageView = LanguageTextView(isEditable: false)
 
-    private let dataProviderLabel = FooterLabel(title: "Traduction par Google Translate")
+    private let dataProviderLabel = LegendLabel(title: "Traduction par Google Translate")
 
     private let mainStackView: UIStackView = {
         let stack = UIStackView()
@@ -161,7 +168,7 @@ extension TranslationMainView {
     private func setupMainstackView() {
         contentView.addSubview(mainStackView)
         // Create an array of the subviews to add to the stackView
-        let mainStackSubViews: [UIView] = [titleLabel,
+        let mainStackSubViews: [UIView] = [headerView,
                                            languageChoiceStackView,
                                            originLanguageView,
                                            translatedLanguageView,
@@ -172,7 +179,7 @@ extension TranslationMainView {
             mainStackView.addArrangedSubview(view)
         }
         // Change spacing between certain view
-        mainStackView.setCustomSpacing(40, after: titleLabel)
+        mainStackView.setCustomSpacing(30, after: headerView)
         mainStackView.setCustomSpacing(30, after: originLanguageView)
         // Add constraints for the mainstackView
         NSLayoutConstraint.activate([

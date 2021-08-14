@@ -8,7 +8,6 @@
 import Foundation
 
 extension Double {
-
     /// Format result displayed to the user. If result is a is whole number then no digiti is displayed.
     /// - Parameter value: Pass in a double value to be converted.
     /// - Returns: Result value converted to a string.

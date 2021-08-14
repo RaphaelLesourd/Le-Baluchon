@@ -25,7 +25,7 @@ class DailyRateView: UIView {
     let rateLabel: UILabel = {
         let lbl = UILabel()
         lbl.textColor = .titleColor
-        lbl.font = .textFont(size: 21)
+        lbl.font = .textFont(size: 18)
         lbl.textAlignment = .center
         lbl.numberOfLines = 1
         return lbl

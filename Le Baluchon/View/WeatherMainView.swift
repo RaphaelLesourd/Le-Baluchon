@@ -27,7 +27,7 @@ class WeatherMainView: UIView {
 
     // MARK: - Subviews
     let refresherControl = Refresher(frame: .zero)
-    private let titleLabel = TitleLabel(title: "Météo")
+
     /// Create a vertical scrollView and set its properties.
     let scrollView: UIScrollView = {
         let scv = UIScrollView()
@@ -50,7 +50,29 @@ class WeatherMainView: UIView {
     let localWeatherView = LocalWeatherView()
     let destinationWeatherView = DestinationWeatherView()
     let destinationWeatherInfoView = DestinationWeatherInfoView()
-    private let dataProviderLabel = FooterLabel(title: "Météo par OpenWeatherMap")
+    private let dataProviderLabel = LegendLabel(title: "Météo par OpenWeatherMap")
+
+    let headerView: HeaderView = {
+        let view = HeaderView()
+        view.titleLabel.text = "Météo"
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        return view
+    }()
+
+    let searchBar: UISearchBar = {
+        let bar = UISearchBar()
+        bar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
+        bar.backgroundColor = UIColor.viewControllerBackgroundColor
+        bar.searchTextField.tintColor = .label
+        bar.autocapitalizationType = .words
+        bar.autocorrectionType = .no
+        bar.enablesReturnKeyAutomatically = true
+        bar.returnKeyType = .done
+        bar.placeholder = "Ville de destination"
+        bar.translatesAutoresizingMaskIntoConstraints = false
+        return bar
+    }()
 
     private let mainStackView: UIStackView = {
         let stack = UIStackView()
@@ -98,7 +120,8 @@ extension WeatherMainView {
     private func setupMainstackView() {
         contentView.addSubview(mainStackView)
         // Create an array of the subviews to add to the stackView
-        let mainStackSubViews: [UIView] = [titleLabel,
+        let mainStackSubViews: [UIView] = [headerView,
+                                           searchBar,
                                            localWeatherView,
                                            destinationWeatherView,
                                            destinationWeatherInfoView,
@@ -109,7 +132,7 @@ extension WeatherMainView {
             mainStackView.addArrangedSubview(view)
         }
         // Set custom spacing between 2 views
-        mainStackView.setCustomSpacing(40, after: titleLabel)
+        mainStackView.setCustomSpacing(20, after: headerView)
         mainStackView.setCustomSpacing(10, after: destinationWeatherInfoView)
         // Add constraints for the mainstackView
         NSLayoutConstraint.activate([

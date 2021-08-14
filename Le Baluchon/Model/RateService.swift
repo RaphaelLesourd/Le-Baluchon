@@ -16,8 +16,7 @@ class RateService {
 
     private var task: URLSessionDataTask?
     private var session = URLSession(configuration: .default)
-    var amountToConvert: String?
-
+    
     init(session: URLSession) {
         self.session = session
     }
@@ -51,20 +50,23 @@ class RateService {
             // run the rest of the code in the main thread
             DispatchQueue.main.async {
                 // Check if there is an error
-                guard error == nil else {
-                    completion(.failure(.noNetwork))
+                if let error = error {
+                    completion(.failure(.requestError(error)))
                     return
                 }
                 // Unwrap data optional
                 guard let data = data else {
-                    completion(.failure(.errorFetching))
+                    completion(.failure(.dataError))
                     return
                 }
-                // check if the response code is 200. if true move on or return
-                // completion failure case.
-                guard let response = response as? HTTPURLResponse,
-                      response.statusCode == 200 else {
-                    completion(.failure(.httpError))
+                // check if the response is valid
+                guard let response = response as? HTTPURLResponse else {
+                    completion(.failure(.responseError))
+                    return
+                }
+                // check if the response code is 200 or return an error.
+                guard response.statusCode == 200 else {
+                    completion(.failure(.httpError(response.statusCode)))
                     return
                 }
                 // do/catch block for trying to decode data returned from session dataTask
@@ -80,25 +82,6 @@ class RateService {
         }
         // start the task
         task?.resume()
-    }
-
-// MARK: - Calculation
-
-    func convertAmount(with rate: Double,
-                       completion: (Result<Double,ConversionError>) -> Void) {
-
-        guard amountToConvert != "0" else {
-            completion(.failure(.zeroDivision))
-            return
-        }
-        guard let currency = amountToConvert?.replaceDecimal() else {
-            completion(.failure(.calculation))
-            return
-        }
-        guard let doubleCurrency = Double(currency) else {
-            return
-        }
-        completion(.success(doubleCurrency * rate))
     }
 }
 
