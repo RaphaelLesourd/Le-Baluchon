@@ -65,7 +65,7 @@ enum ConversionError: Error {
     case zeroDivision
     case calculation
     case format
-    case zeroAmount
+    case noAmount
 }
 extension ConversionError {
     var description: String {
@@ -76,8 +76,8 @@ extension ConversionError {
             return "Nous avons rencontré une erreur de conversion."
         case .format:
             return "Vous avez essayé de mettre deux fois la virgule."
-        case .zeroAmount:
-            return "Veuiller entrer un montant superieur à zéro."
+        case .noAmount:
+            return "Veuiller entrer un montant."
         }
     }
 }

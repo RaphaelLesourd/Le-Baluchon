@@ -24,7 +24,7 @@
 		81B724F826BF29110051C909 /* UIViewController+Extenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B724F726BF29110051C909 /* UIViewController+Extenstion.swift */; };
 		81B724FA26BF29C40051C909 /* CurrencyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B724F926BF29C40051C909 /* CurrencyListViewController.swift */; };
 		81B724FC26BF375E0051C909 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B724FB26BF375E0051C909 /* Currency.swift */; };
-		81B724FF26BF44260051C909 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B724FE26BF44260051C909 /* Constants.swift */; };
+		81B724FF26BF44260051C909 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B724FE26BF44260051C909 /* ApiKeys.swift */; };
 		81B7250126BF4E130051C909 /* CurrenciesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B7250026BF4E130051C909 /* CurrenciesService.swift */; };
 		81B7250726BFF2030051C909 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B7250626BFF2030051C909 /* Double+Extension.swift */; };
 		81B7250B26C0693E0051C909 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B7250A26C0693E0051C909 /* Errors.swift */; };
@@ -44,7 +44,6 @@
 		81BF843926C81EA000607BBA /* LanguagesChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF843826C81EA000607BBA /* LanguagesChoiceView.swift */; };
 		81BF843B26C829FB00607BBA /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF843A26C829FB00607BBA /* Languages.swift */; };
 		81BF843E26C82C4100607BBA /* LanguagesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF843D26C82C4100607BBA /* LanguagesService.swift */; };
-		81BF844026C82D7F00607BBA /* LanguagesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF843F26C82D7F00607BBA /* LanguagesListView.swift */; };
 		81BF844226C82DD200607BBA /* LanguagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF844126C82DD200607BBA /* LanguagesListViewController.swift */; };
 		81C96CAB26C25F3E006057F9 /* Galano Grotesque Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 81C96CAA26C25F3E006057F9 /* Galano Grotesque Medium.otf */; };
 		81C96CAD26C25FAF006057F9 /* ITCAvantGardeStdBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 81C96CAC26C25FAF006057F9 /* ITCAvantGardeStdBold.otf */; };
@@ -55,7 +54,7 @@
 		81D1556226BEF04500709499 /* CurrencyEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D1556126BEF04500709499 /* CurrencyEntryView.swift */; };
 		81D1556426BEF88200709499 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D1556326BEF88200709499 /* UIView+Extension.swift */; };
 		81DE3D1226C29A54003E0F77 /* WeatherDetailInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE3D1126C29A54003E0F77 /* WeatherDetailInfoView.swift */; };
-		81DE3D1426C2E14B003E0F77 /* CurrencyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE3D1326C2E14B003E0F77 /* CurrencyListView.swift */; };
+		81DE3D1426C2E14B003E0F77 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE3D1326C2E14B003E0F77 /* ListView.swift */; };
 		81DE3D1626C2EF6D003E0F77 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE3D1526C2EF6D003E0F77 /* Weather.swift */; };
 		81DE3D1A26C3B0B2003E0F77 /* Rate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE3D1926C3B0B2003E0F77 /* Rate.swift */; };
 		81DE3D1E26C3B3CF003E0F77 /* RateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE3D1D26C3B3CF003E0F77 /* RateService.swift */; };
@@ -64,6 +63,8 @@
 		81DF729926C55FCE005D8ACF /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DF729826C55FCE005D8ACF /* WeatherService.swift */; };
 		81DF729B26C6553C005D8ACF /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DF729A26C6553C005D8ACF /* HeaderView.swift */; };
 		81DF729D26C65980005D8ACF /* DailyRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DF729C26C65980005D8ACF /* DailyRateView.swift */; };
+		81EBD42326C9243C005B77E3 /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EBD42226C9243C005B77E3 /* ApiService.swift */; };
+		81EBD42526C92BB4005B77E3 /* ApiUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EBD42426C92BB4005B77E3 /* ApiUrl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,7 +108,7 @@
 		81B724F726BF29110051C909 /* UIViewController+Extenstion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extenstion.swift"; sourceTree = "<group>"; };
 		81B724F926BF29C40051C909 /* CurrencyListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyListViewController.swift; sourceTree = "<group>"; };
 		81B724FB26BF375E0051C909 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
-		81B724FE26BF44260051C909 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		81B724FE26BF44260051C909 /* ApiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		81B7250026BF4E130051C909 /* CurrenciesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesService.swift; sourceTree = "<group>"; };
 		81B7250626BFF2030051C909 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		81B7250A26C0693E0051C909 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
@@ -128,7 +129,6 @@
 		81BF843826C81EA000607BBA /* LanguagesChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesChoiceView.swift; sourceTree = "<group>"; };
 		81BF843A26C829FB00607BBA /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
 		81BF843D26C82C4100607BBA /* LanguagesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesService.swift; sourceTree = "<group>"; };
-		81BF843F26C82D7F00607BBA /* LanguagesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesListView.swift; sourceTree = "<group>"; };
 		81BF844126C82DD200607BBA /* LanguagesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesListViewController.swift; sourceTree = "<group>"; };
 		81C96CAA26C25F3E006057F9 /* Galano Grotesque Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Galano Grotesque Medium.otf"; sourceTree = "<group>"; };
 		81C96CAC26C25FAF006057F9 /* ITCAvantGardeStdBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ITCAvantGardeStdBold.otf; sourceTree = "<group>"; };
@@ -139,7 +139,7 @@
 		81D1556126BEF04500709499 /* CurrencyEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyEntryView.swift; sourceTree = "<group>"; };
 		81D1556326BEF88200709499 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		81DE3D1126C29A54003E0F77 /* WeatherDetailInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailInfoView.swift; sourceTree = "<group>"; };
-		81DE3D1326C2E14B003E0F77 /* CurrencyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyListView.swift; sourceTree = "<group>"; };
+		81DE3D1326C2E14B003E0F77 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		81DE3D1526C2EF6D003E0F77 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		81DE3D1926C3B0B2003E0F77 /* Rate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rate.swift; sourceTree = "<group>"; };
 		81DE3D1D26C3B3CF003E0F77 /* RateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateService.swift; sourceTree = "<group>"; };
@@ -148,6 +148,8 @@
 		81DF729826C55FCE005D8ACF /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		81DF729A26C6553C005D8ACF /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		81DF729C26C65980005D8ACF /* DailyRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRateView.swift; sourceTree = "<group>"; };
+		81EBD42226C9243C005B77E3 /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
+		81EBD42426C92BB4005B77E3 /* ApiUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiUrl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,10 +237,11 @@
 			isa = PBXGroup;
 			children = (
 				81B7250A26C0693E0051C909 /* Errors.swift */,
+				81EBD42226C9243C005B77E3 /* ApiService.swift */,
 				81DE3D1F26C3BAAF003E0F77 /* Rate */,
-				81DE3D1B26C3B38C003E0F77 /* Currencies */,
 				81B1018426C4EF1700554ADD /* Translation */,
 				81DE3D1C26C3B39E003E0F77 /* Weather */,
+				81DE3D1B26C3B38C003E0F77 /* Currencies */,
 				81BF843C26C82B0800607BBA /* Languages */,
 			);
 			path = Model;
@@ -249,9 +252,8 @@
 			children = (
 				8140574D26BC4E6800D4D31A /* LaunchScreen.storyboard */,
 				81B724F626BF242D0051C909 /* Elements */,
+				81DE3D1326C2E14B003E0F77 /* ListView.swift */,
 				8140577C26BC5C1B00D4D31A /* ExchangeMainView.swift */,
-				81DE3D1326C2E14B003E0F77 /* CurrencyListView.swift */,
-				81BF843F26C82D7F00607BBA /* LanguagesListView.swift */,
 				8140577E26BC5FF500D4D31A /* TranslationMainView.swift */,
 				8140578026BC602600D4D31A /* WeatherMainView.swift */,
 			);
@@ -262,9 +264,9 @@
 			isa = PBXGroup;
 			children = (
 				8140577A26BC519300D4D31A /* TabBarController.swift */,
-				8140574326BC4E6600D4D31A /* ExchangeViewController.swift */,
 				81B724F926BF29C40051C909 /* CurrencyListViewController.swift */,
 				8140577626BC507700D4D31A /* TranslationViewController.swift */,
+				8140574326BC4E6600D4D31A /* ExchangeViewController.swift */,
 				81BF844126C82DD200607BBA /* LanguagesListViewController.swift */,
 				8140577826BC508B00D4D31A /* WeatherViewController.swift */,
 			);
@@ -313,7 +315,8 @@
 			children = (
 				8140573F26BC4E6600D4D31A /* AppDelegate.swift */,
 				8140574126BC4E6600D4D31A /* SceneDelegate.swift */,
-				81B724FE26BF44260051C909 /* Constants.swift */,
+				81B724FE26BF44260051C909 /* ApiKeys.swift */,
+				81EBD42426C92BB4005B77E3 /* ApiUrl.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -536,7 +539,6 @@
 				8140577D26BC5C1B00D4D31A /* ExchangeMainView.swift in Sources */,
 				81BF843926C81EA000607BBA /* LanguagesChoiceView.swift in Sources */,
 				81DE3D1E26C3B3CF003E0F77 /* RateService.swift in Sources */,
-				81BF844026C82D7F00607BBA /* LanguagesListView.swift in Sources */,
 				81BF844226C82DD200607BBA /* LanguagesListViewController.swift in Sources */,
 				81D1556226BEF04500709499 /* CurrencyEntryView.swift in Sources */,
 				81DE3D1626C2EF6D003E0F77 /* Weather.swift in Sources */,
@@ -549,8 +551,9 @@
 				81BF843726C8109700607BBA /* TranslationService.swift in Sources */,
 				81B7250B26C0693E0051C909 /* Errors.swift in Sources */,
 				81C96CAF26C26057006057F9 /* UIFont+Extension.swift in Sources */,
+				81EBD42326C9243C005B77E3 /* ApiService.swift in Sources */,
 				8140574426BC4E6600D4D31A /* ExchangeViewController.swift in Sources */,
-				81B724FF26BF44260051C909 /* Constants.swift in Sources */,
+				81B724FF26BF44260051C909 /* ApiKeys.swift in Sources */,
 				81BF843B26C829FB00607BBA /* Languages.swift in Sources */,
 				81BF843E26C82C4100607BBA /* LanguagesService.swift in Sources */,
 				81DF729926C55FCE005D8ACF /* WeatherService.swift in Sources */,
@@ -558,8 +561,9 @@
 				81BF842C26C6A7C800607BBA /* Date+Extension.swift in Sources */,
 				8140574026BC4E6600D4D31A /* AppDelegate.swift in Sources */,
 				81DE3D2226C3DCDC003E0F77 /* String+Extension.swift in Sources */,
+				81EBD42526C92BB4005B77E3 /* ApiUrl.swift in Sources */,
 				81DE3D1A26C3B0B2003E0F77 /* Rate.swift in Sources */,
-				81DE3D1426C2E14B003E0F77 /* CurrencyListView.swift in Sources */,
+				81DE3D1426C2E14B003E0F77 /* ListView.swift in Sources */,
 				81DF729726C52E6E005D8ACF /* Refresher.swift in Sources */,
 				8140577B26BC519300D4D31A /* TabBarController.swift in Sources */,
 				81DF729D26C65980005D8ACF /* DailyRateView.swift in Sources */,

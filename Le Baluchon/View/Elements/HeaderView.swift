@@ -22,7 +22,7 @@ class HeaderView: UIView {
 
     let titleLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = .textFontSemiBold(size: 30)
+        lbl.font = .textFont(size: 28)
         lbl.textColor = .titleColor
         lbl.numberOfLines = 1
         lbl.sizeToFit()

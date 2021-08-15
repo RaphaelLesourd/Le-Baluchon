@@ -20,6 +20,18 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Galano Grotesque Medium.otf</string>
+		<string>Galano Grotesque Semi Bold.otf</string>
+		<string>Galano Grotesque Bold.otf</string>
+		<string>ITCAvantGardeStdBold.otf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -56,17 +68,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-    </dict>
-    <key>UIAppFonts</key>
-    <array>
-        <string>Galano Grotesque Medium.otf</string>
-        <string>Galano Grotesque Semi Bold.otf</string>
-        <string>Galano Grotesque Bold.otf</string>
-        <string>ITCAvantGardeStdBold.otf</string>
-    </array>
 </dict>
 </plist>

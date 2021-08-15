@@ -14,6 +14,10 @@ class RateCalculator {
     func convertAmount(with rate: Double,
                        completion: (Result<Double, ConversionError>) -> Void) {
 
+        guard amountToConvert?.count != 0 else {
+            completion(.failure(.noAmount))
+            return
+        }
         guard let currency = amountToConvert?.replaceDecimal() else {
             completion(.failure(.calculation))
             return
@@ -23,7 +27,7 @@ class RateCalculator {
             return
         }
         guard let doubleCurrency = Double(currency) else {
-            completion(.failure(.zeroAmount))
+            completion(.failure(.calculation))
             return
         }
         completion(.success(doubleCurrency * rate))

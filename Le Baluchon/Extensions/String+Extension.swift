@@ -21,7 +21,7 @@ extension String {
         return self.components(separatedBy: ".").count - 1 > 1
     }
 
-    var formattedForHttpRequest: String {
+    var httpFormat: String {
         return self.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
     }
 

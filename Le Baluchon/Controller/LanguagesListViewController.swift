@@ -14,7 +14,8 @@ protocol LanguagesListDelegate: AnyObject {
 class LanguagesListViewController: UIViewController {
 
     weak var languagesDelegate: LanguagesListDelegate?
-    private let languagesListView = LanguagesListView()
+    private let languagesService = LanguagesService()
+    private let languagesListView = ListView(title: "Langues")
     /// Initialise an empty array of type Currencies to use as a full list of currencies.
     /// - Stores the full list of currencies and copy  it to the filtered currency list array when set.
     private var languageList: [Language] = [] {
@@ -27,13 +28,16 @@ class LanguagesListViewController: UIViewController {
         didSet {
             // Sort array alphabetically
             filteredLanguageList = filteredLanguageList.sorted { $0.name < $1.name }
-            filteredLanguageList.insert(autoLanguage, at: 0)
+            if addAutoLanguageOption {
+                filteredLanguageList.insert(autoLanguage, at: 0)
+            }
             DispatchQueue.main.async {
                 self.languagesListView.tableView.reloadData()
             }
         }
     }
     private let autoLanguage = Language(language: "", name: "Auto")
+    var addAutoLanguageOption = true
     
     // MARK: - Life Cycle
     override func loadView() {
@@ -68,7 +72,7 @@ class LanguagesListViewController: UIViewController {
     /// failure case : an error.
     private func getLanguages() {
         toggleActiviyIndicator(for: languagesListView.headerView.activityIndicator, shown: true)
-        LanguagesService.shared.getData { [weak self] result in
+        languagesService.getData { [weak self] result in
             guard let self = self else {return}
             self.toggleActiviyIndicator(for: self.languagesListView.headerView.activityIndicator, shown: false)
             self.languagesListView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),

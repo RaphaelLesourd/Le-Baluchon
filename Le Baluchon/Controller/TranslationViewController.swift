@@ -11,6 +11,7 @@ class TranslationViewController: UIViewController {
 
     // MARK: - Properties
     private let translationView = TranslationMainView()
+    private let translationService = TranslationService()
     private var originLanguage: Language? {
         didSet {
             guard let originLanguage = originLanguage else {return}
@@ -25,7 +26,7 @@ class TranslationViewController: UIViewController {
                                                                              for: .normal)
         }
     }
-    private var orginText: String? {
+    private var originText: String? {
         didSet {
             getTranslatedText()
         }
@@ -101,6 +102,7 @@ class TranslationViewController: UIViewController {
         // Instanciate the viewController to call.
         let languagesList = LanguagesListViewController()
         languagesList.languagesDelegate = self
+        languagesList.addAutoLanguageOption = sender.tag == 0
         // Present the view controller modally.
         present(languagesList, animated: true, completion: nil)
     }
@@ -110,14 +112,14 @@ class TranslationViewController: UIViewController {
     @objc private func getTranslatedText() {
         guard let originLanguage = originLanguage else {return}
         guard let targetLanguage = targetLanguage else {return}
-        guard let text = orginText, !text.isEmpty else {
+        guard let text = originText, !text.isEmpty else {
             stopRefreshActivitycontrol()
             return
         }
         toggleActiviyIndicator(for: translationView.headerView.activityIndicator, shown: true)
-        TranslationService.shared.getTranslation(for: text,
-                                                 from: originLanguage.language,
-                                                 to: targetLanguage.language) { [weak self] result in
+        translationService.getTranslation(for: text,
+                                          from: originLanguage.language,
+                                          to: targetLanguage.language) { [weak self] result in
             guard let self = self else {return}
             self.stopRefreshActivitycontrol()
 
@@ -146,7 +148,7 @@ extension TranslationViewController: UITextViewDelegate {
         // UITextView doesn't provide a callback when user hits the return key.
         // As a workaround, dismiss the keyboard when a new line character is detected.
         if text == "\n" {
-            orginText = textView.text
+            originText = textView.text
             textView.resignFirstResponder()
         }
         return true

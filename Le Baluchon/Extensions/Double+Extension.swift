@@ -11,7 +11,7 @@ extension Double {
     /// Format result displayed to the user. If result is a is whole number then no digiti is displayed.
     /// - Parameter value: Pass in a double value to be converted.
     /// - Returns: Result value converted to a string.
-    func formatted(decimals: Int = 2) -> String {
+    func formatted(decimals: Int = 3) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.maximumFractionDigits = decimals

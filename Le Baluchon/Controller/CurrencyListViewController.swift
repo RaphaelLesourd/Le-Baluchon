@@ -14,8 +14,9 @@ protocol CurrencyListDelegate: AnyObject {
 class CurrencyListViewController: UIViewController {
 
     weak var exchangeDelegate: CurrencyListDelegate?
+    private let currenciesService = CurrenciesService()
     /// Create an instance of CurrencyListView
-    private let listView = CurrencyListView()
+    private let listView = ListView(title: "Devises")
     /// Initialise an empty array of type Currencies to use as a full list of currencies.
     /// - Stores the full list of currencies and copy  it to the filtered currency list array when set.
     private var currencyList: [Currency] = [] {
@@ -61,13 +62,13 @@ class CurrencyListViewController: UIViewController {
                                             action: #selector(reloadCurrencyList),
                                             for: .valueChanged)
     }
-    // MARK: - Data resquest
+    // MARK: - API Call
     /// Get all available currencies from API and receive a result  type.
     /// success case:  dictionnary of all currencies available.
     /// failure case : an error.
     private func getCurrencies() {
         toggleActiviyIndicator(for: listView.headerView.activityIndicator, shown: true)
-        CurrenciesService.shared.getData { [weak self] result in
+        currenciesService.getCurrencies { [weak self] result in
             guard let self = self else {return}
             self.toggleActiviyIndicator(for: self.listView.headerView.activityIndicator, shown: false)
             self.listView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
@@ -106,7 +107,7 @@ class CurrencyListViewController: UIViewController {
     }
 }
 
-// MARK: - Extensions
+// MARK: - TableView DataSource
 extension CurrencyListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -126,7 +127,7 @@ extension CurrencyListViewController: UITableViewDataSource {
         return cell
     }
 }
-
+// MARK: - TableView Delegate
 extension CurrencyListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -138,7 +139,7 @@ extension CurrencyListViewController: UITableViewDelegate {
         dismiss(animated: true, completion: nil)
     }
 }
-
+// MARK: - SearchBar Delegate
 extension CurrencyListViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -148,7 +149,8 @@ extension CurrencyListViewController: UISearchBarDelegate {
         // If the searchBar text is empty, the list is reset with the full list from
         // the currencyList array
         if searchText.isEmpty == false {
-            filteredCurrencyList = currencyList.filter({ $0.symbol.contains(searchText.uppercased()) || $0.name.contains(searchText.capitalized) })
+            filteredCurrencyList = currencyList.filter({$0.symbol.contains(searchText) ||
+                                                        $0.name.contains(searchText)})
         } else {
             filteredCurrencyList = currencyList
         }

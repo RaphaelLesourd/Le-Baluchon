@@ -116,7 +116,7 @@ class RateCalculatorTestCase: XCTestCase {
             case .success(let amount):
                 XCTAssertEqual(0, amount)
             case .failure(let error):
-                XCTAssertEqual(ConversionError.zeroAmount.description, error.description)
+                XCTAssertEqual(ConversionError.noAmount.description, error.description)
             }
         }
     }
@@ -132,7 +132,7 @@ class RateCalculatorTestCase: XCTestCase {
             case .success(let amount):
                 XCTAssertEqual(0, amount)
             case .failure(let error):
-                XCTAssertEqual(ConversionError.zeroAmount.description, error.description)
+                XCTAssertEqual(ConversionError.calculation.description, error.description)
             }
         }
     }

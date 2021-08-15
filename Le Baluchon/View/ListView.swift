@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class CurrencyListView: UIView {
+class ListView: UIView {
 
     // MARK: - Initialiser
     override init(frame: CGRect) {
@@ -16,6 +16,11 @@ class CurrencyListView: UIView {
         setTitleLabelConstraints()
         setSearchBarConstraints()
         setTableViewConstraints()
+    }
+
+    convenience init(title: String) {
+        self.init()
+        self.headerView.titleLabel.text = title
     }
 
     required init?(coder: NSCoder) {
@@ -34,7 +39,6 @@ class CurrencyListView: UIView {
 
     let headerView: HeaderView = {
         let view = HeaderView()
-        view.titleLabel.text = "Devises Disponibles"
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor.constraint(equalToConstant: 32).isActive = true
         return view
@@ -56,7 +60,7 @@ class CurrencyListView: UIView {
 }
 
     // MARK: - Constraints
-extension CurrencyListView {
+extension ListView {
 
     private func setTitleLabelConstraints() {
         addSubview(headerView)

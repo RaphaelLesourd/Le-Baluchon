@@ -66,7 +66,7 @@ class ExchangeMainView: UIView {
         return view
     }()
     
-    let convertedCurrencyView: CurrencyEntryView = {
+    let targetCurrencyView: CurrencyEntryView = {
         let view = CurrencyEntryView()
         view.currencyButton.tag = 1
         view.textfield.isUserInteractionEnabled = false
@@ -157,7 +157,7 @@ extension ExchangeMainView {
         // Create an array of the subviews to add to the stackView
         let mainStackSubViews: [UIView] = [headerView,
                                            originCurrencyView,
-                                           convertedCurrencyView,
+                                           targetCurrencyView,
                                            dailyRateView,
                                            dataProviderLabel
         ]

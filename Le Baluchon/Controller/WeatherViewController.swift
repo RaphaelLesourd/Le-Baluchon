@@ -11,6 +11,7 @@ class WeatherViewController: UIViewController {
 
     // MARK: - Properties
     private let weatherView = WeatherMainView()
+    private let weatherService = WeatherService()
     private var localWeather: Weather?
     private var destinationWeather: Weather?
     private var destinationCityName = "New york" {
@@ -73,7 +74,6 @@ class WeatherViewController: UIViewController {
         
         // Stop refreshIndicators and display weather
         dispatchGroup.notify(queue: .main) {
-            self.stopRefresherActivityControls()
             if let localWeather = self.localWeather {
                 self.updateLocalWeatherView(with: localWeather)
             }
@@ -96,9 +96,12 @@ class WeatherViewController: UIViewController {
     /// - Parameters:
     ///   - city: city name.
     ///   - completion: Weather object
-    private func getWeather(for city: String, completion: @escaping (Weather) -> Void) {
-        WeatherService.shared.getData(for: city) { [weak self] result in
+    private func getWeather(for city: String,
+                                      completion: @escaping (Weather) -> Void) {
+
+        weatherService.getWeather(for: city) { [weak self] result in
             guard let self = self else {return}
+            self.stopRefresherActivityControls()
             switch result {
             case .success(let weather):
                 completion(weather)
