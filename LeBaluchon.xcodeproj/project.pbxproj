@@ -238,7 +238,7 @@
 			children = (
 				81B7250A26C0693E0051C909 /* Errors.swift */,
 				81EBD42226C9243C005B77E3 /* ApiService.swift */,
-				81DE3D1F26C3BAAF003E0F77 /* Rate */,
+				81EBD42626C93CD9005B77E3 /* Exchange */,
 				81B1018426C4EF1700554ADD /* Translation */,
 				81DE3D1C26C3B39E003E0F77 /* Weather */,
 				81DE3D1B26C3B38C003E0F77 /* Currencies */,
@@ -390,14 +390,14 @@
 			path = Weather;
 			sourceTree = "<group>";
 		};
-		81DE3D1F26C3BAAF003E0F77 /* Rate */ = {
+		81EBD42626C93CD9005B77E3 /* Exchange */ = {
 			isa = PBXGroup;
 			children = (
 				81DE3D1926C3B0B2003E0F77 /* Rate.swift */,
 				81DE3D1D26C3B3CF003E0F77 /* RateService.swift */,
 				81BF842F26C7DEE600607BBA /* RateCalculator.swift */,
 			);
-			name = Rate;
+			path = Exchange;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
