@@ -46,7 +46,7 @@ class LanguageTextView: UIView {
         txv.layer.masksToBounds = true
         txv.backgroundColor = .clear
         txv.autocorrectionType = .yes
-        txv.font = .textFont(size: 23)
+        txv.font = .textFont(size: 25)
         txv.textColor = .titleColor
         txv.tintColor = .titleColor
         txv.showsVerticalScrollIndicator = false

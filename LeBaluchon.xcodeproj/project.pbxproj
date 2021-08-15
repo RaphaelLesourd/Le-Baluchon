@@ -39,6 +39,13 @@
 		81BF842C26C6A7C800607BBA /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF842B26C6A7C800607BBA /* Date+Extension.swift */; };
 		81BF843026C7DEE600607BBA /* RateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF842F26C7DEE600607BBA /* RateCalculator.swift */; };
 		81BF843226C7DFF500607BBA /* RateCalculatorTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF843126C7DFF500607BBA /* RateCalculatorTestCase.swift */; };
+		81BF843526C80B1700607BBA /* Translation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF843426C80B1700607BBA /* Translation.swift */; };
+		81BF843726C8109700607BBA /* TranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF843626C8109700607BBA /* TranslationService.swift */; };
+		81BF843926C81EA000607BBA /* LanguagesChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF843826C81EA000607BBA /* LanguagesChoiceView.swift */; };
+		81BF843B26C829FB00607BBA /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF843A26C829FB00607BBA /* Languages.swift */; };
+		81BF843E26C82C4100607BBA /* LanguagesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF843D26C82C4100607BBA /* LanguagesService.swift */; };
+		81BF844026C82D7F00607BBA /* LanguagesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF843F26C82D7F00607BBA /* LanguagesListView.swift */; };
+		81BF844226C82DD200607BBA /* LanguagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF844126C82DD200607BBA /* LanguagesListViewController.swift */; };
 		81C96CAB26C25F3E006057F9 /* Galano Grotesque Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 81C96CAA26C25F3E006057F9 /* Galano Grotesque Medium.otf */; };
 		81C96CAD26C25FAF006057F9 /* ITCAvantGardeStdBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 81C96CAC26C25FAF006057F9 /* ITCAvantGardeStdBold.otf */; };
 		81C96CAF26C26057006057F9 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C96CAE26C26057006057F9 /* UIFont+Extension.swift */; };
@@ -116,6 +123,13 @@
 		81BF842B26C6A7C800607BBA /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		81BF842F26C7DEE600607BBA /* RateCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateCalculator.swift; sourceTree = "<group>"; };
 		81BF843126C7DFF500607BBA /* RateCalculatorTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateCalculatorTestCase.swift; sourceTree = "<group>"; };
+		81BF843426C80B1700607BBA /* Translation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Translation.swift; path = "Le Baluchon/Controller/Translation.swift"; sourceTree = SOURCE_ROOT; };
+		81BF843626C8109700607BBA /* TranslationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationService.swift; sourceTree = "<group>"; };
+		81BF843826C81EA000607BBA /* LanguagesChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesChoiceView.swift; sourceTree = "<group>"; };
+		81BF843A26C829FB00607BBA /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
+		81BF843D26C82C4100607BBA /* LanguagesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesService.swift; sourceTree = "<group>"; };
+		81BF843F26C82D7F00607BBA /* LanguagesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesListView.swift; sourceTree = "<group>"; };
+		81BF844126C82DD200607BBA /* LanguagesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesListViewController.swift; sourceTree = "<group>"; };
 		81C96CAA26C25F3E006057F9 /* Galano Grotesque Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Galano Grotesque Medium.otf"; sourceTree = "<group>"; };
 		81C96CAC26C25FAF006057F9 /* ITCAvantGardeStdBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ITCAvantGardeStdBold.otf; sourceTree = "<group>"; };
 		81C96CAE26C26057006057F9 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
@@ -225,6 +239,7 @@
 				81DE3D1B26C3B38C003E0F77 /* Currencies */,
 				81B1018426C4EF1700554ADD /* Translation */,
 				81DE3D1C26C3B39E003E0F77 /* Weather */,
+				81BF843C26C82B0800607BBA /* Languages */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -236,6 +251,7 @@
 				81B724F626BF242D0051C909 /* Elements */,
 				8140577C26BC5C1B00D4D31A /* ExchangeMainView.swift */,
 				81DE3D1326C2E14B003E0F77 /* CurrencyListView.swift */,
+				81BF843F26C82D7F00607BBA /* LanguagesListView.swift */,
 				8140577E26BC5FF500D4D31A /* TranslationMainView.swift */,
 				8140578026BC602600D4D31A /* WeatherMainView.swift */,
 			);
@@ -249,6 +265,7 @@
 				8140574326BC4E6600D4D31A /* ExchangeViewController.swift */,
 				81B724F926BF29C40051C909 /* CurrencyListViewController.swift */,
 				8140577626BC507700D4D31A /* TranslationViewController.swift */,
+				81BF844126C82DD200607BBA /* LanguagesListViewController.swift */,
 				8140577826BC508B00D4D31A /* WeatherViewController.swift */,
 			);
 			path = Controller;
@@ -266,6 +283,8 @@
 		81B1018426C4EF1700554ADD /* Translation */ = {
 			isa = PBXGroup;
 			children = (
+				81BF843426C80B1700607BBA /* Translation.swift */,
+				81BF843626C8109700607BBA /* TranslationService.swift */,
 			);
 			path = Translation;
 			sourceTree = "<group>";
@@ -280,6 +299,7 @@
 				81D1556126BEF04500709499 /* CurrencyEntryView.swift */,
 				81DF729C26C65980005D8ACF /* DailyRateView.swift */,
 				81B7251626C158F90051C909 /* LanguageTextView.swift */,
+				81BF843826C81EA000607BBA /* LanguagesChoiceView.swift */,
 				81B7251A26C1AFE70051C909 /* LocalWeatherView.swift */,
 				81B7251826C18D580051C909 /* DestinationWeatherView.swift */,
 				81B7251C26C1B0520051C909 /* DestinationWeatherInfoView.swift */,
@@ -313,6 +333,15 @@
 				81BF843126C7DFF500607BBA /* RateCalculatorTestCase.swift */,
 			);
 			name = RateTests;
+			sourceTree = "<group>";
+		};
+		81BF843C26C82B0800607BBA /* Languages */ = {
+			isa = PBXGroup;
+			children = (
+				81BF843A26C829FB00607BBA /* Languages.swift */,
+				81BF843D26C82C4100607BBA /* LanguagesService.swift */,
+			);
+			path = Languages;
 			sourceTree = "<group>";
 		};
 		81C96CA926C25EA2006057F9 /* Fonts */ = {
@@ -505,18 +534,25 @@
 			files = (
 				81B724FC26BF375E0051C909 /* Currency.swift in Sources */,
 				8140577D26BC5C1B00D4D31A /* ExchangeMainView.swift in Sources */,
+				81BF843926C81EA000607BBA /* LanguagesChoiceView.swift in Sources */,
 				81DE3D1E26C3B3CF003E0F77 /* RateService.swift in Sources */,
+				81BF844026C82D7F00607BBA /* LanguagesListView.swift in Sources */,
+				81BF844226C82DD200607BBA /* LanguagesListViewController.swift in Sources */,
 				81D1556226BEF04500709499 /* CurrencyEntryView.swift in Sources */,
 				81DE3D1626C2EF6D003E0F77 /* Weather.swift in Sources */,
+				81BF843526C80B1700607BBA /* Translation.swift in Sources */,
 				81B7250726BFF2030051C909 /* Double+Extension.swift in Sources */,
 				81B724F326BF1CC40051C909 /* BackgroundImage.swift in Sources */,
 				81D1556026BEED5700709499 /* UIColor+Extension.swift in Sources */,
 				8140578126BC602600D4D31A /* WeatherMainView.swift in Sources */,
 				8140577926BC508B00D4D31A /* WeatherViewController.swift in Sources */,
+				81BF843726C8109700607BBA /* TranslationService.swift in Sources */,
 				81B7250B26C0693E0051C909 /* Errors.swift in Sources */,
 				81C96CAF26C26057006057F9 /* UIFont+Extension.swift in Sources */,
 				8140574426BC4E6600D4D31A /* ExchangeViewController.swift in Sources */,
 				81B724FF26BF44260051C909 /* Constants.swift in Sources */,
+				81BF843B26C829FB00607BBA /* Languages.swift in Sources */,
+				81BF843E26C82C4100607BBA /* LanguagesService.swift in Sources */,
 				81DF729926C55FCE005D8ACF /* WeatherService.swift in Sources */,
 				81B724F826BF29110051C909 /* UIViewController+Extenstion.swift in Sources */,
 				81BF842C26C6A7C800607BBA /* Date+Extension.swift in Sources */,

@@ -1,15 +1,15 @@
 //
-//  ExchangeService.swift
-//  Le Baluchon
+//  LanguagesService.swift
+//  LeBaluchon
 //
-//  Created by Birkyboy on 08/08/2021.
+//  Created by Birkyboy on 14/08/2021.
 //
 
 import Foundation
 
-class CurrenciesService {
-    
-    static let shared = CurrenciesService()
+class LanguagesService {
+
+    static let shared = LanguagesService()
     private init() {}
 
     private var task: URLSessionDataTask?
@@ -21,11 +21,12 @@ class CurrenciesService {
     /// Creates url request for fetching all currencies
     /// - Returns: URLRequest
     private func createRequest() -> URLRequest? {
-        guard let url = URL(string: ApiURL.ifixerURL + "symbols?access_key=" + ApiKeys.ifixerKEY) else {
+        guard let url = URL(string: ApiURL.googleTranslateURL + "/languages?target=fr&key=" + ApiKeys.googleTranslateKey) else {
             return nil
         }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
+        print(url)
         return request
     }
     /// Fetch data from API
@@ -33,7 +34,7 @@ class CurrenciesService {
     /// - Parameter completion: Returns a Result.
     /// - Succes case:  currency list dictionary.
     /// - Error case :  Error of type ApiError.
-    func getData(completion: @escaping (Result<CurrencyList, ApiError>) -> Void) {
+    func getData(completion: @escaping (Result<Languages, ApiError>) -> Void) {
         // set current request returned from the createRequest method.
         guard let request = createRequest() else {
             completion(.failure(.urlError))
@@ -62,7 +63,7 @@ class CurrenciesService {
                     return
                 }
                 do {
-                    let responseJSON = try JSONDecoder().decode(CurrencyList.self, from: data)
+                    let responseJSON = try JSONDecoder().decode(Languages.self, from: data)
                     completion(.success(responseJSON))
                 } catch {
                     completion(.failure(.decodingData))

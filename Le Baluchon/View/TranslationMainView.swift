@@ -18,7 +18,6 @@ class TranslationMainView: UIView {
         setScrollViewConstraints()
         setBackgroundImageConstraints()
         setupMainstackView()
-        setupLanguageChoiceStackView()
         setupLanguageViews()
     }
 
@@ -29,7 +28,7 @@ class TranslationMainView: UIView {
     
     // MARK: - Subviews
     /// Create a vertical scrollView and set its properties.
-    private let scrollView: UIScrollView = {
+    let scrollView: UIScrollView = {
         let scv = UIScrollView()
         scv.alwaysBounceVertical = true
         scv.alwaysBounceHorizontal = false
@@ -48,6 +47,7 @@ class TranslationMainView: UIView {
     }()
 
     private let backgroundImage = BackgroundImage(image: #imageLiteral(resourceName: "translateIcon"))
+    let refresherControl = Refresher(frame: .zero)
 
     let headerView: HeaderView = {
         let view = HeaderView()
@@ -57,44 +57,7 @@ class TranslationMainView: UIView {
         return view
     }()
 
-    let originLanguageLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.font = .textFont(size: 21)
-        lbl.textColor = .titleColor
-        lbl.numberOfLines = 1
-        lbl.textAlignment = .right
-        return lbl
-    }()
-
-    let translatedLanguageLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.font = .textFont(size: 21)
-        lbl.textColor = .titleColor
-        lbl.numberOfLines = 1
-        lbl.textAlignment = .left
-        return lbl
-    }()
-
-    private let translationDirectionImage: UIImageView = {
-        let uiv = UIImageView()
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .black, scale: .large)
-        uiv.image = UIImage(systemName: "arrow.right.circle.fill",
-                                  withConfiguration: imageConfig)
-        uiv.contentMode = .scaleAspectFit
-        uiv.tintColor = .systemPink
-        return uiv
-    }()
-
-    private let languageChoiceStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.alignment = .fill
-        stack.distribution = .fillProportionally
-        stack.spacing = 10
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        return stack
-    }()
-
+    let languageChoiceView = LanguageChoicesView()
     let originLanguageView = LanguageTextView(isEditable: true)
     let translatedLanguageView = LanguageTextView(isEditable: false)
 
@@ -158,18 +121,12 @@ extension TranslationMainView {
             .isActive = true
     }
 
-    private func setupLanguageChoiceStackView() {
-        languageChoiceStackView.addArrangedSubview(originLanguageLabel)
-        languageChoiceStackView.addArrangedSubview(translationDirectionImage)
-        languageChoiceStackView.addArrangedSubview(translatedLanguageLabel)
-    }
-
     /// Setup the mainStackView which hold all the UI subviews.
     private func setupMainstackView() {
         contentView.addSubview(mainStackView)
         // Create an array of the subviews to add to the stackView
         let mainStackSubViews: [UIView] = [headerView,
-                                           languageChoiceStackView,
+                                           languageChoiceView,
                                            originLanguageView,
                                            translatedLanguageView,
                                            dataProviderLabel

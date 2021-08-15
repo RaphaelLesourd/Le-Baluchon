@@ -1,14 +1,14 @@
 //
-//  CurrencyListView.swift
-//  Le Baluchon
+//  LanguagesListView.swift
+//  LeBaluchon
 //
-//  Created by Birkyboy on 10/08/2021.
+//  Created by Birkyboy on 14/08/2021.
 //
 
 import Foundation
 import UIKit
 
-class CurrencyListView: UIView {
+class LanguagesListView: UIView {
 
     // MARK: - Initialiser
     override init(frame: CGRect) {
@@ -34,7 +34,7 @@ class CurrencyListView: UIView {
 
     let headerView: HeaderView = {
         let view = HeaderView()
-        view.titleLabel.text = "Devises Disponibles"
+        view.titleLabel.text = "Langues Disponibles"
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor.constraint(equalToConstant: 32).isActive = true
         return view
@@ -55,8 +55,8 @@ class CurrencyListView: UIView {
     }()
 }
 
-    // MARK: - Constraints
-extension CurrencyListView {
+// MARK: - Constraints
+extension LanguagesListView {
 
     private func setTitleLabelConstraints() {
         addSubview(headerView)
@@ -76,7 +76,7 @@ extension CurrencyListView {
             searchBar.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
-    
+
     private func setTableViewConstraints() {
         addSubview(tableView)
         NSLayoutConstraint.activate([

@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol CurrencyListDelegate: AnyObject {
+    func updateCurrency(with currency: Currency)
+}
+
 class CurrencyListViewController: UIViewController {
 
     weak var exchangeDelegate: CurrencyListDelegate?
@@ -139,7 +143,7 @@ extension CurrencyListViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         // Oberve if the text did changed in the searchBar.
-        // Filters the currencyList array with search bar text either as currency symbol or
+        // filters the currencyList array with search bar text either as currency symbol or
         // name.
         // If the searchBar text is empty, the list is reset with the full list from
         // the currencyList array

@@ -63,19 +63,17 @@ class WeatherViewController: UIViewController {
             self?.localWeather = weather
             dispatchGroup.leave()
         }
+
         // Destination weather
         dispatchGroup.enter()
         getWeather(for: self.destinationCityName) { [weak self] weather in
             self?.destinationWeather = weather
             dispatchGroup.leave()
         }
+        
         // Stop refreshIndicators and display weather
         dispatchGroup.notify(queue: .main) {
-            self.toggleActiviyIndicator(for: self.weatherView.headerView.activityIndicator,
-                                        shown: false)
-            self.weatherView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
-                                                      with: nil,
-                                                      afterDelay: 0.1)
+            self.stopRefresherActivityControls()
             if let localWeather = self.localWeather {
                 self.updateLocalWeatherView(with: localWeather)
             }
@@ -84,6 +82,14 @@ class WeatherViewController: UIViewController {
                 self.updateDestinationWeatherInfoView(with: destinationWeather)
             }
         }
+    }
+
+    private func stopRefresherActivityControls() {
+        self.toggleActiviyIndicator(for: self.weatherView.headerView.activityIndicator,
+                                    shown: false)
+        self.weatherView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
+                                                  with: nil,
+                                                  afterDelay: 0.1)
     }
 
     /// Get weather data from API.

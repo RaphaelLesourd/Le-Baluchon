@@ -101,10 +101,7 @@ class ExchangeViewController: UIViewController {
         RateService.shared.getRateData(for: originCurrency.symbol,
                                        destination: destinationCurrency.symbol) { [weak self] result in
             guard let self = self else {return}
-            self.toggleActiviyIndicator(for: self.exchangeView.headerView.activityIndicator, shown: false)
-            self.exchangeView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
-                                                       with: nil,
-                                                       afterDelay: 0.1)
+            self.stopRefreshActivitycontrol()
             switch result {
             case .success(let rate):
                 guard let rateValue = rate.rates.values.first else {return}
@@ -113,6 +110,13 @@ class ExchangeViewController: UIViewController {
                 self.presentErrorAlert(with: error.description)
             }
         }
+    }
+
+    private func stopRefreshActivitycontrol() {
+        self.toggleActiviyIndicator(for: self.exchangeView.headerView.activityIndicator, shown: false)
+        self.exchangeView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
+                                                   with: nil,
+                                                   afterDelay: 0.1)
     }
     // MARK: - Calculate
     private func getConvertedAmount() {

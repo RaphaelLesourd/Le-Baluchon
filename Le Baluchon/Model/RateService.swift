@@ -20,18 +20,17 @@ class RateService {
     init(session: URLSession) {
         self.session = session
     }
-
     // MARK: - Network call
     /// Creates url request for fetching all currencies
     /// - Returns: URLRequest
-    private func createRequest(base: String, destination: String) -> URLRequest {
+    private func createRequest(base: String, destination: String) -> URLRequest? {
         let endPoint = "&base=\(base)&symbols=\(destination)"
-        let rateURL = URL(string: ApiURL.ifixerURL + "latest?access_key=" + ApiKeys.ifixerKEY + endPoint)!
+        guard let rateURL = URL(string: ApiURL.ifixerURL + "latest?access_key=" + ApiKeys.ifixerKEY + endPoint) else { return nil
+        }
         var request = URLRequest(url: rateURL)
         request.httpMethod = "GET"
         return request
     }
-
     /// Fetch data from API
     ///
     /// - Parameter completion: Returns a Result.
@@ -41,7 +40,10 @@ class RateService {
                      destination: String,
                      completion: @escaping (Result<Rate, ApiError>) -> Void) {
         // set current request returned from the createRequest method.
-        let request = createRequest(base: originCurrency, destination: destination)
+        guard let request = createRequest(base: originCurrency, destination: destination) else {
+            completion(.failure(.urlError))
+            return
+        }
         // cancel previous task
         task?.cancel()
         // set current tast with a session datatask for the current request

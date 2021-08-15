@@ -11,6 +11,32 @@ class TranslationViewController: UIViewController {
 
     // MARK: - Properties
     private let translationView = TranslationMainView()
+    private var originLanguage: Language? {
+        didSet {
+            guard let originLanguage = originLanguage else {return}
+            translationView.languageChoiceView.originLanguageButton.setTitle(originLanguage.name,
+                                                                             for: .normal)
+        }
+    }
+    private var targetLanguage: Language? {
+        didSet {
+            guard let targetLanguage = targetLanguage else {return}
+            translationView.languageChoiceView.targetLanguageButton.setTitle(targetLanguage.name,
+                                                                             for: .normal)
+        }
+    }
+    private var orginText: String? {
+        didSet {
+            getTranslatedText()
+        }
+    }
+    private var translation: Translation? {
+        didSet {
+            guard let translation = translation else {return}
+            translationView.translatedLanguageView.textView.text = translation.data.translations[0].translatedText
+        }
+    }
+    private var languageButtonTag: Int?
     // MARK: - Lifecycle
 
     /// Set the view as rateView.
@@ -26,6 +52,7 @@ class TranslationViewController: UIViewController {
         setDelegates()
         setDefaultLanguages()
         setButtonTarget()
+        setRefresherControl()
         addKeyboardDismissGesture()
     }
 
@@ -39,6 +66,22 @@ class TranslationViewController: UIViewController {
         translationView.originLanguageView.clearButton.addTarget(self,
                                                                  action: #selector(clearAll),
                                                                  for: .touchUpInside)
+        translationView.languageChoiceView.originLanguageButton.addTarget(self,
+                                                                          action: #selector(displayLanguagesList(_:)),
+                                                                          for: .touchUpInside)
+        translationView.languageChoiceView.targetLanguageButton.addTarget(self,
+                                                                          action: #selector(displayLanguagesList(_:)),
+                                                                          for: .touchUpInside)
+    }
+    /// Adds a refreshed to the scrollView, trigger a neworl call to fetch latest exchange rate.
+    private func setRefresherControl() {
+        translationView.scrollView.refreshControl = translationView.refresherControl
+        translationView.refresherControl.addTarget(self, action: #selector(getTranslatedText), for: .valueChanged)
+    }
+
+    private func setDefaultLanguages() {
+        originLanguage = Language(language: "fr", name: "Français")
+        targetLanguage = Language(language: "en", name: "Anglais")
     }
 
     // MARK: - Button Targets
@@ -48,28 +91,76 @@ class TranslationViewController: UIViewController {
         translationView.translatedLanguageView.textView.text = nil
     }
 
-    // MARK: - Translation API Call
-    // translation request
-
-
-    // MARK: - Update Views
-    private func setDefaultLanguages() {
-        translationView.originLanguageLabel.text = "Français"
-        translationView.translatedLanguageLabel.text = "Anglais"
+    // MARK: - Navigation
+    /// Present a modal viewController with a list of all currencies available.
+    /// - Parameter sender: Tapped UIButton
+    @objc private func displayLanguagesList(_ sender: UIButton) {
+        // set the UIbutton sender tag to the currencyButtonTag property to keep track which
+        // button has been pushed.
+        languageButtonTag = sender.tag
+        // Instanciate the viewController to call.
+        let languagesList = LanguagesListViewController()
+        languagesList.languagesDelegate = self
+        // Present the view controller modally.
+        present(languagesList, animated: true, completion: nil)
     }
-    
-    // update translation view
-}
 
+    // MARK: - API Call
+    // translation request
+    @objc private func getTranslatedText() {
+        guard let originLanguage = originLanguage else {return}
+        guard let targetLanguage = targetLanguage else {return}
+        guard let text = orginText, !text.isEmpty else {
+            stopRefreshActivitycontrol()
+            return
+        }
+        toggleActiviyIndicator(for: translationView.headerView.activityIndicator, shown: true)
+        TranslationService.shared.getTranslation(for: text,
+                                                 from: originLanguage.language,
+                                                 to: targetLanguage.language) { [weak self] result in
+            guard let self = self else {return}
+            self.stopRefreshActivitycontrol()
+
+            switch result {
+            case .success(let translatedText):
+                self.translation = translatedText
+            case .failure(let error):
+                self.presentErrorAlert(with: error.description)
+            }
+        }
+    }
+
+    private func stopRefreshActivitycontrol() {
+        self.toggleActiviyIndicator(for: self.translationView.headerView.activityIndicator,
+                                    shown: false)
+        self.translationView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
+                                                      with: nil,
+                                                      afterDelay: 0.05)
+    }
+}
 // MARK: - Extensions
 extension TranslationViewController: UITextViewDelegate {
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
                   replacementText text: String) -> Bool {
-        // UITextView doesn't provide a callback when user hits the return key. As a workaround, dismiss the keyboard when a new line character is detected.
+        // UITextView doesn't provide a callback when user hits the return key.
+        // As a workaround, dismiss the keyboard when a new line character is detected.
         if text == "\n" {
+            orginText = textView.text
             textView.resignFirstResponder()
         }
         return true
+    }
+}
+
+extension TranslationViewController: LanguagesListDelegate {
+
+    func updateLanguage(with language: Language) {
+        if languageButtonTag == 0 {
+            originLanguage = language
+        } else {
+            targetLanguage = language
+        }
+        getTranslatedText()
     }
 }
