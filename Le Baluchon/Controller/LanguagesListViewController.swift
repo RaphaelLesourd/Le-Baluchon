@@ -72,7 +72,7 @@ class LanguagesListViewController: UIViewController {
     /// failure case : an error.
     private func getLanguages() {
         toggleActiviyIndicator(for: languagesListView.headerView.activityIndicator, shown: true)
-        languagesService.getData { [weak self] result in
+        languagesService.getLanguages { [weak self] result in
             guard let self = self else {return}
             self.toggleActiviyIndicator(for: self.languagesListView.headerView.activityIndicator, shown: false)
             self.languagesListView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),

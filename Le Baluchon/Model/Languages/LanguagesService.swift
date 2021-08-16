@@ -9,7 +9,7 @@ import Foundation
 
 class LanguagesService {
 
-    func getData(completion: @escaping (Result<Languages, ApiError>) -> Void) {
+    func getLanguages(completion: @escaping (Result<Languages, ApiError>) -> Void) {
 
         guard let request = createRequest() else {
             completion(.failure(.urlError))
@@ -26,7 +26,8 @@ class LanguagesService {
     }
 
     private func createRequest() -> URLRequest? {
-        guard let url = URL(string: ApiURL.googleTranslateURL + "/languages?target=fr&key=" + ApiKeys.googleTranslateKey) else {
+        let endPoint = "/languages?target=fr&key="
+        guard let url = URL(string: ApiURL.googleTranslateURL + endPoint + ApiKeys.googleTranslateKey) else {
             return nil
         }
         var request = URLRequest(url: url)

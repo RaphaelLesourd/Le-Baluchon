@@ -77,7 +77,7 @@ class WeatherMainView: UIView {
     private let mainStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
-        stack.spacing = 30
+        stack.spacing = 20
         stack.distribution = .fill
         stack.alignment = .fill
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -132,7 +132,6 @@ extension WeatherMainView {
             mainStackView.addArrangedSubview(view)
         }
         // Set custom spacing between 2 views
-        mainStackView.setCustomSpacing(20, after: headerView)
         mainStackView.setCustomSpacing(10, after: destinationWeatherInfoView)
         // Add constraints for the mainstackView
         NSLayoutConstraint.activate([

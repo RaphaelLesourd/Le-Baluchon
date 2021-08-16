@@ -126,8 +126,7 @@ extension ExchangeMainView {
         
         let screenSizeWidth = UIScreen.main.bounds.width
         NSLayoutConstraint.activate([
-            backgroundImage.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor,
-                                                 constant: 10),
+            backgroundImage.centerYAnchor.constraint(equalTo: centerYAnchor),
             backgroundImage.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             backgroundImage.heightAnchor.constraint(equalToConstant: screenSizeWidth * 1.3),
             backgroundImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,

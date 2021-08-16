@@ -99,9 +99,9 @@ extension TranslationMainView {
     private func setBackgroundImageConstraints() {
         contentView.addSubview(backgroundImage)
         NSLayoutConstraint.activate([
-            backgroundImage.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 20),
+            backgroundImage.centerYAnchor.constraint(equalTo: centerYAnchor),
             backgroundImage.widthAnchor.constraint(equalToConstant: screenSize.width),
-            backgroundImage.heightAnchor.constraint(equalToConstant: screenSize.width * 0.8),
+            backgroundImage.heightAnchor.constraint(equalToConstant: screenSize.width),
             backgroundImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
                                                      constant: -screenSize.width * 0.3)
         ])

@@ -13,7 +13,7 @@ class RateCalculator {
 
     func convertAmount(with rate: Double,
                        completion: (Result<Double, ConversionError>) -> Void) {
-
+        
         guard amountToConvert?.count != 0 else {
             completion(.failure(.noAmount))
             return

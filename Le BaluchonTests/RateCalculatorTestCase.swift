@@ -5,8 +5,8 @@
 //  Created by Birkyboy on 14/08/2021.
 //
 
-import XCTest
 @testable import LeBaluchon
+import XCTest
 
 class RateCalculatorTestCase: XCTestCase {
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CurrenciesService {
+class CurrencyService {
 
     func getCurrencies(completion: @escaping (Result<CurrencyList, ApiError>) -> Void) {
 

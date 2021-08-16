@@ -8,11 +8,6 @@
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Galano Grotesque Bold.otf">
-            <string>GalanoGrotesque-Bold</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
@@ -23,27 +18,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Q9Z-rj-x5Q">
-                                <rect key="frame" x="20" y="94" width="374" height="652"/>
+                                <rect key="frame" x="100" y="94" width="214" height="652"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalCompressionResistancePriority="749" image="rocketIcon" translatesAutoresizingMaskIntoConstraints="NO" id="dSb-eu-VQv">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="590"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="214" height="652"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LeBaluchon" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dID-2y-ask">
-                                        <rect key="frame" x="57" y="606" width="260.5" height="46"/>
-                                        <fontDescription key="fontDescription" name="GalanoGrotesque-Bold" family="GalanoGrotesque-Bold" pointSize="45"/>
-                                        <color key="textColor" systemColor="secondaryLabelColor"/>
-                                        <nil key="highlightedColor"/>
-                                        <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </label>
                                 </subviews>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Q9Z-rj-x5Q" secondAttribute="trailing" constant="20" id="8HY-Ef-6dV"/>
+                            <constraint firstAttribute="trailing" secondItem="Q9Z-rj-x5Q" secondAttribute="trailing" constant="100" id="8HY-Ef-6dV"/>
                             <constraint firstAttribute="bottom" secondItem="Q9Z-rj-x5Q" secondAttribute="bottom" constant="150" id="9zC-p1-HAS"/>
-                            <constraint firstItem="Q9Z-rj-x5Q" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="20" id="hr9-5F-tBL"/>
+                            <constraint firstItem="Q9Z-rj-x5Q" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="100" id="hr9-5F-tBL"/>
                             <constraint firstItem="Q9Z-rj-x5Q" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="vOs-gE-eww"/>
                         </constraints>
                     </view>
@@ -55,9 +43,6 @@
     </scenes>
     <resources>
         <image name="rocketIcon" width="500" height="802"/>
-        <systemColor name="secondaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

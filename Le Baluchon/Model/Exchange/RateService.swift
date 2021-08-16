@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 class RateService {
 
     func getRate(for baseCurrency: String, destinationCurrency: String,

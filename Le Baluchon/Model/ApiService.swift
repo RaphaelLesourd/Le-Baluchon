@@ -19,31 +19,30 @@ class ApiService {
     init(session: URLSession) {
         self.session = session
     }
+    
     /// Fetch data from API
-    ///
-    /// - Parameter completion: Returns a Result.
-    /// - Succes case:  dictionary.
-    /// - Error case :  Error of type ApiError.
+    /// - Note: Function taking a generic decodable data object.
+    /// - Any previous URLSessionDataTask get cancelled for each request except if the Data model is Weather.
+    /// - Parameters:
+    ///   - for: Any Decodable object.
+    ///   - request: URLRequest for data requested
+    ///   - completion: Returns a Result  succes case:  decoded JSON  or failure case: ApiError message
     func getData<T: Decodable>(for: T.Type = T.self,
-                               request: URLRequest,
+                               request: URLRequest?,
                                completion: @escaping (Result<T, ApiError>) -> Void) {
 
         // cancel previous task
         if T.self != Weather.self {
             task?.cancel()
         }
-        // set current task with a session datatask for the current request
-        // returns data, a responses status and and eventually an error
+        // set current task with a session datatask for the request
+        // returns data, a responses status and error
+        guard let request = request else {return}
         task = session.dataTask(with: request) { (data, response, error) in
             // run the rest of the code in the main thread
             DispatchQueue.main.async {
-                // Check if there is an error
-                if let error = error {
-                    completion(.failure(.requestError(error)))
-                    return
-                }
                 // Unwrap data optional
-                guard let data = data else {
+                guard let data = data, error == nil else {
                     completion(.failure(.dataError))
                     return
                 }
@@ -71,5 +70,4 @@ class ApiService {
         // start the task
         task?.resume()
     }
-    
 }

@@ -14,7 +14,7 @@ protocol CurrencyListDelegate: AnyObject {
 class CurrencyListViewController: UIViewController {
 
     weak var exchangeDelegate: CurrencyListDelegate?
-    private let currenciesService = CurrenciesService()
+    private let currenciesService = CurrencyService()
     /// Create an instance of CurrencyListView
     private let listView = ListView(title: "Devises")
     /// Initialise an empty array of type Currencies to use as a full list of currencies.

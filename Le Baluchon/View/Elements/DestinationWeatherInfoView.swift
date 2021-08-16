@@ -29,12 +29,12 @@ class DestinationWeatherInfoView: UIView {
         return view
     }()
 
-    let directionView = WeatherDetailInfoView(iconName: "direction", title: "Direction")
-    let windView = WeatherDetailInfoView(iconName: "wind", title: "Vent")
-    let visiblityView = WeatherDetailInfoView(iconName: "visibility", title: "Visibilité")
-    let cloudView = WeatherDetailInfoView(iconName: "cloud", title: "Nuages")
-    let pressureView = WeatherDetailInfoView(iconName: "pressure", title: "Préssion")
-    let humidityView = WeatherDetailInfoView(iconName: "humidity", title: "Humidité")
+    let directionView = WeatherDetailInfoView(iconName: "Direction", title: "Direction")
+    let windView = WeatherDetailInfoView(iconName: "Wind", title: "Vent")
+    let visiblityView = WeatherDetailInfoView(iconName: "Visibility", title: "Visibilité")
+    let cloudView = WeatherDetailInfoView(iconName: "Cloud", title: "Nuages")
+    let pressureView = WeatherDetailInfoView(iconName: "Pressure", title: "Préssion")
+    let humidityView = WeatherDetailInfoView(iconName: "Humidity", title: "Humidité")
 
     private let topStackView: UIStackView = {
         let stack = UIStackView()
