@@ -32,13 +32,21 @@ class TranslationService {
                                from orgin: String,
                                to target: String) -> URLRequest? {
 
-        let endPoint = "?q=\(text.httpFormat)&format=text&source=\(orgin)&target=\(target)&key="
-        let url = ApiURL.googleTranslateURL + endPoint + ApiKeys.googleTranslateKey
-
-        guard let rateURL = URL(string: url) else {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "translation.googleapis.com"
+        urlComponents.path = "/language/translate/v2"
+        urlComponents.queryItems = [
+            URLQueryItem(name: "q", value: text),
+            URLQueryItem(name: "format", value: "text"),
+            URLQueryItem(name: "source", value: orgin),
+            URLQueryItem(name: "target", value: target),
+            URLQueryItem(name: "key", value: ApiKeys.googleTranslateKey)
+        ]
+        guard let url = urlComponents.url else {
             return nil
         }
-        var request = URLRequest (url: rateURL)
+        var request = URLRequest (url: url)
         request.httpMethod = "GET"
         return request
     }

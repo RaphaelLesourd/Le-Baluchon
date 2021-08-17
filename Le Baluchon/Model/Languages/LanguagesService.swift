@@ -26,8 +26,16 @@ class LanguagesService {
     }
 
     private func createRequest() -> URLRequest? {
-        let endPoint = "/languages?target=fr&key="
-        guard let url = URL(string: ApiURL.googleTranslateURL + endPoint + ApiKeys.googleTranslateKey) else {
+
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "translation.googleapis.com"
+        urlComponents.path = "/language/translate/v2/languages"
+        urlComponents.queryItems = [
+            URLQueryItem(name: "target", value: "fr"),
+            URLQueryItem(name: "key", value: ApiKeys.googleTranslateKey)
+        ]
+        guard let url = urlComponents.url else {
             return nil
         }
         var request = URLRequest(url: url)

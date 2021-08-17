@@ -26,7 +26,15 @@ class CurrencyService {
     }
 
     private func createRequest() -> URLRequest? {
-        guard let url = URL(string: ApiURL.ifixerURL + "symbols?access_key=" + ApiKeys.ifixerKEY) else {
+
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "data.fixer.io"
+        urlComponents.path = "/symbols"
+        urlComponents.queryItems = [
+            URLQueryItem(name: "access_key", value: ApiKeys.ifixerKEY)
+        ]
+        guard let url = urlComponents.url else {
             return nil
         }
         var request = URLRequest(url: url)

@@ -29,11 +29,20 @@ class WeatherService {
     /// - Returns: URLRequest
     private func createRequest(for city: String) -> URLRequest? {
 
-        let endPoint = "weather?q=\(city.httpFormat)&units=metric&lang=fr&appid="
-        guard let weatherURL = URL(string: ApiURL.openWeatherMapURL + endPoint + ApiKeys.openWeatherKEY) else {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "api.openweathermap.org"
+        urlComponents.path = "/data/2.5/weather"
+        urlComponents.queryItems = [
+            URLQueryItem(name: "q", value: city),
+            URLQueryItem(name: "units", value: "metric"),
+            URLQueryItem(name: "lang", value: "fr"),
+            URLQueryItem(name: "appid", value: ApiKeys.openWeatherKEY)
+        ]
+        guard let url = urlComponents.url else {
             return nil
         }
-        var request = URLRequest(url: weatherURL)
+        var request = URLRequest(url: url)
         request.httpMethod = "GET"
         return request
     }

@@ -9,12 +9,13 @@ import Foundation
 
 class RateService {
 
+    var apiService = ApiService.shared
+
     func getRate(for baseCurrency: String, destinationCurrency: String,
                      completion: @escaping (Result<Rate, ApiError>) -> Void) {
-        guard let request = createRequest(with: baseCurrency, and: destinationCurrency) else {
-            return
-        }
-        ApiService.shared.getData(for: Rate.self, request: request) { result in
+
+        let request = createRequest(with: baseCurrency, and: destinationCurrency)
+        apiService.getData(for: Rate.self, request: request) { result in
             switch result {
             case .success(let rate):
                 completion(.success(rate))
@@ -30,13 +31,20 @@ class RateService {
     private func createRequest(with baseCurrency: String,
                                and destinationCurrency: String) -> URLRequest? {
 
-        let endPoint = "latest?base=\(baseCurrency)&symbols=\(destinationCurrency)&access_key="
-        guard let rateURL = URL(string: ApiURL.ifixerURL + endPoint +  ApiKeys.ifixerKEY ) else {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "data.fixer.io"
+        urlComponents.path = "/api//latest"
+        urlComponents.queryItems = [
+            URLQueryItem(name: "base", value: baseCurrency),
+            URLQueryItem(name: "symbols", value: destinationCurrency),
+            URLQueryItem(name: "access_key", value: ApiKeys.ifixerKEY)
+        ]
+        guard let url = urlComponents.url else {
             return nil
         }
-        var request = URLRequest(url: rateURL)
+        var request = URLRequest(url: url)
         request.httpMethod = "GET"
         return request
     }
 }
-

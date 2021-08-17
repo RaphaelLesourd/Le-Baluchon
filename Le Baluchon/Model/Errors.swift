@@ -9,7 +9,6 @@ import Foundation
 
 enum ApiError: Error {
     case urlError
-    case requestError(Error)
     case dataError
     case responseError
     case httpError(Int)
@@ -20,8 +19,6 @@ extension ApiError {
         switch self {
         case .urlError:
             return "Données non trouvées."
-        case .requestError(let error):
-            return error.localizedDescription
         case .responseError:
             return "Nous avons rencontré une erreur dans la réponse du serveur"
         case .httpError(let code):
@@ -37,7 +34,9 @@ extension ApiError {
         switch code {
         case 400:
             return "La syntaxe de la requête est erronée."
-        case 401, 403:
+        case 403:
+            return "Limite d'utilisation dépassée."
+        case 401:
             return "Accès à la ressource refusé."
         case 404:
             return "Non trouvé, êtes vous sur que cela existe?"
