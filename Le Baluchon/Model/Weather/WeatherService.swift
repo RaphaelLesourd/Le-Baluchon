@@ -9,12 +9,12 @@ import Foundation
 
 class WeatherService {
 
+    var apiService = ApiService.shared
+
     func getWeather(for city: String,
                         completion: @escaping (Result<Weather, ApiError>) -> Void) {
-        guard let request = createRequest(for: city) else {
-            return
-        }
-        ApiService.shared.getData(for: Weather.self, request: request) { result in
+        let request = createRequest(for: city)
+        apiService.getData(for: Weather.self, with: request) { result in
             switch result {
             case .success(let weather):
                 completion(.success(weather))

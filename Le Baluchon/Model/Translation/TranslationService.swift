@@ -9,16 +9,15 @@ import Foundation
 
 class TranslationService {
 
+    var apiService = ApiService.shared
+
     func getTranslation(for text: String,
                         from orgin: String,
                         to target: String,
                         completion: @escaping (Result<Translation, ApiError>) -> Void) {
         // set current request returned from the createRequest method.
-        guard let request = createRequest(with: text, from: orgin, to: target) else {
-            completion(.failure(.urlError))
-            return
-        }
-        ApiService.shared.getData(for: Translation.self, request: request) { result in
+        let request = createRequest(with: text, from: orgin, to: target)
+        apiService.getData(for: Translation.self, with: request) { result in
             switch result {
             case .success(let translation):
                 completion(.success(translation))

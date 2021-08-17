@@ -28,7 +28,7 @@ class ApiService {
     ///   - request: URLRequest for data requested
     ///   - completion: Returns a Result  succes case:  decoded JSON  or failure case: ApiError message
     func getData<T: Decodable>(for: T.Type = T.self,
-                               request: URLRequest?,
+                               with request: URLRequest?,
                                completion: @escaping (Result<T, ApiError>) -> Void) {
 
         // cancel previous task
@@ -56,13 +56,13 @@ class ApiService {
                     completion(.failure(.httpError(response.statusCode)))
                     return
                 }
-                // do/catch block for trying to decode data returned from session dataTask
+                // do/catch block trying to decode data returned from session dataTask
                 do {
                     let responseJSON = try JSONDecoder().decode(T.self, from: data)
                     // return decoded JSON
                     completion(.success(responseJSON))
                 } catch {
-                    // return an error in case of failure decoding JSON
+                    // return an error in case JSONDecoder throw ne error
                     completion(.failure(.decodingData))
                 }
             }

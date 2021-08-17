@@ -37,25 +37,17 @@ extension ApiError {
         case 403:
             return "Limite d'utilisation dépassée."
         case 401:
-            return "Accès à la ressource refusé."
+            return "Accès refusé."
         case 404:
-            return "Non trouvé, êtes vous sur que cela existe?"
-        case 406:
-            return "Toutes les réponses envisageables seront refusées."
+            return "Non trouvé"
         case 408:
             return "Temps d'attente d'une réponse du serveur écoulé"
-        case 413:
-            return "Traitement abandonné dû à une requête trop importante"
         case 500:
             return "Erreur interne du serveur"
-        case 502:
-            return "Mauvaise réponse envoyée à un serveur intermédiaire par un autre serveur."
         case 503:
             return "Service indisponible"
-        case 504:
-            return "Temps d'attente d'une réponse d'un serveur à un serveur intermédiaire écoulé"
         default:
-            return ""
+            return "Nous avons rencontré un problème avec le serveur."
         }
     }
 }

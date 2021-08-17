@@ -10,33 +10,39 @@ import Foundation
 class FakeResponseData {
 
     // MARK: - Data
-    static var CurrenciesListCorrectData: Data? {
+    static var currenciesListCorrectData: Data? {
         let bundle = Bundle(for: FakeResponseData.self)
         let url = bundle.url(forResource: "CurrenciesList", withExtension: "json")!
         return try! Data(contentsOf: url)
     }
 
-    static var LanguagesListCorrectData: Data? {
+    static var languagesListCorrectData: Data? {
         let bundle = Bundle(for: FakeResponseData.self)
         let url = bundle.url(forResource: "LanguagesList", withExtension: "json")!
         return try! Data(contentsOf: url)
     }
 
-    static var ExhangeRateCorrectData: Data? {
+    static var exhangeRateCorrectData: Data? {
         let bundle = Bundle(for: FakeResponseData.self)
         let url = bundle.url(forResource: "Rate", withExtension: "json")!
         return try! Data(contentsOf: url)
     }
 
-    static var TranslationCorrectData: Data? {
+    static var translationCorrectData: Data? {
         let bundle = Bundle(for: FakeResponseData.self)
         let url = bundle.url(forResource: "Translation", withExtension: "json")!
         return try! Data(contentsOf: url)
     }
 
-    static var WeatherCorrectData: Data? {
+    static var weatherCorrectData: Data? {
         let bundle = Bundle(for: FakeResponseData.self)
         let url = bundle.url(forResource: "Weather", withExtension: "json")!
+        return try! Data(contentsOf: url)
+    }
+
+    static var weatherImageCorrectData: Data? {
+        let bundle = Bundle(for: FakeResponseData.self)
+        let url = bundle.url(forResource: "04d", withExtension: "png")!
         return try! Data(contentsOf: url)
     }
 

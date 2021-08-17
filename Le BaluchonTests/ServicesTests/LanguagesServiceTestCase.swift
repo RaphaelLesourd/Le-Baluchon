@@ -1,5 +1,5 @@
 //
-//  RateServiceTests.swift
+//  LanguagesServiceTestCase.swift
 //  LeBaluchonTests
 //
 //  Created by Birkyboy on 17/08/2021.
@@ -7,56 +7,51 @@
 @testable import LeBaluchon
 import XCTest
 
-class RateServiceTestCase: XCTestCase {
+class LanguagesServiceTestCase: XCTestCase {
+
+    let languagesService = LanguagesService()
 
     // MARK: - Success
-    func testApiServiceForExchangeRateCompletionWithNoErrorAndCorrectData() {
+    func testLanguagesService_ForLanguagesList_CompletionWithNoErrorAndCorrectData() {
         // Given
-        let rateService = RateService()
-        rateService.apiService = ApiService(
-            session: URLSessionFake(data: FakeResponseData.ExhangeRateCorrectData,
+        languagesService.apiService = ApiService(
+            session: URLSessionFake(data: FakeResponseData.languagesListCorrectData,
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        rateService.getRate(for: "EUR", destinationCurrency: "LAK") { result in
+        languagesService.getLanguages() { result in
+            // Then
             switch result {
-            case .success(let rate):
-                XCTAssertNotNil(rate)
-                print(rate)
-                XCTAssertEqual(["LAK":11288.155897], rate.rates)
+            case .success(let languagesList):
+                XCTAssertNotNil(languagesList)
             case .failure(let error):
                 XCTAssertNil(error)
             }
             expectation.fulfill()
         }
-
         wait(for: [expectation], timeout: 0.10)
     }
 
-    // MARK: - Errors
-    func testApiServiceForExchangeRateCompletionWithBadRequest() {
+    // MARK: - Error noData
+    func testLanguagesService_ForLanguagesList_CompletionWithErrorAndNoData() {
         // Given
-        let rateService = RateService()
-        rateService.apiService = ApiService(
+        languagesService.apiService = ApiService(
             session: URLSessionFake(data: nil,
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        rateService.getRate(for: "", destinationCurrency: "LAK") { result in
+        languagesService.getLanguages() { result in
+            // Then
             switch result {
-            case .success(let rate):
-                XCTAssertNil(rate)
-                print(rate)
+            case .success(let languagesList):
+                XCTAssertNil(languagesList)
             case .failure(let error):
-                XCTAssertNotNil(error)
                 XCTAssertEqual(error.description, ApiError.dataError.description)
             }
             expectation.fulfill()
         }
-
         wait(for: [expectation], timeout: 0.10)
     }
-   
 }

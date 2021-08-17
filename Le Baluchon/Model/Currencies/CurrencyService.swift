@@ -9,13 +9,12 @@ import Foundation
 
 class CurrencyService {
 
+    var apiService = ApiService.shared
+
     func getCurrencies(completion: @escaping (Result<CurrencyList, ApiError>) -> Void) {
 
-        guard let request = createRequest() else {
-            completion(.failure(.urlError))
-            return
-        }
-        ApiService.shared.getData(for: CurrencyList.self, request: request) { result in
+        let request = createRequest()
+        apiService.getData(for: CurrencyList.self, with: request) { result in
             switch result {
             case .success(let currencies):
                 completion(.success(currencies))

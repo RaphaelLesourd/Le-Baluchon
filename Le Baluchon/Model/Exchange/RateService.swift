@@ -15,7 +15,7 @@ class RateService {
                      completion: @escaping (Result<Rate, ApiError>) -> Void) {
 
         let request = createRequest(with: baseCurrency, and: destinationCurrency)
-        apiService.getData(for: Rate.self, request: request) { result in
+        apiService.getData(for: Rate.self, with: request) { result in
             switch result {
             case .success(let rate):
                 completion(.success(rate))

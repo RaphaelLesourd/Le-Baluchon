@@ -9,11 +9,27 @@ import UIKit
 
 class WeatherViewController: UIViewController {
 
+    typealias weatherIcon = (default: Foundation.Data, user: String)
     // MARK: - Properties
     private let weatherView = WeatherMainView()
     private let weatherService = WeatherService()
     private var localWeather: Weather?
     private var destinationWeather: Weather?
+    private let userIcon = true
+    private var localWeatherIcon: Foundation.Data? {
+        didSet {
+            guard let localWeatherIcon = localWeatherIcon else {return}
+            weatherView.localWeatherView.weatherIcon.image = UIImage(data: localWeatherIcon)
+        }
+    }
+    private var destinationWeatherIcon: Foundation.Data? {
+        didSet {
+            guard let destinationWeatherIcon = destinationWeatherIcon else {return}
+            weatherView.destinationWeatherView.weatherIcon.image = UIImage(data: destinationWeatherIcon)
+        }
+    }
+    private var localIcon: weatherIcon?
+
     private var destinationCityName = "New york" {
         didSet{
             getWeatherData()
@@ -64,7 +80,6 @@ class WeatherViewController: UIViewController {
             self?.localWeather = weather
             dispatchGroup.leave()
         }
-
         // Destination weather
         dispatchGroup.enter()
         getWeather(for: self.destinationCityName) { [weak self] weather in
@@ -80,6 +95,7 @@ class WeatherViewController: UIViewController {
             if let destinationWeather = self.destinationWeather {
                 self.updateDestinationWeatherView(with: destinationWeather)
                 self.updateDestinationWeatherInfoView(with: destinationWeather)
+
             }
         }
     }
@@ -123,8 +139,24 @@ class WeatherViewController: UIViewController {
             localWeather.temperatureLabel.text = "\(temperature.formatted(decimals: 0))°"
         }
         if let weatherIcon = weather.weather?[0].icon {
-            localWeather.weatherIcon.image = UIImage(named: weatherIcon)
+            if userIcon {
+                localWeather.weatherIcon.image = UIImage(named: weatherIcon)
+                return
+            }
+            WeatherIconService.shared.getWeatherIcon(for: weatherIcon) { [weak self] data in
+                guard let self = self else {return}
+                self.localWeatherIcon = data
+             //   self?.localIcon?.default = data
+            }
+        //    localIcon?.user = weatherIcon
+       //r     setIcons()
         }
+    }
+
+    private func setIcons() {
+        guard let localIcon = localIcon else {return}
+        let localImage = userIcon ? UIImage(named: localIcon.user) : UIImage(data: localIcon.default)
+        weatherView.localWeatherView.weatherIcon.image = localImage
     }
 
     /// Update destination weather view with `Weather`object data
@@ -141,7 +173,14 @@ class WeatherViewController: UIViewController {
             destinationWeather.conditionsLabel.text = "\(weatherCondition)".capitalized
         }
         if let weatherIcon = weather.weather?[0].icon {
-            destinationWeather.weatherIcon.image = UIImage(named: weatherIcon)
+            if userIcon {
+                destinationWeather.weatherIcon.image = UIImage(named: weatherIcon)
+                return
+            }
+            WeatherIconService.shared.getWeatherIcon(for: weatherIcon) {  [weak self] data in
+                guard let self = self else {return}
+                self.destinationWeatherIcon = data
+            }
         }
     }
 
@@ -169,6 +208,7 @@ class WeatherViewController: UIViewController {
             weatherInfo.humidityView.valueLabel.text = "\(humidity)%"
         }
     }
+
 }
 // MARK: - SearchBar Delegate
 extension WeatherViewController: UISearchBarDelegate {

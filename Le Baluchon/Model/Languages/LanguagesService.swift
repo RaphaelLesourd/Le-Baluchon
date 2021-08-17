@@ -9,13 +9,12 @@ import Foundation
 
 class LanguagesService {
 
+    var apiService = ApiService.shared
+
     func getLanguages(completion: @escaping (Result<Languages, ApiError>) -> Void) {
 
-        guard let request = createRequest() else {
-            completion(.failure(.urlError))
-            return
-        }
-        ApiService.shared.getData(for: Languages.self, request: request) { result in
+        let request = createRequest()
+        apiService.getData(for: Languages.self, with: request) { result in
             switch result {
             case .success(let languages):
                 completion(.success(languages))
