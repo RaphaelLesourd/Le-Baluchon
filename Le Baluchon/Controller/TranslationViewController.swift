@@ -73,6 +73,9 @@ class TranslationViewController: UIViewController {
         translationView.languageChoiceView.targetLanguageButton.addTarget(self,
                                                                           action: #selector(displayLanguagesList(_:)),
                                                                           for: .touchUpInside)
+        translationView.languageChoiceView.languageDirectionButton.addTarget(self,
+                                                                             action: #selector(swapLanguagebuttonTapped),
+                                                                             for: .touchUpInside)
     }
     /// Adds a refreshed to the scrollView, trigger a neworl call to fetch latest exchange rate.
     private func setRefresherControl() {
@@ -85,7 +88,6 @@ class TranslationViewController: UIViewController {
         targetLanguage = Language(language: "en", name: "Anglais")
     }
 
-    // MARK: - Button Targets
     /// Set all textView text property to nil to remove all text.
     @objc private func clearAll() {
         translationView.originLanguageView.textView.text = nil
@@ -139,6 +141,15 @@ class TranslationViewController: UIViewController {
                                                       with: nil,
                                                       afterDelay: 0.05)
     }
+
+    // MARK: - Languages swap
+    @objc private func swapLanguagebuttonTapped() {
+        let temporaryOriginalLanguage: Language?
+        temporaryOriginalLanguage = originLanguage
+        originLanguage = targetLanguage
+        targetLanguage = temporaryOriginalLanguage
+    }
+
 }
 // MARK: - Extensions
 extension TranslationViewController: UITextViewDelegate {

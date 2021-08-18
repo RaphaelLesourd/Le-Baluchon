@@ -8,6 +8,11 @@
 import Foundation
 import UIKit
 
+enum SearchBarHeight: CGFloat {
+    case collapsed = 0
+    case expanded = 50
+}
+
 class WeatherMainView: UIView {
 
     // MARK: - Initialiser
@@ -19,12 +24,14 @@ class WeatherMainView: UIView {
         setupMainstackView()
         setOriginWeatherViewHeight()
         setDestinationWeatherInfoViewHeight()
+        setSearchBarHeight()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    var searchBarHeightConstraint = NSLayoutConstraint()
     // MARK: - Subviews
     let refresherControl = Refresher(frame: .zero)
 
@@ -63,13 +70,14 @@ class WeatherMainView: UIView {
     let searchBar: UISearchBar = {
         let bar = UISearchBar()
         bar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
-        bar.backgroundColor = UIColor.viewControllerBackgroundColor
+        bar.backgroundColor = .clear
         bar.searchTextField.tintColor = .label
         bar.autocapitalizationType = .words
         bar.autocorrectionType = .no
         bar.enablesReturnKeyAutomatically = true
         bar.returnKeyType = .done
-        bar.placeholder = "Ville de destination"
+        bar.textContentType = .none
+        bar.placeholder = "Recherchez"
         bar.translatesAutoresizingMaskIntoConstraints = false
         return bar
     }()
@@ -77,7 +85,7 @@ class WeatherMainView: UIView {
     private let mainStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
-        stack.spacing = 20
+        stack.spacing = 10
         stack.distribution = .fill
         stack.alignment = .fill
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -107,6 +115,11 @@ extension WeatherMainView {
         ])
     }
 
+    private func setSearchBarHeight() {
+        searchBarHeightConstraint = searchBar.heightAnchor.constraint(equalToConstant: SearchBarHeight.collapsed.rawValue)
+        searchBarHeightConstraint.isActive = true
+    }
+
     private func setOriginWeatherViewHeight() {
         localWeatherView.translatesAutoresizingMaskIntoConstraints = false
         localWeatherView.heightAnchor.constraint(equalToConstant: 70).isActive = true
@@ -121,8 +134,8 @@ extension WeatherMainView {
         contentView.addSubview(mainStackView)
         // Create an array of the subviews to add to the stackView
         let mainStackSubViews: [UIView] = [headerView,
-                                           searchBar,
                                            localWeatherView,
+                                           searchBar,
                                            destinationWeatherView,
                                            destinationWeatherInfoView,
                                            dataProviderLabel
@@ -131,8 +144,6 @@ extension WeatherMainView {
         for view in mainStackSubViews {
             mainStackView.addArrangedSubview(view)
         }
-        // Set custom spacing between 2 views
-        mainStackView.setCustomSpacing(10, after: destinationWeatherInfoView)
         // Add constraints for the mainstackView
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
@@ -142,7 +153,7 @@ extension WeatherMainView {
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
                                                     constant: -16),
             mainStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor,
-                                                  multiplier: 0.97)
+                                                  multiplier: 0.96)
         ])
     }
 }

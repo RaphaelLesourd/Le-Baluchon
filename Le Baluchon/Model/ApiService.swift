@@ -19,7 +19,6 @@ class ApiService {
     init(session: URLSession) {
         self.session = session
     }
-    
     /// Fetch data from API
     /// - Note: Function taking a generic decodable data object.
     /// - Any previous URLSessionDataTask get cancelled for each request except if the Data model is Weather.
@@ -30,7 +29,6 @@ class ApiService {
     func getData<T: Decodable>(for: T.Type = T.self,
                                with request: URLRequest?,
                                completion: @escaping (Result<T, ApiError>) -> Void) {
-
         // cancel previous task
         if T.self != Weather.self {
             task?.cancel()

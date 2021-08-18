@@ -24,7 +24,6 @@ class RateService {
             }
         }
     }
-    
     // MARK: - Network call
     /// Creates url request for fetching all currencies
     /// - Returns: URLRequest

@@ -24,7 +24,7 @@ class DestinationWeatherView: UIView {
     let weatherIcon: UIImageView = {
         let uiv = UIImageView()
         uiv.contentMode = .scaleAspectFit
-        uiv.addShadow()
+        uiv.addShadow(opacity: 0.3, radius: 100, color: .systemPurple)
         uiv.translatesAutoresizingMaskIntoConstraints = false
         uiv.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.7).isActive = true
         return uiv
@@ -32,7 +32,7 @@ class DestinationWeatherView: UIView {
 
     let cityLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = .textFontSemiBold(size: 26)
+        lbl.font = .textFontSemiBold(size: 21)
         lbl.sizeToFit()
         lbl.textColor = .titleColor
         lbl.numberOfLines = 3
@@ -40,24 +40,45 @@ class DestinationWeatherView: UIView {
         return lbl
     }()
 
+    let searchButton: UIButton = {
+        let btn = UIButton()
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .medium)
+        let image = UIImage(systemName: "magnifyingglass", withConfiguration: imageConfig)
+        btn.setImage(image, for: .normal)
+        btn.imageView?.contentMode = .scaleAspectFit
+        btn.tintColor = .secondaryLabel
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        return btn
+    }()
+
+    private let titleStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.alignment = .top
+        stack.distribution = .fill
+        stack.spacing = 20
+        return stack
+    }()
+
     let temperatureLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = .temperatureFont(size: 100)
+        lbl.font = .temperatureFont(size: 90)
         lbl.textColor = .subtitleColor
         lbl.numberOfLines = 1
-        lbl.textAlignment = .right
+        lbl.textAlignment = .left
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.heightAnchor.constraint(equalToConstant: 110).isActive = true
+        lbl.heightAnchor.constraint(equalToConstant: 100).isActive = true
         return lbl
     }()
 
     let conditionsLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = .textFont(size: 21)
+        lbl.font = .textFont(size: 25)
         lbl.textColor = .subtitleColor
         lbl.sizeToFit()
         lbl.numberOfLines = 2
-        lbl.textAlignment = .right
+        lbl.textAlignment = .left
         return lbl
     }()
 
@@ -75,8 +96,11 @@ class DestinationWeatherView: UIView {
 // MARK: - Constraints
 extension DestinationWeatherView {
     private func setStackViewConstraints() {
+        titleStackView.addArrangedSubview(cityLabel)
+        titleStackView.addArrangedSubview(searchButton)
+
         addSubview(mainStackView)
-        let mainStackSubViews: [UIView] = [cityLabel,
+        let mainStackSubViews: [UIView] = [titleStackView,
                                            weatherIcon,
                                            temperatureLabel,
                                            conditionsLabel
@@ -84,7 +108,7 @@ extension DestinationWeatherView {
         for view in mainStackSubViews {
             mainStackView.addArrangedSubview(view)
         }
-        mainStackView.setCustomSpacing(-10, after: weatherIcon)
+        mainStackView.setCustomSpacing(-30, after: weatherIcon)
         mainStackView.setCustomSpacing(-20, after: temperatureLabel)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: topAnchor),

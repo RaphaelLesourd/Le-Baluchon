@@ -300,8 +300,8 @@
 			isa = PBXGroup;
 			children = (
 				8140577A26BC519300D4D31A /* TabBarController.swift */,
-				8140577626BC507700D4D31A /* TranslationViewController.swift */,
 				8140574326BC4E6600D4D31A /* ExchangeViewController.swift */,
+				8140577626BC507700D4D31A /* TranslationViewController.swift */,
 				8140577826BC508B00D4D31A /* WeatherViewController.swift */,
 				81B724F926BF29C40051C909 /* CurrencyListViewController.swift */,
 				81BF844126C82DD200607BBA /* LanguagesListViewController.swift */,

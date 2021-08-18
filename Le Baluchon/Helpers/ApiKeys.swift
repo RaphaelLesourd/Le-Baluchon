@@ -8,8 +8,8 @@
 import Foundation
 
 struct ApiKeys {
-    static let ifixerKEY = "6345aea1a997bb9aa12ed159cac2441e"
-    static let googleTranslateKey = "AIzaSyBZzg_tH6uxV8JCJoRVoXHxPfKQAaavRwQ"
-    static let openWeatherKEY = "d44187f4fd9db86eec89a0b20f4650a8"
+    static let ifixerKEY = "9d302d668b532babe3dcf93c5e973670"
+    static let googleTranslateKey = "AIzaSyCEbVNspE4p1PakwXtzEG-ifo2wy4_mVZQ"
+    static let openWeatherKEY = "4cf19faf1d4a44b516668cf796eaa3a0"
 }
 

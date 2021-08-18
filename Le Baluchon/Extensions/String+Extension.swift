@@ -20,4 +20,9 @@ extension String {
     var singleDecimalSymbol: Bool {
         return self.components(separatedBy: ".").count - 1 > 1
     }
+
+    var countryName: String {
+        return Locale(identifier: "fr_FR").localizedString(forRegionCode: self) ?? ""
+    }
+
 }

@@ -40,6 +40,7 @@ class DailyRateView: UIView {
         lbl.numberOfLines = 1
         return lbl
     }()
+    
     private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
