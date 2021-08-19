@@ -94,6 +94,7 @@ class TranslationViewController: UIViewController {
         translationView.originLanguageView.placeholderLabel.isHidden = false
         translationView.originLanguageView.textView.text = nil
         translationView.translatedLanguageView.textView.text = nil
+        originText = nil
     }
 
     // MARK: - API Call

@@ -47,7 +47,7 @@ class LanguageTextView: UIView {
         txv.layer.masksToBounds = true
         txv.backgroundColor = .clear
         txv.autocorrectionType = .yes
-        txv.font = .textFont(size: 25)
+        txv.font = .systemFont(ofSize: 25, weight: .semibold)
         txv.textColor = .titleColor
         txv.tintColor = .titleColor
         txv.showsVerticalScrollIndicator = false
@@ -63,7 +63,7 @@ class LanguageTextView: UIView {
         let lbl = UILabel()
         lbl.text = "Saisissez votre texte"
         lbl.textColor = .secondaryLabel
-        lbl.font = .textFont(size: 25)
+        lbl.font = .systemFont(ofSize: 25, weight: .semibold)
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
@@ -85,8 +85,8 @@ extension LanguageTextView {
         textView.addSubview(placeholderLabel)
         NSLayoutConstraint.activate([
             placeholderLabel.topAnchor.constraint(equalTo: topAnchor, constant: 15),
-            placeholderLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            placeholderLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
+            placeholderLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            placeholderLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15)
         ])
     }
 

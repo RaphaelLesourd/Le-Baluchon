@@ -24,7 +24,7 @@ class DestinationWeatherView: UIView {
     let weatherIcon: UIImageView = {
         let uiv = UIImageView()
         uiv.contentMode = .scaleAspectFit
-        uiv.addShadow(opacity: 0.3, radius: 100, color: .systemPurple)
+        uiv.addShadow()
         uiv.translatesAutoresizingMaskIntoConstraints = false
         uiv.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.7).isActive = true
         return uiv

@@ -21,8 +21,10 @@ class LanguageChoicesView: UIView {
     // MARK: - Subviews
     let originLanguageButton: UIButton = {
         let btn = UIButton()
-        btn.titleLabel?.font = .textFontSemiBold(size: 21)
+        btn.titleLabel?.font = .textFontSemiBold(size: 23)
         btn.titleLabel?.numberOfLines = 2
+        btn.titleLabel?.minimumScaleFactor = 0.5
+        btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.setTitleColor(.titleColor, for: .normal)
         btn.contentHorizontalAlignment = .center
         btn.tag = 0
@@ -31,8 +33,10 @@ class LanguageChoicesView: UIView {
 
     let targetLanguageButton: UIButton = {
         let btn = UIButton()
-        btn.titleLabel?.font = .textFontSemiBold(size: 21)
+        btn.titleLabel?.font = .textFontSemiBold(size: 23)
         btn.titleLabel?.numberOfLines = 2
+        btn.titleLabel?.minimumScaleFactor = 0.5
+        btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.setTitleColor(.titleColor, for: .normal)
         btn.contentHorizontalAlignment = .center
         btn.tag = 1
