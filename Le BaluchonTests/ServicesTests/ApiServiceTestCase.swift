@@ -74,13 +74,13 @@ class ApiServiceTestCase: XCTestCase {
             case .success(let currencies):
                 XCTAssertNil(currencies)
             case .failure(let error):
-                XCTAssertEqual(error.description, ApiError.httpError(500).description)
+                XCTAssertEqual(error.description, ApiError.responseError.description)
             }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.10)
     }
-
+    
     func testApiServiceCompletionWithIncorrectDataErrorAndResponseOK() {
         // Given
         let apiService = ApiService(
@@ -121,6 +121,27 @@ class ApiServiceTestCase: XCTestCase {
                 XCTAssertNil(currencies)
             case .failure(let error):
                 XCTAssertEqual(error.description, ApiError.responseError.description)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 0.10)
+    }
+
+    func testApiServiceCompletionWithNoRequest() {
+        // Given
+        let apiService = ApiService(
+            session: URLSessionFake(data: nil,
+                                    response: nil,
+                                    error: nil))
+        // When
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
+        apiService.getData(for: CurrencyList.self, with: nil) { result in
+            // Then
+            switch result {
+            case .success(let currencies):
+                XCTAssertNil(currencies)
+            case .failure(let error):
+                XCTAssertEqual(error.description, ApiError.urlError.description)
             }
             expectation.fulfill()
         }

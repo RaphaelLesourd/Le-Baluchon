@@ -24,14 +24,14 @@ class LocalWeatherView: UIView {
         let uiv = UIImageView()
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 18, weight: .black, scale: .small)
         uiv.image = UIImage(systemName: "house.fill", withConfiguration: imageConfig)
-        uiv.tintColor = .titleColor
+        uiv.tintColor = .subtitleColor
         return uiv
     }()
 
     let cityLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = .textFontSemiBold(size: 18)
-        lbl.textColor = .titleColor
+        lbl.textColor = .subtitleColor
         lbl.numberOfLines = 1
         lbl.textAlignment = .right
         return lbl

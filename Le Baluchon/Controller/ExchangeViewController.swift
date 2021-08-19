@@ -69,13 +69,14 @@ class ExchangeViewController: UIViewController {
     private func setDefaultValues() {
         originCurrency = Currency(symbol: "EUR", name: "Euro")
         targetCurrency = Currency(symbol: "USD", name: "Dollars")
-        originAmount = currentRate.formatted()
+        originAmount = currentRate.toString()
         exchangeView.originCurrencyView.textfield.text = originAmount
     }
     /// Adds a refreshed to the scrollView, trigger a neworl call to fetch latest exchange rate.
     private func setRefresherControl() {
         exchangeView.scrollView.refreshControl = exchangeView.refresherControl
-        exchangeView.refresherControl.addTarget(self, action: #selector(getRate), for: .valueChanged)
+        exchangeView.refresherControl.addTarget(self, action: #selector(getRate),
+                                                for: .valueChanged)
     }
     /// Add targets to UIButtons.
     private func setButtonsTarget() {
@@ -129,7 +130,7 @@ class ExchangeViewController: UIViewController {
         rateCalculator.convertAmount(with: currentRate) { result in
             switch result {
             case .success(let amount):
-                exchangeView.targetCurrencyView.textfield.text = amount.formatted()
+                exchangeView.targetCurrencyView.textfield.text = amount.toString()
             case .failure(let error):
                 presentErrorAlert(with: error.description)
             }
@@ -140,22 +141,21 @@ class ExchangeViewController: UIViewController {
     /// Swap currency function and update echange rate value.
     @objc private func currencySwapButtonTapped() {
         swapCurrencies()
-        rateCalculator.invertRates(for: currentRate) { result in
-            switch result {
-            case .success(let newRate):
-                currentRate = newRate
-                animateCurrencySwapButton()
-            case .failure(let error):
-                presentErrorAlert(with: error.description)
-            }
-        }
+        getNewRate()
     }
     /// Swaps origin and destination currency object.
     private func swapCurrencies() {
-        // local cotanstant to store origin currency
         let tempCurrency = originCurrency
         self.originCurrency = targetCurrency
         self.targetCurrency = tempCurrency
+    }
+
+    private func getNewRate() {
+        guard let swappedRate = rateCalculator.invertRates(for: currentRate) else {
+            presentErrorAlert(with: ConversionError.zeroDivision.description)
+            return
+        }
+        currentRate = swappedRate
     }
    
     /// Rotate the currencySwaButton with animation.
@@ -171,33 +171,30 @@ class ExchangeViewController: UIViewController {
         }
     }
 
-    // MARK: - Daily Rate
+    // MARK: - Daily Rate Display
     private func updateDailyRate(with rate: Double) {
         guard let originCurrency = originCurrency else {return}
         guard let destinationCurrency = targetCurrency else {return}
-        exchangeView.dailyRateView.rateLabel.text = "1 \(originCurrency.symbol) = \(rate.formatted()) \(destinationCurrency.symbol)"
+        exchangeView.dailyRateView.rateLabel.text = "1 \(originCurrency.symbol) = \(rate.toString()) \(destinationCurrency.symbol)"
     }
     private func updateLastFetchDate() {
         let date = Date()
         exchangeView.dailyRateView.lastUpdateLabel.text = "Mis à jour le " + date.toString()
     }
 
-    // MARK: - Navigation
+    // MARK: - Currency List
     /// Present a modal viewController with a list of all currencies available.
     /// - Parameter sender: Tapped UIButton
     @objc private func displayCurrenciesList(_ sender: UIButton) {
         // set the UIbutton sender tag to the currencyButtonTag property to keep track which
         // button has been pushed.
         currencyButtonTag = sender.tag
-        // Instanciate the viewController to call.
+
         let currenciesList = CurrencyListViewController()
         currenciesList.exchangeDelegate = self
-        // Present the view controller modally.
         present(currenciesList, animated: true, completion: nil)
     }
 }
-
-
 
 // MARK: - CurrencyList Delegate
 extension ExchangeViewController: CurrencyListDelegate {

@@ -13,6 +13,7 @@ class WeatherService {
 
     func getWeather(for city: String,
                         completion: @escaping (Result<Weather, ApiError>) -> Void) {
+        
         let request = createRequest(for: city)
         apiService.getData(for: Weather.self, with: request) { result in
             switch result {

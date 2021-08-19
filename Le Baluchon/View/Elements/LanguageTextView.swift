@@ -15,6 +15,7 @@ class LanguageTextView: UIView {
         super.init(frame: .zero)
         self.rounded()
         setupTextViewConstraints()
+        setupPlaceholderLabelConstraints()
         setupClearButtonConstraints()
     }
 
@@ -57,6 +58,15 @@ class LanguageTextView: UIView {
         txv.translatesAutoresizingMaskIntoConstraints = false
         return txv
     }()
+
+    let placeholderLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "Saisissez votre texte"
+        lbl.textColor = .secondaryLabel
+        lbl.font = .textFont(size: 25)
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        return lbl
+    }()
 }
 // MARK: - Constraints
 extension LanguageTextView {
@@ -68,6 +78,15 @@ extension LanguageTextView {
             textView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15),
             textView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             textView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
+        ])
+    }
+
+    private func setupPlaceholderLabelConstraints() {
+        textView.addSubview(placeholderLabel)
+        NSLayoutConstraint.activate([
+            placeholderLabel.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            placeholderLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            placeholderLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
         ])
     }
 

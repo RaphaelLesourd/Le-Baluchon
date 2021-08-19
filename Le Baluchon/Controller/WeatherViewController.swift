@@ -78,8 +78,7 @@ class WeatherViewController: UIViewController {
     @objc private func getWeatherData() {
         let dispatchGroup = DispatchGroup()
         // Start refreshIndicator
-        toggleActiviyIndicator(for: weatherView.headerView.activityIndicator,
-                               shown: true)
+        toggleActiviyIndicator(for: weatherView.headerView.activityIndicator, shown: true)
         // Local weather
         dispatchGroup.enter()
         getWeather(for: "Paris") { [weak self] weather in
@@ -130,6 +129,9 @@ class WeatherViewController: UIViewController {
     }
 
     // MARK: - Update views
+
+    // Local Weather
+
     /// Update local weather view with `Weather`object data
     /// - Parameter weather: Local `Weather` object.
     private func updateLocalWeatherView(with weather: Weather) {
@@ -139,7 +141,7 @@ class WeatherViewController: UIViewController {
             localWeather.cityLabel.text = "\(city), \(country)"
         }
         if let temperature = weather.main?.temp {
-            localWeather.temperatureLabel.text = "\(temperature.formatted(decimals: 0))°"
+            localWeather.temperatureLabel.text = "\(temperature.toString(decimals: 0))°"
         }
         if let weatherIcon = weather.weather?[0].icon {
             if userIcon {
@@ -152,6 +154,9 @@ class WeatherViewController: UIViewController {
             }
         }
     }
+
+    // Destination Weather
+
     /// Update destination weather view with `Weather`object data
     /// - Parameter weather: Destination `Weather`object.
     private func updateDestinationWeatherView(with weather: Weather) {
@@ -161,7 +166,7 @@ class WeatherViewController: UIViewController {
             destinationWeather.cityLabel.text = "\(city),\n\(country)"
         }
         if let temperature = weather.main?.temp {
-            destinationWeather.temperatureLabel.text = "\(temperature.formatted(decimals: 0))°"
+            destinationWeather.temperatureLabel.text = "\(temperature.toString(decimals: 0))°"
         }
         if let weatherCondition = weather.weather?[0].description {
             destinationWeather.conditionsLabel.text = "\(weatherCondition)".capitalized
@@ -177,6 +182,9 @@ class WeatherViewController: UIViewController {
             }
         }
     }
+
+    // Destination Extended Weather
+    
     /// Update destination weather extended info  view with `Weather`object data
     /// - Parameter weather: Destination `Weather`object.
     private func updateDestinationWeatherInfoView(with weather: Weather) {
@@ -186,7 +194,7 @@ class WeatherViewController: UIViewController {
         }
         if let windSpeed = weather.wind?.speed {
             let speedInKmPerHour = windSpeed * 3.6
-            weatherInfo.windView.valueLabel.text = speedInKmPerHour.formatted(decimals: 0) + "km/h"
+            weatherInfo.windView.valueLabel.text = speedInKmPerHour.toString(decimals: 0) + "km/h"
         }
         if let visibility = weather.visibility {
             weatherInfo.visiblityView.valueLabel.text = "\(visibility / 1000)km"

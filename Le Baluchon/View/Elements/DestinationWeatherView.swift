@@ -46,7 +46,7 @@ class DestinationWeatherView: UIView {
         let image = UIImage(systemName: "magnifyingglass", withConfiguration: imageConfig)
         btn.setImage(image, for: .normal)
         btn.imageView?.contentMode = .scaleAspectFit
-        btn.tintColor = .secondaryLabel
+        btn.tintColor = .label
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.widthAnchor.constraint(equalToConstant: 40).isActive = true
         return btn
@@ -64,7 +64,7 @@ class DestinationWeatherView: UIView {
     let temperatureLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = .temperatureFont(size: 90)
-        lbl.textColor = .subtitleColor
+        lbl.textColor = UIColor.titleColor.withAlphaComponent(0.7)
         lbl.numberOfLines = 1
         lbl.textAlignment = .left
         lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -75,7 +75,7 @@ class DestinationWeatherView: UIView {
     let conditionsLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = .textFont(size: 25)
-        lbl.textColor = .subtitleColor
+        lbl.textColor = .titleColor
         lbl.sizeToFit()
         lbl.numberOfLines = 2
         lbl.textAlignment = .left

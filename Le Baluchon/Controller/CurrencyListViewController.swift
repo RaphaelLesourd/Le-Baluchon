@@ -13,6 +13,7 @@ protocol CurrencyListDelegate: AnyObject {
 
 class CurrencyListViewController: UIViewController {
 
+    // MARK: - Properties
     weak var exchangeDelegate: CurrencyListDelegate?
     private let currenciesService = CurrencyService()
     /// Create an instance of CurrencyListView
@@ -62,6 +63,7 @@ class CurrencyListViewController: UIViewController {
                                             action: #selector(reloadCurrencyList),
                                             for: .valueChanged)
     }
+
     // MARK: - API Call
     /// Get all available currencies from API and receive a result  type.
     /// success case:  dictionnary of all currencies available.
@@ -127,6 +129,7 @@ extension CurrencyListViewController: UITableViewDataSource {
         return cell
     }
 }
+
 // MARK: - TableView Delegate
 extension CurrencyListViewController: UITableViewDelegate {
 
@@ -139,6 +142,7 @@ extension CurrencyListViewController: UITableViewDelegate {
         dismiss(animated: true, completion: nil)
     }
 }
+
 // MARK: - SearchBar Delegate
 extension CurrencyListViewController: UISearchBarDelegate {
 
@@ -149,7 +153,7 @@ extension CurrencyListViewController: UISearchBarDelegate {
         // If the searchBar text is empty, the list is reset with the full list from
         // the currencyList array
         if searchText.isEmpty == false {
-            filteredCurrencyList = currencyList.filter({$0.symbol.contains(searchText) ||
+            filteredCurrencyList = currencyList.filter({$0.symbol.contains(searchText.uppercased()) ||
                                                         $0.name.contains(searchText)})
         } else {
             filteredCurrencyList = currencyList

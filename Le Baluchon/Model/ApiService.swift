@@ -35,7 +35,10 @@ class ApiService {
         }
         // set current task with a session datatask for the request
         // returns data, a responses status and error
-        guard let request = request else {return}
+        guard let request = request else {
+            completion(.failure(.urlError))
+            return
+        }
         task = session.dataTask(with: request) { (data, response, error) in
             // run the rest of the code in the main thread
             DispatchQueue.main.async {
@@ -45,13 +48,8 @@ class ApiService {
                     return
                 }
                 // check if the response is valid
-                guard let response = response as? HTTPURLResponse else {
+                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
                     completion(.failure(.responseError))
-                    return
-                }
-                // check if the response code is 200 or return an error.
-                guard response.statusCode == 200 else {
-                    completion(.failure(.httpError(response.statusCode)))
                     return
                 }
                 // do/catch block trying to decode data returned from session dataTask

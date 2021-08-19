@@ -15,7 +15,6 @@ class RateCalculator {
                        completion: (Result<Double, ConversionError>) -> Void) {
         
         guard amountToConvert?.count != 0 else {
-            completion(.failure(.noAmount))
             return
         }
         guard let currency = amountToConvert?.replaceDecimal() else {
@@ -33,13 +32,10 @@ class RateCalculator {
         completion(.success(doubleCurrency * rate))
     }
 
-    func invertRates(for rate: Double,
-                     completion: (Result<Double, ConversionError>) -> Void) {
+    func invertRates(for rate: Double) -> Double? {
         guard rate != 0 else {
-            completion(.failure(.zeroDivision))
-            return
+            return nil
         }
-        let oppositeRate = 1 / rate
-        completion(.success(oppositeRate))
+        return 1 / rate
     }
 }

@@ -43,8 +43,7 @@ class TabBarController: UITabBarController {
                                                      image: weatherIconImage)
         viewControllers = [rateViewController,
                            translationViewController,
-                           weatherViewController
-        ]
+                           weatherViewController]
     }
 
     /// Adds tab with an icon image and a title.
@@ -54,8 +53,8 @@ class TabBarController: UITabBarController {
     ///   - image: Name of the image
     /// - Returns: A modified ViewController
     private func updateTabBarItem(for viewController: UIViewController,
-                                         title: String,
-                                         image: UIImage) -> UIViewController {
+                                  title: String,
+                                  image: UIImage) -> UIViewController {
         // Sets the name and image for the tabBarItem
         viewController.tabBarItem.title = title
         viewController.tabBarItem.image = image

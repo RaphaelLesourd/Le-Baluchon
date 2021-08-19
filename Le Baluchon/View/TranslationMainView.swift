@@ -114,6 +114,7 @@ extension TranslationMainView {
             .constraint(equalToConstant: screenSize.height * 0.25)
             .isActive = true
 
+        translatedLanguageView.placeholderLabel.isHidden = true
         translatedLanguageView.translatesAutoresizingMaskIntoConstraints = false
         translatedLanguageView
             .heightAnchor

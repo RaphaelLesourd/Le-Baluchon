@@ -37,7 +37,8 @@ class TranslationViewController: UIViewController {
             translationView.translatedLanguageView.textView.text = translation.data.translations[0].translatedText
         }
     }
-    private var languageButtonTag: Int?
+    private var tappedLanguageButtonTag: Int?
+
     // MARK: - Lifecycle
 
     /// Set the view as rateView.
@@ -90,23 +91,9 @@ class TranslationViewController: UIViewController {
 
     /// Set all textView text property to nil to remove all text.
     @objc private func clearAll() {
+        translationView.originLanguageView.placeholderLabel.isHidden = false
         translationView.originLanguageView.textView.text = nil
         translationView.translatedLanguageView.textView.text = nil
-    }
-
-    // MARK: - Navigation
-    /// Present a modal viewController with a list of all currencies available.
-    /// - Parameter sender: Tapped UIButton
-    @objc private func displayLanguagesList(_ sender: UIButton) {
-        // set the UIbutton sender tag to the currencyButtonTag property to keep track which
-        // button has been pushed.
-        languageButtonTag = sender.tag
-        // Instanciate the viewController to call.
-        let languagesList = LanguagesListViewController()
-        languagesList.languagesDelegate = self
-        languagesList.addAutoLanguageOption = sender.tag == 0
-        // Present the view controller modally.
-        present(languagesList, animated: true, completion: nil)
     }
 
     // MARK: - API Call
@@ -144,11 +131,31 @@ class TranslationViewController: UIViewController {
 
     // MARK: - Languages swap
     @objc private func swapLanguagebuttonTapped() {
+        guard originLanguage?.language != "" else {
+            presentErrorAlert(with: "Le language de destination ne peux être mis en auto!")
+            return
+        }
         let temporaryOriginalLanguage: Language?
         temporaryOriginalLanguage = originLanguage
         originLanguage = targetLanguage
         targetLanguage = temporaryOriginalLanguage
     }
+
+    // MARK: - Languages List
+    /// Present a modal viewController with a list of all currencies available.
+    /// - Parameter sender: Tapped UIButton
+    @objc private func displayLanguagesList(_ sender: UIButton) {
+        // set the UIbutton sender tag to the currencyButtonTag property to keep track which
+        // button has been pushed.
+        tappedLanguageButtonTag = sender.tag
+        // Instanciate the viewController to call.
+        let languagesList = LanguagesListViewController()
+        languagesList.languagesDelegate = self
+        languagesList.addAutoLanguageOption = sender.tag == 0
+        // Present the view controller modally.
+        present(languagesList, animated: true, completion: nil)
+    }
+
 
 }
 // MARK: - Extensions
@@ -164,12 +171,18 @@ extension TranslationViewController: UITextViewDelegate {
         }
         return true
     }
+
+    func textViewDidChange(_ textView: UITextView) {
+        if textView == translationView.originLanguageView.textView {
+            translationView.originLanguageView.placeholderLabel.isHidden = !textView.text.isEmpty
+        }
+    }
 }
 
 extension TranslationViewController: LanguagesListDelegate {
 
     func updateLanguage(with language: Language) {
-        if languageButtonTag == 0 {
+        if tappedLanguageButtonTag == 0 {
             originLanguage = language
         } else {
             targetLanguage = language

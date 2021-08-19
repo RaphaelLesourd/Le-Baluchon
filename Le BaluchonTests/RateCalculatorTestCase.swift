@@ -61,14 +61,9 @@ class RateCalculatorTestCase: XCTestCase {
         // Given
         let rate = 1.18
         // When
-        sut.invertRates(for: rate) { result in
-            switch result {
-            case .success(let amount):
-                XCTAssertEqual(0.8474576271186441, amount)
-            case .failure(let error):
-                print(error.description)
-            }
-        }
+        let invertedRate = sut.invertRates(for: rate)
+        // Then
+        XCTAssertEqual(0.8474576271186441, invertedRate)
     }
 
     // MARK: - Errors
@@ -104,28 +99,12 @@ class RateCalculatorTestCase: XCTestCase {
         }
     }
 
-    // Test when the amount to convert is not numbers
+
     func testGivenRate_WhenStringAmountIsEmpty_thenCalculateConvertedAmount() {
         // Given
         let rate = 1.18
         // When
         sut.amountToConvert = ""
-        // Then
-        sut.convertAmount(with: rate) { result in
-            switch result {
-            case .success(let amount):
-                XCTAssertEqual(0, amount)
-            case .failure(let error):
-                XCTAssertEqual(ConversionError.noAmount.description, error.description)
-            }
-        }
-    }
-
-    func testGivenRate_WhenStringAmountIsNotNumbers_thenCalculateConvertedAmount() {
-        // Given
-        let rate = 1.18
-        // When
-        sut.amountToConvert = "azer"
         // Then
         sut.convertAmount(with: rate) { result in
             switch result {
@@ -159,14 +138,9 @@ class RateCalculatorTestCase: XCTestCase {
         // Given
         let rate = 0.0
         // When
-        sut.invertRates(for: rate) { result in
-            switch result {
-            case .success(let amount):
-                XCTAssertEqual(0, amount)
-            case .failure(let error):
-                XCTAssertEqual(ConversionError.zeroDivision.description, error.description)
-            }
-        }
+         let invertedRate = sut.invertRates(for: rate)
+        // Then
+        XCTAssertNil(invertedRate)
     }
 }
 

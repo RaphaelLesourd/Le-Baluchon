@@ -13,6 +13,7 @@ protocol LanguagesListDelegate: AnyObject {
 
 class LanguagesListViewController: UIViewController {
 
+    // MARK: - Properties
     weak var languagesDelegate: LanguagesListDelegate?
     private let languagesService = LanguagesService()
     private let languagesListView = ListView(title: "Langues")
@@ -66,6 +67,7 @@ class LanguagesListViewController: UIViewController {
                                             action: #selector(reloadLanguageList),
                                             for: .valueChanged)
     }
+
     // MARK: - Data resquest
     /// Get all available currencies from API and receive a result  type.
     /// success case:  dictionnary of all currencies available.
@@ -90,7 +92,6 @@ class LanguagesListViewController: UIViewController {
             }
         }
     }
-
     /// Reload the entire currency list.
     @objc private func reloadLanguageList() {
         languageList.removeAll()
@@ -100,7 +101,7 @@ class LanguagesListViewController: UIViewController {
     }
 }
 
-// MARK: - Extensions
+// MARK: - SearchBar Delegate
 extension LanguagesListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -118,6 +119,7 @@ extension LanguagesListViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - SearchBar Delegate
 extension LanguagesListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -131,6 +133,7 @@ extension LanguagesListViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - SearchBar Delegate
 extension LanguagesListViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
