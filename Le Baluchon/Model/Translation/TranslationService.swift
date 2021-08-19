@@ -16,21 +16,6 @@ class TranslationService {
                         to target: String,
                         completion: @escaping (Result<Translation, ApiError>) -> Void) {
         // set current request returned from the createRequest method.
-        let request = createRequest(with: text, from: orgin, to: target)
-        apiService.getData(for: Translation.self, with: request) { result in
-            switch result {
-            case .success(let translation):
-                completion(.success(translation))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
-
-    private func createRequest(with text: String,
-                               from orgin: String,
-                               to target: String) -> URLRequest? {
-
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "translation.googleapis.com"
@@ -42,11 +27,15 @@ class TranslationService {
             URLQueryItem(name: "target", value: target),
             URLQueryItem(name: "key", value: ApiKeys.googleTranslateKey)
         ]
-        guard let url = urlComponents.url else {
-            return nil
+
+        apiService.getData(for: Translation.self, with: urlComponents.url) { result in
+            switch result {
+            case .success(let translation):
+                completion(.success(translation))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
-        var request = URLRequest (url: url)
-        request.httpMethod = "GET"
-        return request
     }
+
 }

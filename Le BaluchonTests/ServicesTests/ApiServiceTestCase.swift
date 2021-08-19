@@ -19,10 +19,9 @@ class ApiServiceTestCase: XCTestCase {
                                     response: nil,
                                     error: ApiError.self as? Error))
 
-        let request = URLRequest(url: url)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        apiService.getData(for: CurrencyList.self, with: request) { result in
+        apiService.getData(for: CurrencyList.self, with: url) { result in
             // Then
             switch result {
             case .success(let currencies):
@@ -42,10 +41,9 @@ class ApiServiceTestCase: XCTestCase {
                                     response: nil,
                                     error: nil))
 
-        let request = URLRequest(url: url)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        apiService.getData(for: CurrencyList.self, with: request) { result in
+        apiService.getData(for: CurrencyList.self, with: url) { result in
             // Then
             switch result {
             case .success(let currencies):
@@ -65,10 +63,9 @@ class ApiServiceTestCase: XCTestCase {
                                     response: FakeResponseData.responseKO,
                                     error: nil))
 
-        let request = URLRequest(url: url)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        apiService.getData(for: CurrencyList.self, with: request) { result in
+        apiService.getData(for: CurrencyList.self, with: url) { result in
             // Then
             switch result {
             case .success(let currencies):
@@ -88,10 +85,9 @@ class ApiServiceTestCase: XCTestCase {
                                     response: FakeResponseData.responseOK,
                                     error: nil))
 
-        let request = URLRequest(url: url)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        apiService.getData(for: CurrencyList.self, with: request) { result in
+        apiService.getData(for: CurrencyList.self, with: url) { result in
             // Then
             switch result {
             case .success(let currencies):
@@ -111,10 +107,9 @@ class ApiServiceTestCase: XCTestCase {
                                     response: nil,
                                     error: nil))
 
-        let request = URLRequest(url: url)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        apiService.getData(for: CurrencyList.self, with: request) { result in
+        apiService.getData(for: CurrencyList.self, with: url) { result in
             // Then
             switch result {
             case .success(let currencies):
@@ -157,10 +152,9 @@ class ApiServiceTestCase: XCTestCase {
                                     response: FakeResponseData.responseOK,
                                     error: nil))
 
-        let request = URLRequest(url: url)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        apiService.getData(for: CurrencyList.self, with: request) { result in
+        apiService.getData(for: CurrencyList.self, with: url) { result in
             // Then
             switch result {
             case .success(let currencies):
@@ -181,10 +175,9 @@ class ApiServiceTestCase: XCTestCase {
                                     response: FakeResponseData.responseOK,
                                     error: nil))
 
-        let request = URLRequest(url: url)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        apiService.getData(for: Languages.self, with: request) { result in
+        apiService.getData(for: Languages.self, with: url) { result in
             // Then
             switch result {
             case .success(let languages):
@@ -205,10 +198,9 @@ class ApiServiceTestCase: XCTestCase {
                                     response: FakeResponseData.responseOK,
                                     error: nil))
 
-        let request = URLRequest(url: url)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        apiService.getData(for: Rate.self, with: request) { result in
+        apiService.getData(for: Rate.self, with: url) { result in
             // Then
 
             switch result {
@@ -230,11 +222,9 @@ class ApiServiceTestCase: XCTestCase {
             session: URLSessionFake(data: FakeResponseData.translationCorrectData,
                                     response: FakeResponseData.responseOK,
                                     error: nil))
-
-        let request = URLRequest(url: url)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        apiService.getData(for: Translation.self, with: request) { result in
+        apiService.getData(for: Translation.self, with: url) { result in
             // Then
             switch result {
             case .success(let translation):
@@ -256,10 +246,9 @@ class ApiServiceTestCase: XCTestCase {
                                     response: FakeResponseData.responseOK,
                                     error: nil))
 
-        let request = URLRequest(url: url)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        apiService.getData(for: Weather.self, with: request) { result in
+        apiService.getData(for: Weather.self, with: url) { result in
             // Then
             switch result {
             case .success(let weather):

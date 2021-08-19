@@ -10,21 +10,8 @@ import Foundation
 class LanguagesService {
 
     var apiService = ApiService.shared
-
+   
     func getLanguages(completion: @escaping (Result<Languages, ApiError>) -> Void) {
-
-        let request = createRequest()
-        apiService.getData(for: Languages.self, with: request) { result in
-            switch result {
-            case .success(let languages):
-                completion(.success(languages))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
-
-    private func createRequest() -> URLRequest? {
 
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
@@ -34,11 +21,14 @@ class LanguagesService {
             URLQueryItem(name: "target", value: "fr"),
             URLQueryItem(name: "key", value: ApiKeys.googleTranslateKey)
         ]
-        guard let url = urlComponents.url else {
-            return nil
+
+        apiService.getData(for: Languages.self, with: urlComponents.url) { result in
+            switch result {
+            case .success(let languages):
+                completion(.success(languages))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        return request
     }
 }

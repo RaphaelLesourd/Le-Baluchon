@@ -27,7 +27,7 @@ class ApiService {
     ///   - request: URLRequest for data requested
     ///   - completion: Returns a Result  succes case:  decoded JSON  or failure case: ApiError message
     func getData<T: Decodable>(for: T.Type = T.self,
-                               with request: URLRequest?,
+                               with url: URL?,
                                completion: @escaping (Result<T, ApiError>) -> Void) {
         // cancel previous task
         if T.self != Weather.self {
@@ -35,11 +35,11 @@ class ApiService {
         }
         // set current task with a session datatask for the request
         // returns data, a responses status and error
-        guard let request = request else {
+        guard let url = url else {
             completion(.failure(.urlError))
             return
         }
-        task = session.dataTask(with: request) { (data, response, error) in
+        task = session.dataTask(with: url) { (data, response, error) in
             // run the rest of the code in the main thread
             DispatchQueue.main.async {
                 // Unwrap data optional

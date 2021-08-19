@@ -41,6 +41,7 @@ class TabBarController: UITabBarController {
         let weatherViewController = updateTabBarItem(for: WeatherViewController(),
                                                      title: "Météo",
                                                      image: weatherIconImage)
+
         viewControllers = [rateViewController,
                            translationViewController,
                            weatherViewController]
