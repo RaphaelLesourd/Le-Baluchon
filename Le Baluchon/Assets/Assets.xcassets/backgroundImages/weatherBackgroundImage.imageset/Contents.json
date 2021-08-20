@@ -1,0 +1,22 @@
+{
+  "images" : [
+    {
+      "filename" : "filip-zrnzevic-QsWG0kjPQRY-unsplash.jpg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "timo-wagner-fT6-YkB0nfg-unsplash.jpg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

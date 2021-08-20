@@ -20,6 +20,7 @@ class WeatherMainView: UIView {
     /// - Parameter frame: view frame set to .zero as it will be assigned to the UIViewController view frame.
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        setupBackgroundImageConstraints()
         setupScrollViewConstraints()
         setupMainstackView()
         setOriginWeatherViewHeight()
@@ -34,6 +35,15 @@ class WeatherMainView: UIView {
     var searchBarHeightConstraint = NSLayoutConstraint()
     // MARK: - Subviews
     let refresherControl = Refresher(frame: .zero)
+
+    private let backgroundImage: UIImageView = {
+        let uiv = UIImageView()
+        uiv.contentMode = .scaleAspectFill
+        uiv.image = UIImage(named: "weatherBackgroundImage")
+        uiv.addBlurEffect(blurStyle: .systemMaterial, transparency: 0.7)
+        uiv.translatesAutoresizingMaskIntoConstraints = false
+        return uiv
+    }()
 
     /// Create a vertical scrollView and set its properties.
     let scrollView: UIScrollView = {
@@ -57,7 +67,9 @@ class WeatherMainView: UIView {
     let localWeatherView = LocalWeatherView()
     let destinationWeatherView = DestinationWeatherView()
     let destinationWeatherInfoView = DestinationWeatherInfoView()
+    let sunTimesView = SunTimesView()
     private let dataProviderLabel = LegendLabel(title: "Météo par OpenWeatherMap")
+
 
     let headerView: HeaderView = {
         let view = HeaderView()
@@ -72,6 +84,7 @@ class WeatherMainView: UIView {
         bar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
         bar.backgroundColor = .clear
         bar.searchTextField.tintColor = .label
+        bar.tintColor = .label
         bar.autocapitalizationType = .words
         bar.autocorrectionType = .no
         bar.enablesReturnKeyAutomatically = true
@@ -138,12 +151,14 @@ extension WeatherMainView {
                                            searchBar,
                                            destinationWeatherView,
                                            destinationWeatherInfoView,
-                                           dataProviderLabel
-        ]
+                                           sunTimesView,
+                                           dataProviderLabel]
         // Iterate thru the subviews array to add them to the stak view
         for view in mainStackSubViews {
             mainStackView.addArrangedSubview(view)
         }
+        mainStackView.setCustomSpacing(20, after: localWeatherView)
+        mainStackView.setCustomSpacing(20, after: destinationWeatherView)
         // Add constraints for the mainstackView
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
@@ -154,6 +169,16 @@ extension WeatherMainView {
                                                     constant: -16),
             mainStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor,
                                                   multiplier: 0.96)
+        ])
+    }
+
+    private func setupBackgroundImageConstraints() {
+        addSubview(backgroundImage)
+        NSLayoutConstraint.activate([
+            backgroundImage.topAnchor.constraint(equalTo: topAnchor),
+            backgroundImage.bottomAnchor.constraint(equalTo: bottomAnchor),
+            backgroundImage.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backgroundImage.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
 }

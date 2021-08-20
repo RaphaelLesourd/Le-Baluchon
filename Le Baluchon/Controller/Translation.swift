@@ -8,10 +8,10 @@
 import Foundation
 
 struct Translation: Decodable {
-    let data: Data
+    let data: TranslationData
 }
 
-struct Data: Decodable {
+struct TranslationData: Decodable {
     let translations: [TranslationText]
 }
 

@@ -52,7 +52,6 @@ class WeatherServiceTestCase: XCTestCase {
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         weatherService.getWeather(for: "Paris") { result in
             // Then
             switch result {
@@ -61,8 +60,6 @@ class WeatherServiceTestCase: XCTestCase {
             case .failure(let error):
                 XCTAssertEqual(error.description, ApiError.dataError.description)
             }
-            expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 0.10)
     }
 }

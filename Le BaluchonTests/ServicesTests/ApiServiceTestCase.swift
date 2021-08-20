@@ -10,6 +10,7 @@ import XCTest
 class ApiServiceTestCase: XCTestCase {
 
     let url = URL(string: "http://google.com")!
+    let expectation = XCTestExpectation(description: "Wait for queue change.")
 
     // MARK: - Error cases
     func testApiServiceCompletionWithError() {
@@ -20,7 +21,6 @@ class ApiServiceTestCase: XCTestCase {
                                     error: ApiError.self as? Error))
 
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         apiService.getData(for: CurrencyList.self, with: url) { result in
             // Then
             switch result {
@@ -29,7 +29,7 @@ class ApiServiceTestCase: XCTestCase {
             case .failure(let error):
                 XCTAssertEqual(error.description, ApiError.dataError.description)
             }
-            expectation.fulfill()
+            self.expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.10)
     }
@@ -42,7 +42,6 @@ class ApiServiceTestCase: XCTestCase {
                                     error: nil))
 
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         apiService.getData(for: CurrencyList.self, with: url) { result in
             // Then
             switch result {
@@ -51,7 +50,7 @@ class ApiServiceTestCase: XCTestCase {
             case .failure(let error):
                 XCTAssertEqual(error.description, ApiError.dataError.description)
             }
-            expectation.fulfill()
+            self.expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.10)
     }
@@ -64,7 +63,6 @@ class ApiServiceTestCase: XCTestCase {
                                     error: nil))
 
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         apiService.getData(for: CurrencyList.self, with: url) { result in
             // Then
             switch result {
@@ -73,7 +71,7 @@ class ApiServiceTestCase: XCTestCase {
             case .failure(let error):
                 XCTAssertEqual(error.description, ApiError.responseError.description)
             }
-            expectation.fulfill()
+            self.expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.10)
     }
@@ -86,7 +84,6 @@ class ApiServiceTestCase: XCTestCase {
                                     error: nil))
 
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         apiService.getData(for: CurrencyList.self, with: url) { result in
             // Then
             switch result {
@@ -95,7 +92,7 @@ class ApiServiceTestCase: XCTestCase {
             case .failure(let error):
                 XCTAssertEqual(error.description, ApiError.decodingData.description)
             }
-            expectation.fulfill()
+            self.expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.10)
     }
@@ -108,7 +105,6 @@ class ApiServiceTestCase: XCTestCase {
                                     error: nil))
 
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         apiService.getData(for: CurrencyList.self, with: url) { result in
             // Then
             switch result {
@@ -117,7 +113,7 @@ class ApiServiceTestCase: XCTestCase {
             case .failure(let error):
                 XCTAssertEqual(error.description, ApiError.responseError.description)
             }
-            expectation.fulfill()
+            self.expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.10)
     }
@@ -129,7 +125,6 @@ class ApiServiceTestCase: XCTestCase {
                                     response: nil,
                                     error: nil))
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         apiService.getData(for: CurrencyList.self, with: nil) { result in
             // Then
             switch result {
@@ -138,7 +133,7 @@ class ApiServiceTestCase: XCTestCase {
             case .failure(let error):
                 XCTAssertEqual(error.description, ApiError.urlError.description)
             }
-            expectation.fulfill()
+            self.expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.10)
     }
@@ -153,7 +148,6 @@ class ApiServiceTestCase: XCTestCase {
                                     error: nil))
 
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         apiService.getData(for: CurrencyList.self, with: url) { result in
             // Then
             switch result {
@@ -162,7 +156,7 @@ class ApiServiceTestCase: XCTestCase {
             case .failure(let error):
                 XCTAssertNil(error)
             }
-            expectation.fulfill()
+            self.expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.10)
     }
@@ -176,7 +170,6 @@ class ApiServiceTestCase: XCTestCase {
                                     error: nil))
 
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         apiService.getData(for: Languages.self, with: url) { result in
             // Then
             switch result {
@@ -185,7 +178,7 @@ class ApiServiceTestCase: XCTestCase {
             case .failure(let error):
                 XCTAssertNil(error)
             }
-            expectation.fulfill()
+            self.expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.10)
     }
@@ -199,10 +192,8 @@ class ApiServiceTestCase: XCTestCase {
                                     error: nil))
 
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         apiService.getData(for: Rate.self, with: url) { result in
             // Then
-
             switch result {
             case .success(let rate):
                 XCTAssertNotNil(rate)
@@ -210,7 +201,7 @@ class ApiServiceTestCase: XCTestCase {
             case .failure(let error):
                 XCTAssertNil(error)
             }
-            expectation.fulfill()
+            self.expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.10)
     }
@@ -223,7 +214,6 @@ class ApiServiceTestCase: XCTestCase {
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         apiService.getData(for: Translation.self, with: url) { result in
             // Then
             switch result {
@@ -233,7 +223,7 @@ class ApiServiceTestCase: XCTestCase {
             case .failure(let error):
                 XCTAssertNil(error)
             }
-            expectation.fulfill()
+            self.expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.10)
     }
@@ -247,7 +237,6 @@ class ApiServiceTestCase: XCTestCase {
                                     error: nil))
 
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         apiService.getData(for: Weather.self, with: url) { result in
             // Then
             switch result {
@@ -266,9 +255,8 @@ class ApiServiceTestCase: XCTestCase {
             case .failure(let error):
                 XCTAssertNil(error)
             }
-            expectation.fulfill()
+            self.expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.10)
     }
-
 }

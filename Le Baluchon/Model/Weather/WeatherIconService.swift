@@ -10,7 +10,7 @@ import Foundation
 class WeatherIconService {
 
     static let shared = WeatherIconService()
-    private init() {}
+    private init(){}
 
     private var task: URLSessionDataTask?
     private var session = URLSession(configuration: .default)
@@ -20,41 +20,42 @@ class WeatherIconService {
     }
 
     func getWeatherIcon(for imageName: String,
-                        completion: @escaping (Foundation.Data) -> Void) {
-
-        guard let request = createRequest(for: imageName) else {return}
-
-        task = session.dataTask(with: request) { (data, response, error) in
-            // run the rest of the code in the main thread
-            DispatchQueue.main.async {
-                // Unwrap data optional
-                guard let data = data, error == nil else {return}
-                // check if the response is valid
-                guard let response = response as? HTTPURLResponse, response.statusCode == 200  else {
-                    return
-                }
-                completion(data)
-            }
-        }
-        // start the task
-        task?.resume()
-    }
-
-    // MARK: - Network call
-    /// Creates url request for fetching all currencies
-    /// - Returns: URLRequest
-    private func createRequest(for imageName: String) -> URLRequest? {
-
+                        completion: @escaping (Result<Data, ApiError>) -> Void) {
         var urlComponents = URLComponents()
         urlComponents.scheme = "http"
         urlComponents.host = "openweathermap.org"
         urlComponents.path = "/img/wn/\(imageName)@2x.png"
-        guard let url = urlComponents.url else {
-            return nil
+
+        requestWeatherIcon(with: urlComponents.url) { result in
+            switch result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
-        print(url)
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        return request
+    }
+
+    func requestWeatherIcon(with url: URL?,
+                            completion: @escaping (Result<Data, ApiError>) -> Void) {
+        guard let url = url else {
+            completion(.failure(.urlError))
+            return
+        }
+        task = session.dataTask(with: url) { (data, response, error) in
+            DispatchQueue.main.async {
+                guard let data = data, error == nil else {
+                    completion(.failure(.dataError))
+                    return
+                }
+                guard let response = response as? HTTPURLResponse,
+                      response.statusCode == 200  else {
+                    completion(.failure(.responseError))
+                    return
+                }
+                completion(.success(data))
+            }
+        }
+        task?.resume()
     }
 }

@@ -15,6 +15,7 @@ class RateCalculator {
                        completion: (Result<Double, ConversionError>) -> Void) {
         
         guard amountToConvert?.count != 0 else {
+            completion(.failure(.noData))
             return
         }
         guard let currency = amountToConvert?.replaceDecimal() else {

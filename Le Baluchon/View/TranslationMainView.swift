@@ -46,7 +46,7 @@ class TranslationMainView: UIView {
         return uiv
     }()
 
-    private let backgroundImage = BackgroundImage(image: #imageLiteral(resourceName: "translateIcon"))
+    private let backgroundImage = BackgroundImage(imageName: "translateBackgroundImage")
     let refresherControl = Refresher(frame: .zero)
 
     let headerView: HeaderView = {
@@ -99,7 +99,7 @@ extension TranslationMainView {
     private func setBackgroundImageConstraints() {
         contentView.addSubview(backgroundImage)
         NSLayoutConstraint.activate([
-            backgroundImage.centerYAnchor.constraint(equalTo: centerYAnchor),
+            backgroundImage.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -10),
             backgroundImage.widthAnchor.constraint(equalToConstant: screenSize.width),
             backgroundImage.heightAnchor.constraint(equalToConstant: screenSize.width),
             backgroundImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,

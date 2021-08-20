@@ -26,24 +26,28 @@ extension UIView {
             addBlurEffect()
         }
     }
-
     /// Adds a blur effet to a view.
-    func addBlurEffect() {
-        let blurEffect = UIBlurEffect(style: .systemMaterial)
+    func addBlurEffect(blurStyle: UIBlurEffect.Style = .systemChromeMaterial,
+                       transparency: CGFloat = 0.7) {
+        let blurEffect = UIBlurEffect(style: blurStyle)
         let blurredEffectView = UIVisualEffectView(effect: blurEffect)
-        blurredEffectView.alpha = 0.8
+        blurredEffectView.alpha = transparency
         blurredEffectView.frame = self.bounds
         blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(blurredEffectView)
     }
-
     /// Add a shadow to a view.
     /// - Parameters:
-    ///   - opacity: Opacity of the shadow, by default 0.5
+    ///   - opacity: Opacity of the shadow, by default 0.3
+    ///   - verticalOffset: height the shadiw, 10 by default
     ///   - radius: Shadow spread, by default 20
-    func addShadow(opacity: Float = 0.3, radius: CGFloat = 20, color: UIColor = .black) {
+    ///   - color: Shadow color, black by default
+    func addShadow(opacity: Float = 0.3,
+                   verticalOffset: CGFloat = 10,
+                   radius: CGFloat = 20,
+                   color: UIColor = .black) {
         layer.masksToBounds = false
-        layer.shadowOffset = CGSize(width: 1, height: 20)
+        layer.shadowOffset = CGSize(width: 1, height: verticalOffset)
         layer.shadowColor = color.cgColor
         layer.shadowRadius = radius
         layer.shadowOpacity = opacity

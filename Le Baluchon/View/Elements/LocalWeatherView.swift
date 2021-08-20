@@ -30,6 +30,7 @@ class LocalWeatherView: UIView {
 
     let cityLabel: UILabel = {
         let lbl = UILabel()
+        lbl.text = "--"
         lbl.font = .textFontSemiBold(size: 18)
         lbl.textColor = .subtitleColor
         lbl.numberOfLines = 1
@@ -46,18 +47,8 @@ class LocalWeatherView: UIView {
         return stack
     }()
 
-    let countryLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.font = .textFont(size: 16)
-        lbl.textColor = .titleColor
-        lbl.numberOfLines = 1
-        lbl.textAlignment = .right
-        return lbl
-    }()
-
     let weatherIcon: UIImageView = {
         let uiv = UIImageView()
-        uiv.addShadow()
         uiv.contentMode = .scaleAspectFit
         uiv.translatesAutoresizingMaskIntoConstraints = false
         uiv.widthAnchor.constraint(equalToConstant: 50).isActive = true
@@ -66,6 +57,7 @@ class LocalWeatherView: UIView {
 
     let temperatureLabel: UILabel = {
         let lbl = UILabel()
+        lbl.text = "?°"
         lbl.font = .temperatureFont(size: 33)
         lbl.textColor = .subtitleColor
         lbl.numberOfLines = 1
@@ -108,7 +100,6 @@ extension LocalWeatherView {
         addSubview(mainStackView)
         // Create an array of the subviews to add to the stackView
         let mainStackSubViews: [UIView] = [cityStackView,
-                                           countryLabel,
                                            weatherStackView
         ]
         // Iterate thru the subviews array to add them to the stak view

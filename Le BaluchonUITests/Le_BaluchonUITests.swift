@@ -4,7 +4,7 @@
 //
 //  Created by Birkyboy on 05/08/2021.
 //
-
+@testable import LeBaluchon
 import XCTest
 
 class Le_BaluchonUITests: XCTestCase {

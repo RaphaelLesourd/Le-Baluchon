@@ -28,7 +28,6 @@ class CurrencyListViewController: UIViewController {
     /// Initialise an empty array of type Currencies to use to dsplay a full or filtererd list of currencies.
     private var filteredCurrencyList: [Currency] = [] {
         didSet {
-            // Sort array alphabetically
             filteredCurrencyList = filteredCurrencyList.sorted { $0.symbol < $1.symbol }
             DispatchQueue.main.async {
                 self.listView.tableView.reloadData()
@@ -76,13 +75,9 @@ class CurrencyListViewController: UIViewController {
             self.listView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
                                                        with: nil,
                                                        afterDelay: 0.1)
-            // switch between the result 2 cases
             switch result {
-            // if successful iterate thru a currency dictionnary and add each items
-            // to the currrencyList array.
             case .success(let currency):
                self.createCurrenciesList(with: currency.symbols)
-                // if call failed an error is presented to the user.
             case .failure(let error):
                 self.presentErrorAlert(with: error.description)
             }
@@ -118,11 +113,8 @@ extension CurrencyListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Set the cell as a generic UITableViewCell of subtitle style
-        // to present the data with a title and a subtitle without having to create
-        // a custom UITableViewcCell.
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-        // Set the currency list data to the title and subtitle label.
+
         let currency = filteredCurrencyList[indexPath.row]
         cell.textLabel?.text = currency.symbol
         cell.detailTextLabel?.text = currency.name
@@ -147,11 +139,7 @@ extension CurrencyListViewController: UITableViewDelegate {
 extension CurrencyListViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        // Oberve if the text did changed in the searchBar.
-        // filters the currencyList array with search bar text either as currency symbol or
-        // name.
-        // If the searchBar text is empty, the list is reset with the full list from
-        // the currencyList array
+        
         if searchText.isEmpty == false {
             filteredCurrencyList = currencyList.filter({$0.symbol.contains(searchText.uppercased()) ||
                                                         $0.name.contains(searchText)})

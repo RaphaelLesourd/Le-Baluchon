@@ -19,7 +19,6 @@ class CurrencyserviceTestCase: XCTestCase {
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         currencyService.getCurrencies() { result in
             // Then
             switch result {
@@ -28,9 +27,7 @@ class CurrencyserviceTestCase: XCTestCase {
             case .failure(let error):
                 XCTAssertNil(error)
             }
-            expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 0.10)
     }
 
     // MARK: - Error noData
@@ -41,7 +38,6 @@ class CurrencyserviceTestCase: XCTestCase {
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         currencyService.getCurrencies() { result in
             // Then
             switch result {
@@ -50,8 +46,6 @@ class CurrencyserviceTestCase: XCTestCase {
             case .failure(let error):
                 XCTAssertEqual(error.description, ApiError.dataError.description)
             }
-            expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 0.10)
     }
 }

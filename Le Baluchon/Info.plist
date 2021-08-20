@@ -25,6 +25,12 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Le Baluchon a besoin d'avoir accés à votre position pour determiner la météo prés de chez vous.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Le Baluchon a besoin d'avoir accés à votre position pour determiner la météo prés de chez vous.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Le Baluchon a besoin d'avoir accés à votre position pour determiner la météo prés de chez vous.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Galano Grotesque Medium.otf</string>

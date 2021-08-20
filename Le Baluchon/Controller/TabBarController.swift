@@ -37,16 +37,15 @@ class TabBarController: UITabBarController {
         let translationViewController = updateTabBarItem(for: TranslationViewController(),
                                                          title: "Traduction",
                                                          image: translateIconImage)
+
         let weatherIconImage = UIImage(systemName: "cloud.sun.fill")!
         let weatherViewController = updateTabBarItem(for: WeatherViewController(),
                                                      title: "Météo",
                                                      image: weatherIconImage)
-
         viewControllers = [rateViewController,
                            translationViewController,
                            weatherViewController]
     }
-
     /// Adds tab with an icon image and a title.
     /// - Parameters:
     ///   - rootViewController: Name of the ViewController assiciated to the tab
@@ -56,10 +55,8 @@ class TabBarController: UITabBarController {
     private func updateTabBarItem(for viewController: UIViewController,
                                   title: String,
                                   image: UIImage) -> UIViewController {
-        // Sets the name and image for the tabBarItem
         viewController.tabBarItem.title = title
         viewController.tabBarItem.image = image
-        // return modified UIViewController
         return viewController
     }
 }

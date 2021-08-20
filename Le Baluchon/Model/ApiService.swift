@@ -30,9 +30,8 @@ class ApiService {
                                with url: URL?,
                                completion: @escaping (Result<T, ApiError>) -> Void) {
         // cancel previous task
-        if T.self != Weather.self {
-            task?.cancel()
-        }
+
+        task?.cancel()
         // set current task with a session datatask for the request
         // returns data, a responses status and error
         guard let url = url else {
@@ -52,6 +51,7 @@ class ApiService {
                     completion(.failure(.responseError))
                     return
                 }
+                print(response.statusCode)
                 // do/catch block trying to decode data returned from session dataTask
                 do {
                     let responseJSON = try JSONDecoder().decode(T.self, from: data)

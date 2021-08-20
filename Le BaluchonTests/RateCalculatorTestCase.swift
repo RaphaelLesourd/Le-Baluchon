@@ -35,7 +35,7 @@ class RateCalculatorTestCase: XCTestCase {
             case .success(let amount):
                 XCTAssertEqual(11847.2, amount)
             case .failure(let error):
-                print(error.description)
+                XCTAssertNil(error)
             }
         }
     }
@@ -52,7 +52,7 @@ class RateCalculatorTestCase: XCTestCase {
             case .success(let amount):
                 XCTAssertEqual(118, amount)
             case .failure(let error):
-                print(error.description)
+                XCTAssertNil(error)
             }
         }
     }
@@ -76,7 +76,7 @@ class RateCalculatorTestCase: XCTestCase {
         sut.convertAmount(with: rate) { result in
             switch result {
             case .success(let amount):
-                XCTAssertEqual(118, amount)
+                XCTAssertNil(amount)
             case .failure(let error):
                 XCTAssertEqual(ConversionError.format.description, error.description)
             }
@@ -92,7 +92,7 @@ class RateCalculatorTestCase: XCTestCase {
         sut.convertAmount(with: rate) { result in
             switch result {
             case .success(let amount):
-                XCTAssertEqual(118, amount)
+                XCTAssertNil(amount)
             case .failure(let error):
                 XCTAssertEqual(ConversionError.format.description, error.description)
             }
@@ -109,9 +109,9 @@ class RateCalculatorTestCase: XCTestCase {
         sut.convertAmount(with: rate) { result in
             switch result {
             case .success(let amount):
-                XCTAssertEqual(0, amount)
+                XCTAssertNil(amount)
             case .failure(let error):
-                XCTAssertEqual(ConversionError.calculation.description, error.description)
+                XCTAssertEqual(ConversionError.noData.description, error.description)
             }
         }
     }
@@ -126,7 +126,24 @@ class RateCalculatorTestCase: XCTestCase {
         sut.convertAmount(with: rate) { result in
             switch result {
             case .success(let amount):
-                XCTAssertEqual(0, amount)
+                XCTAssertNil(amount)
+            case .failure(let error):
+                XCTAssertEqual(ConversionError.calculation.description, error.description)
+            }
+        }
+    }
+
+    // Test when amount to convert is nil
+    func testGivenRate_WhenAmountCantBecomeADouble_thenCalculateConvertedAmount() {
+        // Given
+        let rate = 1.18
+        // When
+        sut.amountToConvert = "1,a"
+        // Then
+        sut.convertAmount(with: rate) { result in
+            switch result {
+            case .success(let amount):
+                XCTAssertNil(amount)
             case .failure(let error):
                 XCTAssertEqual(ConversionError.calculation.description, error.description)
             }

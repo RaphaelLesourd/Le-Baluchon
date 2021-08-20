@@ -19,21 +19,16 @@ class TranslationServiceTestCase: XCTestCase {
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         translationService.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
             // Then
             switch result {
             case .success(let translation):
                 XCTAssertNotNil(translation)
-                print(translation)
                 XCTAssertEqual("Hello", translation.data.translations[0].translatedText)
             case .failure(let error):
                 XCTAssertNil(error)
             }
-            expectation.fulfill()
         }
-
-        wait(for: [expectation], timeout: 0.10)
     }
 
     // MARK: - Error noData
@@ -41,10 +36,9 @@ class TranslationServiceTestCase: XCTestCase {
         // Given
         translationService.apiService = ApiService(
             session: URLSessionFake(data: nil,
-                                    response: FakeResponseData.responseOK,
+                                    response: nil,
                                     error: nil))
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         translationService.getTranslation(for: "", from: "fr", to: "en") { result in
             // Then
             switch result {
@@ -53,9 +47,6 @@ class TranslationServiceTestCase: XCTestCase {
             case .failure(let error):
                 XCTAssertEqual(error.description, ApiError.dataError.description)
             }
-            expectation.fulfill()
         }
-
-        wait(for: [expectation], timeout: 0.10)
     }
 }

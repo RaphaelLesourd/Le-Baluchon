@@ -27,7 +27,7 @@ class ExchangeMainView: UIView {
     }
     
     // MARK: - Subviews
-    private let backgroundImage = BackgroundImage(image: #imageLiteral(resourceName: "rocketIcon"))
+    private let backgroundImage = BackgroundImage(imageName: "exchangeBackgroundImage")
     let refresherControl = Refresher(frame: .zero)
     let dailyRateView = DailyRateView()
 

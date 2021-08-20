@@ -80,13 +80,9 @@ class LanguagesListViewController: UIViewController {
             self.languagesListView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
                                                    with: nil,
                                                    afterDelay: 0.1)
-            // switch between the result 2 cases
             switch result {
-            // if successful iterate thru a currency dictionnary and add each items
-            // to the currrencyList array.
             case .success(let languages):
                 self.languageList = languages.data.languages
-            // if call failed an error is presented to the user.
             case .failure(let error):
                 self.presentErrorAlert(with: error.description)
             }
@@ -124,11 +120,10 @@ extension LanguagesListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedLanguage = filteredLanguageList[indexPath.row]
-        // pass the selected row currency object to the ExchangeViewController
-        // thru a protocol and dismiss the current modal ViewController.
-        let chosenLanguage = Language(language: selectedLanguage.language,
-                                               name: selectedLanguage.name)
-        languagesDelegate?.updateLanguage(with: chosenLanguage)
+
+        let language = Language(language: selectedLanguage.language,
+                                name: selectedLanguage.name)
+        languagesDelegate?.updateLanguage(with: language)
         dismiss(animated: true, completion: nil)
     }
 }

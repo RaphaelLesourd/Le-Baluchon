@@ -19,7 +19,6 @@ class LanguagesServiceTestCase: XCTestCase {
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
         languagesService.getLanguages() { result in
             // Then
             switch result {
@@ -28,9 +27,7 @@ class LanguagesServiceTestCase: XCTestCase {
             case .failure(let error):
                 XCTAssertNil(error)
             }
-            expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 0.10)
     }
 
     // MARK: - Error noData

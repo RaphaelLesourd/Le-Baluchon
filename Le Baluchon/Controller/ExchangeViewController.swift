@@ -177,6 +177,7 @@ class ExchangeViewController: UIViewController {
         guard let destinationCurrency = targetCurrency else {return}
         exchangeView.dailyRateView.rateLabel.text = "1 \(originCurrency.symbol) = \(rate.toString()) \(destinationCurrency.symbol)"
     }
+
     private func updateLastFetchDate() {
         let date = Date()
         exchangeView.dailyRateView.lastUpdateLabel.text = "Mis à jour le " + date.toString()
@@ -189,7 +190,6 @@ class ExchangeViewController: UIViewController {
         // set the UIbutton sender tag to the currencyButtonTag property to keep track which
         // button has been pushed.
         currencyButtonTag = sender.tag
-
         let currenciesList = CurrencyListViewController()
         currenciesList.exchangeDelegate = self
         present(currenciesList, animated: true, completion: nil)

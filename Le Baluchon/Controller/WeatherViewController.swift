@@ -6,30 +6,47 @@
 //
 
 import UIKit
+import CoreLocation
 
 class WeatherViewController: UIViewController {
 
     // MARK: - Properties
     private let weatherView = WeatherMainView()
     private let weatherService = WeatherService()
-    private var localWeather: Weather?
-    private var destinationWeather: Weather?
-    private let userIcon = true
+    private let locationService = LocationService()
+    private let weatherCalculations = WeatherCalculations()
     private var searchBarButtonTap = true
+    private let defaultUserLocationCity = "Luang Prabang"
+    private let defaultDestinationCity = "New york"
 
-    private var localWeatherIcon: Foundation.Data? {
+    private var localWeather: Weather? {
         didSet {
-            guard let localWeatherIcon = localWeatherIcon else {return}
-            weatherView.localWeatherView.weatherIcon.image = UIImage(data: localWeatherIcon)
+            if let localWeather = localWeather {
+                updateLocalWeatherView(with: localWeather)
+            }
         }
     }
-    private var destinationWeatherIcon: Foundation.Data? {
+    private var destinationWeather: Weather? {
+        didSet {
+            if let destinationWeather = destinationWeather {
+                updateDestinationWeatherView(with: destinationWeather)
+                updateDestinationWeatherInfoView(with: destinationWeather)
+                updateSuntimesView(with: destinationWeather)
+            }
+        }
+    }
+    private var destinationWeatherIcon: Data? {
         didSet {
             guard let destinationWeatherIcon = destinationWeatherIcon else {return}
-            weatherView.destinationWeatherView.weatherIcon.image = UIImage(data: destinationWeatherIcon)
+            weatherView.destinationWeatherView.conditionsIcon.image = UIImage(data: destinationWeatherIcon)
         }
     }
-    private var destinationCityName = "New york" {
+    private var userLocationCity: String?  {
+        didSet{
+            getWeatherData()
+        }
+    }
+    private var destinationCityName: String? {
         didSet{
             getWeatherData()
         }
@@ -44,18 +61,22 @@ class WeatherViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        weatherView.searchBar.delegate = self
+        delegates()
         addKeyboardDismissGesture()
         setSearchBarButtonTarget()
         setRefresherControl()
-        getWeatherData()
+        getUserLocation()
     }
 
     // MARK: - Setup
+    private func delegates() {
+        weatherView.searchBar.delegate = self
+        locationService.delegate = self
+    }
     /// Adds a refreshed to the scrollView, trigger a neworl call to fetch latest exchange rate.
     private func setRefresherControl() {
         weatherView.scrollView.refreshControl = weatherView.refresherControl
-        weatherView.refresherControl.addTarget(self, action: #selector(getWeatherData),
+        weatherView.refresherControl.addTarget(self, action: #selector(getUserLocation),
                                                for: .valueChanged)
     }
 
@@ -64,41 +85,16 @@ class WeatherViewController: UIViewController {
                                                                   action: #selector(searchBarButtonTapped),
                                                                   for: .touchUpInside)
     }
-
-
+    
     // MARK: - Fetch Data
-    /// Get weather data for local and destination city.
-    ///  - Note: Usage of DispatchGroup() to avoid nested API calls, iimplementing this  processes  to wait for all calls
-    ///  to complete before doing the next thing,
-    /// - Create a dispatchGRoup object
-    /// - Enter the function
-    /// - Excute the task
-    /// - Leave the the function when the task is completed
-    /// - Once all entered calls are left, it will call the closure passed to `notify(queue: .main)` and will to display all weather data at the same time.
-    @objc private func getWeatherData() {
-        let dispatchGroup = DispatchGroup()
-        // Start refreshIndicator
-        toggleActiviyIndicator(for: weatherView.headerView.activityIndicator, shown: true)
-        // Local weather
-        dispatchGroup.enter()
-        getWeather(for: "Paris") { [weak self] weather in
-            self?.localWeather = weather
-            dispatchGroup.leave()
-        }
-        // Destination weather
-        dispatchGroup.enter()
-        getWeather(for: self.destinationCityName) { [weak self] weather in
-            self?.destinationWeather = weather
-            dispatchGroup.leave()
-        }
-        // display weather
-        dispatchGroup.notify(queue: .main) {
-            if let localWeather = self.localWeather {
-                self.updateLocalWeatherView(with: localWeather)
-            }
-            if let destinationWeather = self.destinationWeather {
-                self.updateDestinationWeatherView(with: destinationWeather)
-                self.updateDestinationWeatherInfoView(with: destinationWeather)
+    /// Fetch Weather data for userLocation city and destination city
+    private func getWeatherData() {
+        getWeather(for: userLocationCity ?? defaultUserLocationCity) { [weak self] weather in
+            guard let self = self else {return}
+            self.localWeather = weather
+
+            self.getWeather(for: self.destinationCityName ?? self.defaultDestinationCity) { [weak self] weather in
+                self?.destinationWeather = weather
             }
         }
     }
@@ -128,10 +124,31 @@ class WeatherViewController: UIViewController {
                                                   afterDelay: 0.1)
     }
 
+    // MARK: - User Location
+
+    @objc private func getUserLocation() {
+        guard let currentLocation = locationService.locationManager.location else {
+            userLocationCity = defaultUserLocationCity
+            return
+        }
+        getUserLocationCityName(for: currentLocation)
+    }
+
+    private func getUserLocationCityName(for userLocation: CLLocation) {
+        GeocodeManager.shared.getCityName(for: userLocation) { [weak self] result in
+            guard let self = self else {return}
+            switch result {
+            case .success(let cityName):
+                self.userLocationCity = cityName
+            case .failure(let error):
+                self.presentErrorAlert(with: error.description)
+                self.stopRefresherActivityControls()
+            }
+        }
+    }
     // MARK: - Update views
 
     // Local Weather
-
     /// Update local weather view with `Weather`object data
     /// - Parameter weather: Local `Weather` object.
     private func updateLocalWeatherView(with weather: Weather) {
@@ -144,19 +161,11 @@ class WeatherViewController: UIViewController {
             localWeather.temperatureLabel.text = "\(temperature.toString(decimals: 0))°"
         }
         if let weatherIcon = weather.weather?[0].icon {
-            if userIcon {
-                localWeather.weatherIcon.image = UIImage(named: weatherIcon)
-                return
-            }
-            WeatherIconService.shared.getWeatherIcon(for: weatherIcon) { [weak self] data in
-                guard let self = self else {return}
-                self.localWeatherIcon = data
-            }
+            localWeather.weatherIcon.image = UIImage(named: weatherIcon)
         }
     }
 
     // Destination Weather
-
     /// Update destination weather view with `Weather`object data
     /// - Parameter weather: Destination `Weather`object.
     private func updateDestinationWeatherView(with weather: Weather) {
@@ -172,19 +181,28 @@ class WeatherViewController: UIViewController {
             destinationWeather.conditionsLabel.text = "\(weatherCondition)".capitalized
         }
         if let weatherIcon = weather.weather?[0].icon {
-            if userIcon {
-                destinationWeather.weatherIcon.image = UIImage(named: weatherIcon)
-                return
-            }
-            WeatherIconService.shared.getWeatherIcon(for: weatherIcon) {  [weak self] data in
-                guard let self = self else {return}
-                self.destinationWeatherIcon = data
-            }
+            destinationWeather.weatherIcon.image = UIImage(named: weatherIcon)
+            updateWeatherConditionsIcon(with: weatherIcon)
         }
     }
 
+    // Destination sun times
+    private func updateSuntimesView(with weather: Weather) {
+        guard let sunrise = weather.sys?.sunrise else {return}
+        guard let sunset = weather.sys?.sunset else {return}
+        guard let timeDifference = weather.timezone else {return}
+
+        let sunriseTime = (sunrise + timeDifference).toDate()
+        weatherView.sunTimesView.sunRiseView.titleLabel.text = sunriseTime.toString(with: .timeOnly)
+
+        let sunsetTime = (sunset + timeDifference).toDate()
+        weatherView.sunTimesView.sunSetView.titleLabel.text = sunsetTime.toString(with: .timeOnly)
+
+        let progress = weatherCalculations.calculateSunProgress(with: sunrise, and: sunset)
+        weatherView.sunTimesView.sunProgressView.progress = progress
+    }
+
     // Destination Extended Weather
-    
     /// Update destination weather extended info  view with `Weather`object data
     /// - Parameter weather: Destination `Weather`object.
     private func updateDestinationWeatherInfoView(with weather: Weather) {
@@ -210,6 +228,18 @@ class WeatherViewController: UIViewController {
         }
     }
 
+    private func updateWeatherConditionsIcon(with iconName: String) {
+        WeatherIconService.shared.getWeatherIcon(for: iconName) {  [weak self] result in
+            guard let self = self else {return}
+            switch result {
+            case .success(let data):
+                self.destinationWeatherIcon = data
+            case .failure(let error):
+                print(error.description)
+            }
+        }
+    }
+
     // MARK: - Search Bar
     @objc private func searchBarButtonTapped() {
         let height: SearchBarHeight = searchBarButtonTap ? .expanded : .collapsed
@@ -221,6 +251,7 @@ class WeatherViewController: UIViewController {
         weatherView.searchBarHeightConstraint.isActive = false
         weatherView.searchBarHeightConstraint = weatherView.searchBar.heightAnchor.constraint(equalToConstant: height.rawValue)
         weatherView.searchBarHeightConstraint.isActive = true
+
         UIView.animate(withDuration: 0.3, delay: 0, options: .allowUserInteraction) {
             self.weatherView.searchBar.alpha = self.searchBarButtonTap ? 1 : 0
             self.view.layoutIfNeeded()
@@ -230,11 +261,20 @@ class WeatherViewController: UIViewController {
 
 // MARK: - SearchBar Delegate
 extension WeatherViewController: UISearchBarDelegate {
+
     // Sets the `destinationCityName`property when the searchBar keybord return key is triggered.
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchedCity = weatherView.searchBar.text, !searchedCity.isEmpty else {return}
         destinationCityName = searchedCity
         weatherView.searchBar.resignFirstResponder()
         searchBarButtonTapped()
+    }
+}
+
+// MARK: - Location Manager Delegate
+extension WeatherViewController: LocationServiceDelegate {
+    func presentError(with error: String) {
+        presentErrorAlert(with: "nopp")
+        stopRefresherActivityControls()
     }
 }

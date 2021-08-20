@@ -12,16 +12,17 @@ enum ApiError: Error {
     case dataError
     case responseError
     case decodingData
+
 }
 extension ApiError {
     var description: String {
         switch self {
         case .urlError:
-            return "Données non trouvées."
+            return "Données introuvable."
         case .responseError:
-            return "Nous avons rencontré une erreur avec le serveur"
+            return "Impossible de contacter le serveur, êtes-vous hors ligne?"
         case .dataError:
-            return "Il y a une erreur avec les données."
+            return "Nous n'avons pas pu recupérer les données."
         case .decodingData:
             return "Format de données non valide."
         }
@@ -32,6 +33,7 @@ enum ConversionError: Error {
     case zeroDivision
     case calculation
     case format
+    case noData
 }
 extension ConversionError {
     var description: String {
@@ -42,6 +44,8 @@ extension ConversionError {
             return "Nous avons rencontré une erreur de conversion."
         case .format:
             return "Vous avez essayé de mettre deux fois la virgule."
+        case .noData:
+            return "Veuillez entrer un montant à convertir."
         }
     }
 }

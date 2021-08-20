@@ -38,6 +38,7 @@ class WeatherDetailInfoView: UIView {
 
     let valueLabel: UILabel = {
         let lbl = UILabel()
+        lbl.text = "--"
         lbl.font = .textFontSemiBold(size: 19)
         lbl.textColor = .titleColor
         lbl.numberOfLines = 1

@@ -17,9 +17,9 @@ class BackgroundImage: UIImageView {
         self.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    convenience init(image: UIImage) {
+    convenience init(imageName: String) {
         self.init(frame: .zero)
-        self.image = image
+        self.image = UIImage(named: imageName)
     }
 
     required init?(coder: NSCoder) {

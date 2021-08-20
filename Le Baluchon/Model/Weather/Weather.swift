@@ -14,6 +14,7 @@ struct Weather: Decodable {
     let visibility: Int?
     let wind: Wind?
     let clouds: Clouds?
+    let timezone: Int?
     let sys: Sys?
     let name: String?
 }
@@ -30,6 +31,7 @@ struct Main: Decodable {
 struct Sys: Decodable {
     let type, id: Int?
     let country: String?
+    let sunrise, sunset: Int?
 }
 
 struct WeatherElement: Decodable {

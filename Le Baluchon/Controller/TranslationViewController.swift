@@ -149,11 +149,9 @@ class TranslationViewController: UIViewController {
         // set the UIbutton sender tag to the currencyButtonTag property to keep track which
         // button has been pushed.
         tappedLanguageButtonTag = sender.tag
-        // Instanciate the viewController to call.
         let languagesList = LanguagesListViewController()
         languagesList.languagesDelegate = self
         languagesList.addAutoLanguageOption = sender.tag == 0
-        // Present the view controller modally.
         present(languagesList, animated: true, completion: nil)
     }
 

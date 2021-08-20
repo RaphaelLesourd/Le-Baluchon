@@ -12,10 +12,15 @@ class TranslationService {
     var apiService = ApiService.shared
 
     func getTranslation(for text: String,
-                        from orgin: String,
+                        from origin: String,
                         to target: String,
                         completion: @escaping (Result<Translation, ApiError>) -> Void) {
-        // set current request returned from the createRequest method.
+
+//        guard !text.isEmpty else {
+//            completion(.failure(.custom(message: "Il n'y a rien à traduire!")))
+//            return
+//        }
+        
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "translation.googleapis.com"
@@ -23,7 +28,7 @@ class TranslationService {
         urlComponents.queryItems = [
             URLQueryItem(name: "q", value: text),
             URLQueryItem(name: "format", value: "text"),
-            URLQueryItem(name: "source", value: orgin),
+            URLQueryItem(name: "source", value: origin),
             URLQueryItem(name: "target", value: target),
             URLQueryItem(name: "key", value: ApiKeys.googleTranslateKey)
         ]
@@ -37,5 +42,4 @@ class TranslationService {
             }
         }
     }
-
 }
