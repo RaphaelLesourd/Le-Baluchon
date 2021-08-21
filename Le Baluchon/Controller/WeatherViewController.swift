@@ -16,7 +16,7 @@ class WeatherViewController: UIViewController {
     private let locationService = LocationService()
     private let weatherCalculations = WeatherCalculations()
     private var searchBarButtonTap = true
-    private let defaultUserLocationCity = "Luang Prabang"
+    private let defaultUserLocationCity = "Bangkok"
     private let defaultDestinationCity = "New york"
 
     private var localWeather: Weather? {
@@ -37,8 +37,8 @@ class WeatherViewController: UIViewController {
     }
     private var destinationWeatherIcon: Data? {
         didSet {
-            guard let destinationWeatherIcon = destinationWeatherIcon else {return}
-            weatherView.destinationWeatherView.conditionsIcon.image = UIImage(data: destinationWeatherIcon)
+            guard let icon = destinationWeatherIcon else {return}
+            weatherView.destinationWeatherView.conditionsIcon.image = UIImage(data: icon)
         }
     }
     private var userLocationCity: String?  {
@@ -92,7 +92,7 @@ class WeatherViewController: UIViewController {
         getWeather(for: userLocationCity ?? defaultUserLocationCity) { [weak self] weather in
             guard let self = self else {return}
             self.localWeather = weather
-
+            
             self.getWeather(for: self.destinationCityName ?? self.defaultDestinationCity) { [weak self] weather in
                 self?.destinationWeather = weather
             }
@@ -102,8 +102,7 @@ class WeatherViewController: UIViewController {
     /// - Parameters:
     ///   - city: city name.
     ///   - completion: Weather object
-    private func getWeather(for city: String,
-                                      completion: @escaping (Weather) -> Void) {
+    private func getWeather(for city: String, completion: @escaping (Weather) -> Void) {
 
         weatherService.getWeather(for: city) { [weak self] result in
             guard let self = self else {return}
@@ -117,8 +116,7 @@ class WeatherViewController: UIViewController {
         }
     }
     private func stopRefresherActivityControls() {
-        self.toggleActiviyIndicator(for: self.weatherView.headerView.activityIndicator,
-                                    shown: false)
+        self.toggleActiviyIndicator(for: self.weatherView.headerView.activityIndicator, shown: false)
         self.weatherView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
                                                   with: nil,
                                                   afterDelay: 0.1)
@@ -146,8 +144,29 @@ class WeatherViewController: UIViewController {
             }
         }
     }
-    // MARK: - Update views
 
+    // MARK: - Search Bar
+    @objc private func searchBarButtonTapped() {
+        let height: SearchBarHeight = searchBarButtonTap ? .expanded : .collapsed
+        animateSearchBar(for: height)
+        searchBarButtonTap.toggle()
+        weatherView.searchBar.text = nil
+    }
+    private func animateSearchBar(for height: SearchBarHeight) {
+        weatherView.searchBarHeightConstraint.isActive = false
+        weatherView.searchBarHeightConstraint = weatherView.searchBar.heightAnchor.constraint(equalToConstant: height.rawValue)
+        weatherView.searchBarHeightConstraint.isActive = true
+
+        UIView.animate(withDuration: 0.3, delay: 0, options: .allowUserInteraction) {
+            self.weatherView.searchBar.alpha = self.searchBarButtonTap ? 1 : 0
+            self.view.layoutIfNeeded()
+        }
+    }
+}
+
+
+// MARK: - Update view extension
+extension WeatherViewController {
     // Local Weather
     /// Update local weather view with `Weather`object data
     /// - Parameter weather: Local `Weather` object.
@@ -239,24 +258,6 @@ class WeatherViewController: UIViewController {
             }
         }
     }
-
-    // MARK: - Search Bar
-    @objc private func searchBarButtonTapped() {
-        let height: SearchBarHeight = searchBarButtonTap ? .expanded : .collapsed
-        animateSearchBar(for: height)
-        searchBarButtonTap.toggle()
-        weatherView.searchBar.text = nil
-    }
-    private func animateSearchBar(for height: SearchBarHeight) {
-        weatherView.searchBarHeightConstraint.isActive = false
-        weatherView.searchBarHeightConstraint = weatherView.searchBar.heightAnchor.constraint(equalToConstant: height.rawValue)
-        weatherView.searchBarHeightConstraint.isActive = true
-
-        UIView.animate(withDuration: 0.3, delay: 0, options: .allowUserInteraction) {
-            self.weatherView.searchBar.alpha = self.searchBarButtonTap ? 1 : 0
-            self.view.layoutIfNeeded()
-        }
-    }
 }
 
 // MARK: - SearchBar Delegate
@@ -273,8 +274,9 @@ extension WeatherViewController: UISearchBarDelegate {
 
 // MARK: - Location Manager Delegate
 extension WeatherViewController: LocationServiceDelegate {
+
     func presentError(with error: String) {
-        presentErrorAlert(with: "nopp")
+        presentErrorAlert(with: "Nous n'avons pas pu déterminer votre position.")
         stopRefresherActivityControls()
     }
 }

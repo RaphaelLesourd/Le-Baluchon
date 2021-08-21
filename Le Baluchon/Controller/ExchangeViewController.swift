@@ -14,13 +14,7 @@ class ExchangeViewController: UIViewController {
     private let rateCalculator = RateCalculator()
     private let rateService = RateService()
     private var currencyButtonTag: Int?
-    private var currentRate: Double = 1.0 {
-        didSet {
-            updateDailyRate(with: currentRate)
-            getConvertedAmount()
-            updateLastFetchDate()
-        }
-    }
+
     private var originCurrency: Currency? {
         didSet {
             exchangeView.originCurrencyView.currencyButton.setTitle(originCurrency?.symbol,
@@ -63,7 +57,7 @@ class ExchangeViewController: UIViewController {
     private func setDefaultValues() {
         originCurrency = Currency(symbol: "EUR", name: "Euro")
         targetCurrency = Currency(symbol: "USD", name: "Dollars")
-        rateCalculator.amountToConvert = currentRate.toString()
+        rateCalculator.amountToConvert = "1"
         exchangeView.originCurrencyView.textfield.text = rateCalculator.amountToConvert
     }
     /// Adds a refreshed to the scrollView, trigger a neworl call to fetch latest exchange rate.
@@ -104,7 +98,10 @@ class ExchangeViewController: UIViewController {
             switch result {
             case .success(let rate):
                 guard let rateValue = rate.rates.values.first else {return}
-                self.currentRate = rateValue
+                self.rateCalculator.currentRate = rateValue
+                self.updateDailyRate(with: rateValue)
+                self.getConvertedAmount()
+                self.updateLastFetchDate()
             case .failure(let error):
                 self.presentErrorAlert(with: error.description)
             }
@@ -121,7 +118,7 @@ class ExchangeViewController: UIViewController {
 
     // MARK: - Conversion
     private func getConvertedAmount() {
-        rateCalculator.convertAmount(with: currentRate) { result in
+        rateCalculator.convertAmount() { result in
             switch result {
             case .success(let amount):
                 exchangeView.targetCurrencyView.textfield.text = amount.toString()
@@ -135,21 +132,14 @@ class ExchangeViewController: UIViewController {
     /// Swap currency function and update echange rate value.
     @objc private func currencySwapButtonTapped() {
         swapCurrencies()
-        getNewRate()
+        rateCalculator.invertRates()
+        getConvertedAmount()
     }
     /// Swaps origin and destination currency object.
     private func swapCurrencies() {
         let tempCurrency = originCurrency
         self.originCurrency = targetCurrency
         self.targetCurrency = tempCurrency
-    }
-
-    private func getNewRate() {
-        guard let swappedRate = rateCalculator.invertRates(for: currentRate) else {
-            presentErrorAlert(with: ConversionError.zeroDivision.description)
-            return
-        }
-        currentRate = swappedRate
     }
    
     /// Rotate the currencySwaButton with animation.

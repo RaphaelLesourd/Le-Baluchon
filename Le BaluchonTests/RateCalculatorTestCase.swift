@@ -11,7 +11,6 @@ import XCTest
 class RateCalculatorTestCase: XCTestCase {
 
     var sut: RateCalculator!
-    var rate = 1.18
 
     override func setUp() {
         super.setUp()
@@ -26,10 +25,12 @@ class RateCalculatorTestCase: XCTestCase {
 
     // Test wih decimal amount
     func testGivenRate_WhenAddingDecimalAmount_thenCalculateConvertedAmount() {
+        // Given
+        sut.currentRate = 1.18
         // When
         sut.amountToConvert = "100,40"
         // Then
-        sut.convertAmount(with: rate) { result in
+        sut.convertAmount() { result in
             switch result {
             case .success(let amount):
                 XCTAssertEqual(118.472, amount)
@@ -41,10 +42,12 @@ class RateCalculatorTestCase: XCTestCase {
 
 // Test with no decimal in the amount
     func testGivenRate_WhenAddingAmountNoDecimal_thenCalculateConvertedAmount() {
+        // Given
+        sut.currentRate = 1.18
         // When
         sut.amountToConvert = "100"
         // Then
-        sut.convertAmount(with: rate) { result in
+        sut.convertAmount() { result in
             switch result {
             case .success(let amount):
                 XCTAssertEqual(118, amount)
@@ -55,10 +58,12 @@ class RateCalculatorTestCase: XCTestCase {
     }
     // Test when there is no amount
     func testGivenRate_WhenStringAmountIsEmpty_thenCalculateConvertedAmount() {
+        // Given
+        sut.currentRate = 1.18
         // When
         sut.amountToConvert = ""
         // Then
-        sut.convertAmount(with: rate) { result in
+        sut.convertAmount() { result in
             switch result {
             case .success(let amount):
                 XCTAssertEqual(amount, 0)
@@ -70,20 +75,24 @@ class RateCalculatorTestCase: XCTestCase {
 
 // Test calculation the opposite rate (USD -> EUR to EUR -> USD)
     func testGivenRate_WhenConvertingToOppositeRate_thenCalculateConvertedAmount() {
+        // Given
+        sut.currentRate = 1.18
         // When
-        let invertedRate = sut.invertRates(for: rate)
+        sut.invertRates()
         // Then
-        XCTAssertEqual(0.8474576271186441, invertedRate)
+        XCTAssertEqual(0.8474576271186441, sut.currentRate)
     }
 
     
 
     // MARK: - Errors
     func testGivenRate_WhenAddingAmountWith2Points_thenCalculateConvertedAmount() {
+        // Given
+        sut.currentRate = 1.18
         // When
         sut.amountToConvert = "100.0.0"
         // Then
-        sut.convertAmount(with: rate) { result in
+        sut.convertAmount() { result in
             switch result {
             case .success(let amount):
                 XCTAssertNil(amount)
@@ -94,10 +103,12 @@ class RateCalculatorTestCase: XCTestCase {
     }
 
     func testGivenRate_WhenAddingAmountWith2Comas_thenCalculateConvertedAmount() {
+        // Given
+        sut.currentRate = 1.18
         // When
         sut.amountToConvert = "100,0,0"
         // Then
-        sut.convertAmount(with: rate) { result in
+        sut.convertAmount() { result in
             switch result {
             case .success(let amount):
                 XCTAssertNil(amount)
@@ -109,10 +120,12 @@ class RateCalculatorTestCase: XCTestCase {
 
     // Test when amount to convert is nil
     func testGivenRate_WhenAmountIsNil_thenCalculateConvertedAmount() {
+        // Given
+        sut.currentRate = 1.18
         // When
         sut.amountToConvert = nil
         // Then
-        sut.convertAmount(with: rate) { result in
+        sut.convertAmount() { result in
             switch result {
             case .success(let amount):
                 XCTAssertNil(amount)
@@ -124,10 +137,12 @@ class RateCalculatorTestCase: XCTestCase {
 
     // Test when amount to convert is nil
     func testGivenRate_WhenAmountCantBecomeADouble_thenCalculateConvertedAmount() {
+        // Given
+        sut.currentRate = 1.18
         // When
         sut.amountToConvert = "1,a"
         // Then
-        sut.convertAmount(with: rate) { result in
+        sut.convertAmount() { result in
             switch result {
             case .success(let amount):
                 XCTAssertNil(amount)
@@ -135,16 +150,6 @@ class RateCalculatorTestCase: XCTestCase {
                 XCTAssertEqual(ConversionError.calculation.description, error.description)
             }
         }
-    }
-
-    // Test when rate is null
-    func testGivenZeroRate_WhenConvertingToOppositeRate_thenCalculateConvertedAmount() {
-        // Given
-        rate = 0.0
-        // When
-         let invertedRate = sut.invertRates(for: rate)
-        // Then
-        XCTAssertNil(invertedRate)
     }
 }
 

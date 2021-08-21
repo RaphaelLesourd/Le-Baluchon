@@ -10,10 +10,14 @@ import Foundation
 class RateCalculator {
 
     var amountToConvert: String?
+    var currentRate: Double?
 
-    func convertAmount(with rate: Double,
-                       completion: (Result<Double, ConversionError>) -> Void) {
+    func convertAmount(completion: (Result<Double, ConversionError>) -> Void) {
 
+        guard let currentRate = currentRate else {
+            completion(.failure(.noData))
+            return
+        }
         if amountToConvert?.count == 0 {
             amountToConvert = "0"
         }
@@ -29,13 +33,13 @@ class RateCalculator {
             completion(.failure(.calculation))
             return
         }
-        completion(.success(doubleCurrency * rate))
+        completion(.success(doubleCurrency * currentRate))
     }
 
-    func invertRates(for rate: Double) -> Double? {
-        guard rate != 0 else {
-            return nil
+    func invertRates() {
+        guard let currentRate = self.currentRate, currentRate != 0 else {
+            return
         }
-        return 1 / rate
+        self.currentRate =  1 / currentRate
     }
 }
