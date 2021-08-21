@@ -26,17 +26,7 @@ class TranslationViewController: UIViewController {
                                                                              for: .normal)
         }
     }
-    private var originText: String? {
-        didSet {
-            getTranslatedText()
-        }
-    }
-    private var translation: Translation? {
-        didSet {
-            guard let translation = translation else {return}
-            translationView.translatedLanguageView.textView.text = translation.data.translations[0].translatedText
-        }
-    }
+    private var originText: String?
     private var tappedLanguageButtonTag: Int?
 
     // MARK: - Lifecycle
@@ -81,20 +71,14 @@ class TranslationViewController: UIViewController {
     /// Adds a refreshed to the scrollView, trigger a neworl call to fetch latest exchange rate.
     private func setRefresherControl() {
         translationView.scrollView.refreshControl = translationView.refresherControl
-        translationView.refresherControl.addTarget(self, action: #selector(getTranslatedText), for: .valueChanged)
+        translationView.refresherControl.addTarget(self,
+                                                   action: #selector(getTranslatedText),
+                                                   for: .valueChanged)
     }
 
     private func setDefaultLanguages() {
         originLanguage = Language(language: "fr", name: "Français")
         targetLanguage = Language(language: "en", name: "Anglais")
-    }
-
-    /// Set all textView text property to nil to remove all text.
-    @objc private func clearAll() {
-        translationView.originLanguageView.placeholderLabel.isHidden = false
-        translationView.originLanguageView.textView.text = nil
-        translationView.translatedLanguageView.textView.text = nil
-        originText = nil
     }
 
     // MARK: - API Call
@@ -115,7 +99,7 @@ class TranslationViewController: UIViewController {
 
             switch result {
             case .success(let translatedText):
-                self.translation = translatedText
+                self.updateTranslatedView(with: translatedText)
             case .failure(let error):
                 self.presentErrorAlert(with: error.description)
             }
@@ -130,14 +114,27 @@ class TranslationViewController: UIViewController {
                                                       afterDelay: 0.05)
     }
 
+    // MARK: - Update views
+    private func updateTranslatedView(with translation: Translation) {
+        let text = translation.data.translations[0].translatedText
+        self.translationView.translatedLanguageView.textView.text = text
+    }
+
+    /// Set all textView text property to nil to remove all text.
+    @objc private func clearAll() {
+        translationView.originLanguageView.placeholderLabel.isHidden = false
+        translationView.originLanguageView.textView.text = nil
+        translationView.translatedLanguageView.textView.text = nil
+        originText = nil
+    }
+
     // MARK: - Languages swap
     @objc private func swapLanguagebuttonTapped() {
         guard originLanguage?.language != "" else {
             presentErrorAlert(with: "Le language de destination ne peux être mis en auto!")
             return
         }
-        let temporaryOriginalLanguage: Language?
-        temporaryOriginalLanguage = originLanguage
+        let temporaryOriginalLanguage = originLanguage
         originLanguage = targetLanguage
         targetLanguage = temporaryOriginalLanguage
     }
@@ -154,9 +151,8 @@ class TranslationViewController: UIViewController {
         languagesList.addAutoLanguageOption = sender.tag == 0
         present(languagesList, animated: true, completion: nil)
     }
-
-
 }
+
 // MARK: - Extensions
 extension TranslationViewController: UITextViewDelegate {
 
@@ -166,6 +162,7 @@ extension TranslationViewController: UITextViewDelegate {
         // As a workaround, dismiss the keyboard when a new line character is detected.
         if text == "\n" {
             originText = textView.text
+            getTranslatedText()
             textView.resignFirstResponder()
         }
         return true

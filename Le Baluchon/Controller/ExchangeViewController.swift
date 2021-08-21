@@ -35,12 +35,6 @@ class ExchangeViewController: UIViewController {
             exchangeView.targetCurrencyView.nameLabel.text = targetCurrency?.name
         }
     }
-    private var originAmount: String? {
-        didSet {
-            guard let originAmount = originAmount else {return}
-            rateCalculator.amountToConvert = originAmount
-        }
-    }
 
     // MARK: - Lifecycle
     /// Set the view as rateView.
@@ -69,8 +63,8 @@ class ExchangeViewController: UIViewController {
     private func setDefaultValues() {
         originCurrency = Currency(symbol: "EUR", name: "Euro")
         targetCurrency = Currency(symbol: "USD", name: "Dollars")
-        originAmount = currentRate.toString()
-        exchangeView.originCurrencyView.textfield.text = originAmount
+        rateCalculator.amountToConvert = currentRate.toString()
+        exchangeView.originCurrencyView.textfield.text = rateCalculator.amountToConvert
     }
     /// Adds a refreshed to the scrollView, trigger a neworl call to fetch latest exchange rate.
     private func setRefresherControl() {
@@ -220,7 +214,7 @@ extension ExchangeViewController: UITextFieldDelegate {
         if let text = textField.text,
            let textRange = Range(range, in: text) {
             let updatedText = text.replacingCharacters(in: textRange, with: string)
-                originAmount = updatedText
+                rateCalculator.amountToConvert = updatedText
                 getConvertedAmount()
         }
         return true
