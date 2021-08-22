@@ -20,7 +20,7 @@ extension ApiError {
         case .urlError:
             return "Données introuvable."
         case .responseError:
-            return "Impossible de contacter le serveur, êtes-vous hors ligne?"
+            return "Impossible de contacter le serveur."
         case .dataError:
             return "Nous n'avons pas pu recupérer les données."
         case .decodingData:
@@ -30,7 +30,6 @@ extension ApiError {
 }
 
 enum ConversionError: Error {
-    case zeroDivision
     case calculation
     case format
     case noData
@@ -38,8 +37,6 @@ enum ConversionError: Error {
 extension ConversionError {
     var description: String {
         switch self {
-        case .zeroDivision:
-            return "Veuillez entrer un montant superieur à zero."
         case .calculation:
             return "Nous avons rencontré une erreur de conversion."
         case .format:

@@ -37,12 +37,12 @@ class WeatherViewController: UIViewController {
     }
     private var userLocationCity: String?  {
         didSet{
-            getWeatherData()
+            getLocalWeatherData()
         }
     }
     private var destinationCityName: String? {
         didSet{
-            getWeatherData()
+            getLocalWeatherData()
         }
     }
     // MARK: - Lifecycle
@@ -79,13 +79,20 @@ class WeatherViewController: UIViewController {
     
     // MARK: - Fetch Data
     /// Fetch Weather data for userLocation city and destination city
-    private func getWeatherData() {
+    private func getLocalWeatherData() {
         getWeather(for: userLocationCity ?? defaultUserLocationCity) { [weak self] weather in
             guard let self = self else {return}
             self.localWeather = weather
-            
-            self.getWeather(for: self.destinationCityName ?? self.defaultDestinationCity) { [weak self] weather in
-                self?.destinationWeather = weather
+            self.getDestinationWeather()
+        }
+    }
+
+    private func getDestinationWeather() {
+        self.getWeather(for: self.destinationCityName ?? self.defaultDestinationCity) { [weak self] weather in
+            guard let self = self else {return}
+            self.destinationWeather = weather
+            if let weatherIcon = weather.weather?[0].icon {
+                self.getWeatherConditionsIcon(with: weatherIcon)
             }
         }
     }
@@ -94,7 +101,6 @@ class WeatherViewController: UIViewController {
     ///   - city: city name.
     ///   - completion: Weather object
     private func getWeather(for city: String, completion: @escaping (Weather) -> Void) {
-
         displayRefresherActivityControls(true)
         weatherService.getWeather(for: city) { [weak self] result in
             guard let self = self else {return}
@@ -107,6 +113,19 @@ class WeatherViewController: UIViewController {
             }
         }
     }
+
+    private func getWeatherConditionsIcon(with iconName: String) {
+        WeatherIconService.shared.getWeatherIcon(for: iconName) {  [weak self] result in
+            guard let self = self else {return}
+            switch result {
+            case .success(let iconData):
+                self.updateConditionIcon(with: iconData)
+            case .failure(let error):
+                print(error.description)
+            }
+        }
+    }
+
     private func displayRefresherActivityControls(_ status: Bool) {
         toggleActiviyIndicator(for: weatherView.headerView.activityIndicator,
                                and: weatherView.refresherControl,
@@ -191,7 +210,6 @@ extension WeatherViewController {
         }
         if let weatherIcon = weather.weather?[0].icon {
             destinationWeather.weatherIcon.image = UIImage(named: weatherIcon)
-            updateWeatherConditionsIcon(with: weatherIcon)
         }
     }
 
@@ -237,16 +255,8 @@ extension WeatherViewController {
         }
     }
 
-    private func updateWeatherConditionsIcon(with iconName: String) {
-        WeatherIconService.shared.getWeatherIcon(for: iconName) {  [weak self] result in
-            guard let self = self else {return}
-            switch result {
-            case .success(let iconData):
-                self.weatherView.destinationWeatherView.conditionsIcon.image = UIImage(data: iconData)
-            case .failure(let error):
-                print(error.description)
-            }
-        }
+    private func updateConditionIcon(with iconData: Data) {
+        self.weatherView.destinationWeatherView.conditionsIcon.image = UIImage(data: iconData)
     }
 }
 

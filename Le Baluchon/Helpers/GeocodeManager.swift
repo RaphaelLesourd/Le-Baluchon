@@ -11,10 +11,16 @@ import CoreLocation
 class GeocodeManager {
 
     static let shared = GeocodeManager()
+    private var geocoder = CLGeocoder()
 
-    func getCityName(for location: CLLocation,
+    func getCityName(for location: CLLocation?,
                      completion: @escaping (Result<String, ApiError>) -> Void) {
-        CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
+
+        guard let location = location else {
+            completion(.failure(.dataError))
+            return
+        }
+        geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
             DispatchQueue.main.async {
                 if error != nil {
                     completion(.failure(.responseError))

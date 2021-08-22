@@ -23,7 +23,7 @@ class ApiService {
     /// - Note: Function taking a generic decodable data object.
     /// - Any previous URLSessionDataTask get cancelled for each request except if the Data model is Weather.
     /// - Parameters:
-    ///   - for: Any Decodable object.
+    ///   - for: Pass in the Data object instead of decaring it in the calling function returned type. Alternatively, the genretic type T could be defined in the result returned  type of the calling function rather than in this function signature.
     ///   - request: URLRequest for data requested
     ///   - completion: Returns a Result  succes case:  decoded JSON  or failure case: ApiError message
     func getData<T: Decodable>(for: T.Type = T.self,
@@ -57,7 +57,7 @@ class ApiService {
                     // return decoded JSON
                     completion(.success(responseJSON))
                 } catch {
-                    // return an error in case JSONDecoder throw ne error
+                    // return an error in case JSONDecoder throw an error
                     completion(.failure(.decodingData))
                 }
             }
