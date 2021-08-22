@@ -61,8 +61,4 @@ class FakeResponseData {
                                             statusCode: 404,
                                             httpVersion: nil,
                                             headerFields: nil)!
-
-    // MARK: - Error
-    class ResponseError: Error {}
-    let error = ResponseError()
 }
