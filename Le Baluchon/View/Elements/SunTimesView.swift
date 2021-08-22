@@ -20,28 +20,33 @@ class SunTimesView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    let sunRiseView = SunTimingView(icon: #imageLiteral(resourceName: "01d"))
-    let sunSetView = SunTimingView(icon: #imageLiteral(resourceName: "01n"))
+    let sunRiseView = SunTimingView(systemIconName: "sunrise")
+    let sunSetView = SunTimingView(systemIconName: "sunset")
 
     let sunProgressView: UIProgressView = {
         let progress = UIProgressView()
         progress.progressViewStyle = .default
-        progress.progressTintColor = .systemOrange
+        progress.progressTintColor = .label
         progress.trackTintColor = .tertiaryLabel
         progress.translatesAutoresizingMaskIntoConstraints = false
-        progress.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        progress.heightAnchor.constraint(equalToConstant: 4).isActive = true
         return progress
     }()
 
     private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.distribution = .fillEqually
+        stack.distribution = .fill
         stack.alignment = .center
-        stack.spacing = 0
+        stack.spacing = 20
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        sunProgressView.progressTintColor = .label
+        sunProgressView.trackTintColor = .tertiaryLabel
+    }
 }
 // MARK: - Constraints
 extension SunTimesView {
@@ -55,9 +60,8 @@ extension SunTimesView {
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 50),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -50)
         ])
     }
-
 }

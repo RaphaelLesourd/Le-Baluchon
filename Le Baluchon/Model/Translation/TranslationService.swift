@@ -16,11 +16,6 @@ class TranslationService {
                         to target: String,
                         completion: @escaping (Result<Translation, ApiError>) -> Void) {
 
-//        guard !text.isEmpty else {
-//            completion(.failure(.custom(message: "Il n'y a rien à traduire!")))
-//            return
-//        }
-        
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "translation.googleapis.com"

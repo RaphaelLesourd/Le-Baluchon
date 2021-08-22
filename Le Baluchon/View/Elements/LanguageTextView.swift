@@ -47,7 +47,7 @@ class LanguageTextView: UIView {
         txv.layer.masksToBounds = true
         txv.backgroundColor = .clear
         txv.autocorrectionType = .yes
-        txv.font = .systemFont(ofSize: 25, weight: .semibold)
+        txv.font = .systemFont(ofSize: 21, weight: .semibold)
         txv.textColor = .titleColor
         txv.tintColor = .titleColor
         txv.showsVerticalScrollIndicator = false
@@ -63,7 +63,7 @@ class LanguageTextView: UIView {
         let lbl = UILabel()
         lbl.text = "Saisissez votre texte"
         lbl.textColor = .secondaryLabel
-        lbl.font = .systemFont(ofSize: 25, weight: .semibold)
+        lbl.font = .systemFont(ofSize: 21, weight: .semibold)
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()

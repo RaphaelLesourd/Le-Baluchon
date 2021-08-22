@@ -15,15 +15,15 @@ class TranslationViewController: UIViewController {
     private var originLanguage: Language? {
         didSet {
             guard let originLanguage = originLanguage else {return}
-            translationView.languageChoiceView.originLanguageButton.setTitle(originLanguage.name,
-                                                                             for: .normal)
+            translationView.languageChoiceView.originLanguageButton
+                .setTitle(originLanguage.name, for: .normal)
         }
     }
     private var targetLanguage: Language? {
         didSet {
             guard let targetLanguage = targetLanguage else {return}
-            translationView.languageChoiceView.targetLanguageButton.setTitle(targetLanguage.name,
-                                                                             for: .normal)
+            translationView.languageChoiceView.targetLanguageButton
+                .setTitle(targetLanguage.name, for: .normal)
         }
     }
     private var originText: String?
@@ -55,25 +55,20 @@ class TranslationViewController: UIViewController {
     }
 
     private func setButtonTarget() {
-        translationView.originLanguageView.clearButton.addTarget(self,
-                                                                 action: #selector(clearAll),
-                                                                 for: .touchUpInside)
-        translationView.languageChoiceView.originLanguageButton.addTarget(self,
-                                                                          action: #selector(displayLanguagesList(_:)),
-                                                                          for: .touchUpInside)
-        translationView.languageChoiceView.targetLanguageButton.addTarget(self,
-                                                                          action: #selector(displayLanguagesList(_:)),
-                                                                          for: .touchUpInside)
-        translationView.languageChoiceView.languageDirectionButton.addTarget(self,
-                                                                             action: #selector(swapLanguagebuttonTapped),
-                                                                             for: .touchUpInside)
+        translationView.originLanguageView.clearButton
+            .addTarget(self,action: #selector(clearAll),for: .touchUpInside)
+        translationView.languageChoiceView.originLanguageButton
+            .addTarget(self,action: #selector(displayLanguagesList(_:)),for: .touchUpInside)
+        translationView.languageChoiceView.targetLanguageButton
+            .addTarget(self,action: #selector(displayLanguagesList(_:)),for: .touchUpInside)
+        translationView.languageChoiceView.languageDirectionButton
+            .addTarget(self,action: #selector(swapLanguagebuttonTapped),for: .touchUpInside)
     }
     /// Adds a refreshed to the scrollView, trigger a neworl call to fetch latest exchange rate.
     private func setRefresherControl() {
         translationView.scrollView.refreshControl = translationView.refresherControl
-        translationView.refresherControl.addTarget(self,
-                                                   action: #selector(getTranslatedText),
-                                                   for: .valueChanged)
+        translationView.refresherControl
+            .addTarget(self,action: #selector(getTranslatedText),for: .valueChanged)
     }
 
     private func setDefaultLanguages() {
@@ -87,16 +82,16 @@ class TranslationViewController: UIViewController {
         guard let originLanguage = originLanguage else {return}
         guard let targetLanguage = targetLanguage else {return}
         guard let text = originText, !text.isEmpty else {
-            stopRefreshActivitycontrol()
+            displayRefresherActivityControls(false)
             return
         }
-        toggleActiviyIndicator(for: translationView.headerView.activityIndicator, shown: true)
+        displayRefresherActivityControls(true)
+
         translationService.getTranslation(for: text,
                                           from: originLanguage.language,
                                           to: targetLanguage.language) { [weak self] result in
             guard let self = self else {return}
-            self.stopRefreshActivitycontrol()
-
+            self.displayRefresherActivityControls(false)
             switch result {
             case .success(let translatedText):
                 self.updateTranslatedView(with: translatedText)
@@ -106,14 +101,23 @@ class TranslationViewController: UIViewController {
         }
     }
 
-    private func stopRefreshActivitycontrol() {
-        self.toggleActiviyIndicator(for: self.translationView.headerView.activityIndicator,
-                                    shown: false)
-        self.translationView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
-                                                      with: nil,
-                                                      afterDelay: 0.05)
+    private func displayRefresherActivityControls(_ status: Bool) {
+        toggleActiviyIndicator(for: translationView.headerView.activityIndicator,
+                               and: translationView.refresherControl,
+                               shown: status)
     }
 
+    // MARK: - Languages swap
+    @objc private func swapLanguagebuttonTapped() {
+        guard originLanguage?.language != "" else {
+            presentErrorAlert(with: "Le language de destination ne peux être mis en auto!")
+            return
+        }
+        let temporaryOriginalLanguage = originLanguage
+        originLanguage = targetLanguage
+        targetLanguage = temporaryOriginalLanguage
+    }
+    
     // MARK: - Update views
     private func updateTranslatedView(with translation: Translation) {
         let text = translation.data.translations[0].translatedText
@@ -126,17 +130,6 @@ class TranslationViewController: UIViewController {
         translationView.originLanguageView.textView.text = nil
         translationView.translatedLanguageView.textView.text = nil
         originText = nil
-    }
-
-    // MARK: - Languages swap
-    @objc private func swapLanguagebuttonTapped() {
-        guard originLanguage?.language != "" else {
-            presentErrorAlert(with: "Le language de destination ne peux être mis en auto!")
-            return
-        }
-        let temporaryOriginalLanguage = originLanguage
-        originLanguage = targetLanguage
-        targetLanguage = temporaryOriginalLanguage
     }
 
     // MARK: - Languages List

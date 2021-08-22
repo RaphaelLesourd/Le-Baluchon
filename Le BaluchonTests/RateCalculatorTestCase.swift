@@ -151,5 +151,32 @@ class RateCalculatorTestCase: XCTestCase {
             }
         }
     }
+
+    // Test when amount to convert is nil
+    func testGivenRateIsNil_thenGiveError() {
+        // Given
+        sut.currentRate = nil
+        // When
+        sut.amountToConvert = "100"
+        // Then
+        sut.convertAmount() { result in
+            switch result {
+            case .success(let amount):
+                XCTAssertNil(amount)
+            case .failure(let error):
+                XCTAssertEqual(ConversionError.noData.description, error.description)
+            }
+        }
+    }
+
+    // Test calculation the opposite rate (USD -> EUR to EUR -> USD) and initial is nil
+    func testGivenRateIsNil_WhenConvertingToOppositeRate_thenCalculateConvertedAmount() {
+        // Given
+        sut.currentRate = nil
+        // When
+        sut.invertRates()
+        // Then
+        XCTAssertNil(sut.currentRate)
+    }
 }
 

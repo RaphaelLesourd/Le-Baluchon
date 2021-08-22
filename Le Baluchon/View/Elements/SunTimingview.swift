@@ -19,8 +19,12 @@ class SunTimingView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    convenience init(icon: UIImage) {
+    private let configuation = UIImage.SymbolConfiguration(pointSize: 30,
+                                                           weight: .regular,
+                                                           scale: .small)
+    convenience init(systemIconName: String) {
         self.init()
+        let icon = UIImage(systemName: systemIconName, withConfiguration: configuation) ?? #imageLiteral(resourceName: "01d")
         sunIcon.image = icon
     }
 

@@ -51,7 +51,6 @@ class ApiService {
                     completion(.failure(.responseError))
                     return
                 }
-                print(response.statusCode)
                 // do/catch block trying to decode data returned from session dataTask
                 do {
                     let responseJSON = try JSONDecoder().decode(T.self, from: data)

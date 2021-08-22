@@ -15,9 +15,9 @@ class WeatherViewController: UIViewController {
     private let weatherService = WeatherService()
     private let locationService = LocationService()
     private let weatherCalculations = WeatherCalculations()
-    private var searchBarButtonTap = true
     private let defaultUserLocationCity = "Bangkok"
     private let defaultDestinationCity = "New york"
+    private var searchBarButtonTap = true
 
     private var localWeather: Weather? {
         didSet {
@@ -35,12 +35,6 @@ class WeatherViewController: UIViewController {
             }
         }
     }
-    private var destinationWeatherIcon: Data? {
-        didSet {
-            guard let icon = destinationWeatherIcon else {return}
-            weatherView.destinationWeatherView.conditionsIcon.image = UIImage(data: icon)
-        }
-    }
     private var userLocationCity: String?  {
         didSet{
             getWeatherData()
@@ -51,14 +45,12 @@ class WeatherViewController: UIViewController {
             getWeatherData()
         }
     }
-    // Set the view as rateView.
-    // All UI elements are contained in a seperate UIView file.
+    // MARK: - Lifecycle
     override func loadView() {
         view = weatherView
         view.backgroundColor = .viewControllerBackgroundColor
     }
 
-    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         delegates()
@@ -76,14 +68,13 @@ class WeatherViewController: UIViewController {
     /// Adds a refreshed to the scrollView, trigger a neworl call to fetch latest exchange rate.
     private func setRefresherControl() {
         weatherView.scrollView.refreshControl = weatherView.refresherControl
-        weatherView.refresherControl.addTarget(self, action: #selector(getUserLocation),
-                                               for: .valueChanged)
+        weatherView.refresherControl
+            .addTarget(self, action: #selector(getUserLocation), for: .valueChanged)
     }
 
     private func setSearchBarButtonTarget() {
-        weatherView.destinationWeatherView.searchButton.addTarget(self,
-                                                                  action: #selector(searchBarButtonTapped),
-                                                                  for: .touchUpInside)
+        weatherView.destinationWeatherView.searchButton
+            .addTarget(self, action: #selector(searchBarButtonTapped), for: .touchUpInside)
     }
     
     // MARK: - Fetch Data
@@ -104,9 +95,10 @@ class WeatherViewController: UIViewController {
     ///   - completion: Weather object
     private func getWeather(for city: String, completion: @escaping (Weather) -> Void) {
 
+        displayRefresherActivityControls(true)
         weatherService.getWeather(for: city) { [weak self] result in
             guard let self = self else {return}
-            self.stopRefresherActivityControls()
+            self.displayRefresherActivityControls(false)
             switch result {
             case .success(let weather):
                 completion(weather)
@@ -115,11 +107,10 @@ class WeatherViewController: UIViewController {
             }
         }
     }
-    private func stopRefresherActivityControls() {
-        self.toggleActiviyIndicator(for: self.weatherView.headerView.activityIndicator, shown: false)
-        self.weatherView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
-                                                  with: nil,
-                                                  afterDelay: 0.1)
+    private func displayRefresherActivityControls(_ status: Bool) {
+        toggleActiviyIndicator(for: weatherView.headerView.activityIndicator,
+                               and: weatherView.refresherControl,
+                               shown: status)
     }
 
     // MARK: - User Location
@@ -140,7 +131,7 @@ class WeatherViewController: UIViewController {
                 self.userLocationCity = cityName
             case .failure(let error):
                 self.presentErrorAlert(with: error.description)
-                self.stopRefresherActivityControls()
+                self.displayRefresherActivityControls(false)
             }
         }
     }
@@ -163,7 +154,6 @@ class WeatherViewController: UIViewController {
         }
     }
 }
-
 
 // MARK: - Update view extension
 extension WeatherViewController {
@@ -211,14 +201,15 @@ extension WeatherViewController {
         guard let sunset = weather.sys?.sunset else {return}
         guard let timeDifference = weather.timezone else {return}
 
-        let sunriseTime = (sunrise + timeDifference).toDate()
-        weatherView.sunTimesView.sunRiseView.titleLabel.text = sunriseTime.toString(with: .timeOnly)
+        let sunriseTime = weatherCalculations.calculateTimeFromTimeStamp(with: sunrise, and: timeDifference)
+        weatherView.sunTimesView.sunRiseView.titleLabel.text = sunriseTime
 
-        let sunsetTime = (sunset + timeDifference).toDate()
-        weatherView.sunTimesView.sunSetView.titleLabel.text = sunsetTime.toString(with: .timeOnly)
+        let sunsetTime = weatherCalculations.calculateTimeFromTimeStamp(with: sunset, and: timeDifference)
+        weatherView.sunTimesView.sunSetView.titleLabel.text = sunsetTime
 
         let progress = weatherCalculations.calculateSunProgress(with: sunrise, and: sunset)
         weatherView.sunTimesView.sunProgressView.progress = progress
+        weatherView.sunTimesView.sunProgressView.alpha = progress > 0 && progress < 1 ? 1 : 0
     }
 
     // Destination Extended Weather
@@ -230,17 +221,16 @@ extension WeatherViewController {
             weatherInfo.directionView.valueLabel.text = "\(windDirection)°"
         }
         if let windSpeed = weather.wind?.speed {
-            let speedInKmPerHour = windSpeed * 3.6
-            weatherInfo.windView.valueLabel.text = speedInKmPerHour.toString(decimals: 0) + "km/h"
+            weatherInfo.windView.valueLabel.text = weatherCalculations.convertToKmPerHourString(windSpeed)
         }
         if let visibility = weather.visibility {
-            weatherInfo.visiblityView.valueLabel.text = "\(visibility / 1000)km"
+            weatherInfo.visiblityView.valueLabel.text = weatherCalculations.convertToKilometerString(visibility)
         }
         if let cloudCoverage = weather.clouds?.all {
             weatherInfo.cloudView.valueLabel.text = "\(cloudCoverage)%"
         }
         if let pressure = weather.main?.pressure {
-            weatherInfo.pressureView.valueLabel.text = "\(pressure)hpa"
+            weatherInfo.pressureView.valueLabel.text = "\(pressure) hpa"
         }
         if let humidity = weather.main?.humidity {
             weatherInfo.humidityView.valueLabel.text = "\(humidity)%"
@@ -251,8 +241,8 @@ extension WeatherViewController {
         WeatherIconService.shared.getWeatherIcon(for: iconName) {  [weak self] result in
             guard let self = self else {return}
             switch result {
-            case .success(let data):
-                self.destinationWeatherIcon = data
+            case .success(let iconData):
+                self.weatherView.destinationWeatherView.conditionsIcon.image = UIImage(data: iconData)
             case .failure(let error):
                 print(error.description)
             }
@@ -263,7 +253,6 @@ extension WeatherViewController {
 // MARK: - SearchBar Delegate
 extension WeatherViewController: UISearchBarDelegate {
 
-    // Sets the `destinationCityName`property when the searchBar keybord return key is triggered.
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchedCity = weatherView.searchBar.text, !searchedCity.isEmpty else {return}
         destinationCityName = searchedCity
@@ -277,6 +266,6 @@ extension WeatherViewController: LocationServiceDelegate {
 
     func presentError(with error: String) {
         presentErrorAlert(with: "Nous n'avons pas pu déterminer votre position.")
-        stopRefresherActivityControls()
+        displayRefresherActivityControls(false)
     }
 }

@@ -16,16 +16,13 @@ class CurrencyListViewController: UIViewController {
     // MARK: - Properties
     weak var exchangeDelegate: CurrencyListDelegate?
     private let currenciesService = CurrencyService()
-    /// Create an instance of CurrencyListView
     private let listView = ListView(title: "Devises")
-    /// Initialise an empty array of type Currencies to use as a full list of currencies.
-    /// - Stores the full list of currencies and copy  it to the filtered currency list array when set.
+
     private var currencyList: [Currency] = [] {
         didSet{
             filteredCurrencyList = currencyList
         }
     }
-    /// Initialise an empty array of type Currencies to use to dsplay a full or filtererd list of currencies.
     private var filteredCurrencyList: [Currency] = [] {
         didSet {
             filteredCurrencyList = filteredCurrencyList.sorted { $0.symbol < $1.symbol }
@@ -68,13 +65,11 @@ class CurrencyListViewController: UIViewController {
     /// success case:  dictionnary of all currencies available.
     /// failure case : an error.
     private func getCurrencies() {
-        toggleActiviyIndicator(for: listView.headerView.activityIndicator, shown: true)
+        displayRefresherActivityControls(true)
+
         currenciesService.getCurrencies { [weak self] result in
             guard let self = self else {return}
-            self.toggleActiviyIndicator(for: self.listView.headerView.activityIndicator, shown: false)
-            self.listView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
-                                                       with: nil,
-                                                       afterDelay: 0.1)
+            self.displayRefresherActivityControls(false)
             switch result {
             case .success(let currency):
                self.createCurrenciesList(with: currency.symbols)
@@ -94,13 +89,17 @@ class CurrencyListViewController: UIViewController {
             self.currencyList.append(post)
         }
     }
-
     /// Reload the entire currency list.
     @objc private func reloadCurrencyList() {
         currencyList.removeAll()
         listView.searchBar.text = nil
         listView.searchBar.resignFirstResponder()
         getCurrencies()
+    }
+    private func displayRefresherActivityControls(_ status: Bool) {
+        self.toggleActiviyIndicator(for: self.listView.headerView.activityIndicator,
+                                    and: self.listView.refresherControl,
+                                    shown: status)
     }
 }
 
@@ -113,8 +112,8 @@ extension CurrencyListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
 
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
         let currency = filteredCurrencyList[indexPath.row]
         cell.textLabel?.text = currency.symbol
         cell.detailTextLabel?.text = currency.name
@@ -126,9 +125,8 @@ extension CurrencyListViewController: UITableViewDataSource {
 extension CurrencyListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
         let currency = filteredCurrencyList[indexPath.row]
-        // pass the selected row currency object to the ExchangeViewController
-        // thru a protocol and dismiss the current modal ViewController.
         let chosenCurrency = Currency(symbol: currency.symbol, name: currency.name)
         exchangeDelegate?.updateCurrency(with: chosenCurrency)
         dismiss(animated: true, completion: nil)

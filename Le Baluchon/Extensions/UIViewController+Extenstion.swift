@@ -19,9 +19,14 @@ extension UIViewController {
     }
 
     // MARK: - ActivtyIndicator
-    func toggleActiviyIndicator(for indicator: UIActivityIndicatorView, shown: Bool) {
+    func toggleActiviyIndicator(for indicator: UIActivityIndicatorView,
+                                and refresher: UIRefreshControl,
+                                shown: Bool) {
         indicator.isHidden = !shown
         shown ? indicator.startAnimating() : indicator.stopAnimating()
+        if shown == false {
+            refresher.perform(#selector(UIRefreshControl.endRefreshing), with: nil, afterDelay: 0.1)
+        }
     }
     
     // MARK: - Keyboard

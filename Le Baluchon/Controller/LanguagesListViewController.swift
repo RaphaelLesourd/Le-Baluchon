@@ -14,20 +14,19 @@ protocol LanguagesListDelegate: AnyObject {
 class LanguagesListViewController: UIViewController {
 
     // MARK: - Properties
+    var addAutoLanguageOption = true
+    private let autoLanguage = Language(language: "", name: "Auto")
+
     weak var languagesDelegate: LanguagesListDelegate?
     private let languagesService = LanguagesService()
     private let languagesListView = ListView(title: "Langues")
-    /// Initialise an empty array of type Currencies to use as a full list of currencies.
-    /// - Stores the full list of currencies and copy  it to the filtered currency list array when set.
     private var languageList: [Language] = [] {
         didSet{
             filteredLanguageList = languageList
         }
     }
-    /// Initialise an empty array of type Currencies to use to dsplay a full or filtererd list of currencies.
     private var filteredLanguageList: [Language] = [] {
         didSet {
-            // Sort array alphabetically
             filteredLanguageList = filteredLanguageList.sorted { $0.name < $1.name }
             if addAutoLanguageOption {
                 filteredLanguageList.insert(autoLanguage, at: 0)
@@ -37,8 +36,6 @@ class LanguagesListViewController: UIViewController {
             }
         }
     }
-    private let autoLanguage = Language(language: "", name: "Auto")
-    var addAutoLanguageOption = true
     
     // MARK: - Life Cycle
     override func loadView() {
@@ -63,9 +60,8 @@ class LanguagesListViewController: UIViewController {
 
     private func setTableViewRefresherControl() {
         languagesListView.tableView.refreshControl = languagesListView.refresherControl
-        languagesListView.refresherControl.addTarget(self,
-                                            action: #selector(reloadLanguageList),
-                                            for: .valueChanged)
+        languagesListView.refresherControl
+            .addTarget(self, action: #selector(reloadLanguageList), for: .valueChanged)
     }
 
     // MARK: - Data resquest
@@ -73,13 +69,10 @@ class LanguagesListViewController: UIViewController {
     /// success case:  dictionnary of all currencies available.
     /// failure case : an error.
     private func getLanguages() {
-        toggleActiviyIndicator(for: languagesListView.headerView.activityIndicator, shown: true)
+        displayRefresherActivityControls(true)
         languagesService.getLanguages { [weak self] result in
             guard let self = self else {return}
-            self.toggleActiviyIndicator(for: self.languagesListView.headerView.activityIndicator, shown: false)
-            self.languagesListView.refresherControl.perform(#selector(UIRefreshControl.endRefreshing),
-                                                   with: nil,
-                                                   afterDelay: 0.1)
+            self.displayRefresherActivityControls(false)
             switch result {
             case .success(let languages):
                 self.languageList = languages.data.languages
@@ -88,12 +81,18 @@ class LanguagesListViewController: UIViewController {
             }
         }
     }
-    /// Reload the entire currency list.
+   /// Reload the entire currency list.
     @objc private func reloadLanguageList() {
         languageList.removeAll()
         languagesListView.searchBar.text = nil
         languagesListView.searchBar.resignFirstResponder()
         getLanguages()
+    }
+
+    private func displayRefresherActivityControls(_ status: Bool) {
+        self.toggleActiviyIndicator(for: self.languagesListView.headerView.activityIndicator,
+                                    and: self.languagesListView.refresherControl,
+                                    shown: status)
     }
 }
 
