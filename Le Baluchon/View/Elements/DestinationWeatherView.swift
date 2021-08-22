@@ -27,7 +27,7 @@ class DestinationWeatherView: UIView {
         uiv.contentMode = .scaleAspectFit
         uiv.addShadow()
         uiv.translatesAutoresizingMaskIntoConstraints = false
-        uiv.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.7).isActive = true
+        uiv.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.6).isActive = true
         return uiv
     }()
 
@@ -137,7 +137,7 @@ extension DestinationWeatherView {
         for view in mainStackSubViews {
             mainStackView.addArrangedSubview(view)
         }
-        mainStackView.setCustomSpacing(-30, after: weatherIcon)
+        mainStackView.setCustomSpacing(-10, after: weatherIcon)
         mainStackView.setCustomSpacing(-20, after: temperatureLabel)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: topAnchor),

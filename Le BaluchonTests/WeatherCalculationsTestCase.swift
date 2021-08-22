@@ -55,13 +55,13 @@ class WeatherCalculationsTestCase: XCTestCase {
     // Test convert visibility value from Int to string with speed unit
     func testFormatingIntValueToFormatedVisibiltyAsString() {
         let formatedValue = sut.convertToKilometerString(10000)
-        XCTAssertEqual(formatedValue, "10km")
+        XCTAssertEqual(formatedValue, "10 km")
     }
 
     // Test convert winspeed value from Double to string with speed unit
     func testFormatingDoubleValueToFormatedWindSpeedAsString() {
         let formatedValue = sut.convertToKmPerHourString(10)
-        XCTAssertEqual(formatedValue, "36km/h")
+        XCTAssertEqual(formatedValue, "36 km/h")
     }
 
     // Test convert a timestamp adding time difference to readable time
