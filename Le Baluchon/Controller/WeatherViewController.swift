@@ -186,7 +186,7 @@ extension WeatherViewController {
             localWeather.cityLabel.text = "\(city), \(country)"
         }
         if let temperature = weather.main?.temp {
-            localWeather.temperatureLabel.text = "\(temperature.toString(decimals: 0))°"
+            localWeather.temperatureLabel.text = "\(temperature.toDecimalString(decimals: 0))°"
         }
         if let weatherIcon = weather.weather?[0].icon {
             localWeather.weatherIcon.image = UIImage(named: weatherIcon)
@@ -203,7 +203,7 @@ extension WeatherViewController {
             destinationWeather.cityLabel.text = "\(city),\n\(country)"
         }
         if let temperature = weather.main?.temp {
-            destinationWeather.temperatureLabel.text = "\(temperature.toString(decimals: 0))°"
+            destinationWeather.temperatureLabel.text = "\(temperature.toDecimalString(decimals: 0))°"
         }
         if let weatherCondition = weather.weather?[0].description {
             destinationWeather.conditionsLabel.text = "\(weatherCondition)".capitalized

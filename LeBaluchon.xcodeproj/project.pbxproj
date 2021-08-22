@@ -272,6 +272,7 @@
 				8119705026CB9E4C00326EAB /* FakeData */,
 				81BF843126C7DFF500607BBA /* RateCalculatorTestCase.swift */,
 				817F358026D015F600D0321F /* WeatherCalculationsTestCase.swift */,
+				81AE7F7326D2BE64001A3F1D /* GeocodeManagerTestCase.swift */,
 				81B7251526C146350051C909 /* ServicesTests */,
 			);
 			path = "Le BaluchonTests";
@@ -387,7 +388,6 @@
 				8119705126CB9ED000326EAB /* CurrencyserviceTestCase.swift */,
 				8119705326CBA09B00326EAB /* LanguagesServiceTestCase.swift */,
 				8119709326CC26AD00326EAB /* WeatherIconServiceTestCase.swift */,
-				81AE7F7326D2BE64001A3F1D /* GeocodeManagerTestCase.swift */,
 			);
 			path = ServicesTests;
 			sourceTree = "<group>";

@@ -34,7 +34,7 @@ class GeocodeManagerTestCase: XCTestCase {
             case .success(let city):
                 XCTAssertNil(city)
             case .failure(let error):
-                XCTAssertEqual(error, .dataError)
+                XCTAssertEqual(error.description, GeocodingError.invalidCoordinates.description)
             }
             expectation.fulfill()
         }
@@ -51,7 +51,7 @@ class GeocodeManagerTestCase: XCTestCase {
             case .success(let city):
                 XCTAssertNil(city)
             case .failure(let error):
-                XCTAssertEqual(error, .responseError)
+                XCTAssertEqual(error.description, GeocodingError.locationNotFound.description)
             }
             expectation.fulfill()
         }

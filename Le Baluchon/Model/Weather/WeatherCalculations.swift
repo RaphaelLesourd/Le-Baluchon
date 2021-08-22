@@ -44,8 +44,8 @@ class WeatherCalculations {
         guard let speed = speed else {
             return "--"
         }
-        let speedInKmPerHour = speed * 3.6
-        return speedInKmPerHour.toString(decimals: 0) + " km/h"
+        print(speed)
+        return speed.toDistanceString(in: UnitSpeed.kilometersPerHour)
     }
 
     /// convert a Int value to formatted string.
@@ -55,7 +55,8 @@ class WeatherCalculations {
         guard let distance = distance else {
             return "--"
         }
-        return "\(distance / 1000) km"
+        let visilityInKm = Double(distance) / 1000
+        return visilityInKm.toDistanceString(in: UnitLength.kilometers)
     }
 
     /// Calculate and display formatted time.

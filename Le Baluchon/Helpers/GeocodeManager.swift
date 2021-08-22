@@ -14,16 +14,16 @@ class GeocodeManager {
     private var geocoder = CLGeocoder()
 
     func getCityName(for location: CLLocation?,
-                     completion: @escaping (Result<String, ApiError>) -> Void) {
+                     completion: @escaping (Result<String, GeocodingError>) -> Void) {
 
         guard let location = location else {
-            completion(.failure(.dataError))
+            completion(.failure(.invalidCoordinates))
             return
         }
         geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
             DispatchQueue.main.async {
                 if error != nil {
-                    completion(.failure(.responseError))
+                    completion(.failure(.locationNotFound))
                     return
                 }
                 if let cityName = placemarks?.first?.locality {

@@ -61,7 +61,7 @@ class WeatherCalculationsTestCase: XCTestCase {
     // Test convert winspeed value from Double to string with speed unit
     func testFormatingDoubleValueToFormatedWindSpeedAsString() {
         let formatedValue = sut.convertToKmPerHourString(10)
-        XCTAssertEqual(formatedValue, "36 km/h")
+        XCTAssertEqual(formatedValue, "10 km/h")
     }
 
     // Test convert a timestamp adding time difference to readable time

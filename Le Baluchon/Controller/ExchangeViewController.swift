@@ -111,7 +111,7 @@ class ExchangeViewController: UIViewController {
         rateCalculator.convertAmount() { result in
             switch result {
             case .success(let amount):
-                exchangeView.targetCurrencyView.textfield.text = amount.toString()
+                exchangeView.targetCurrencyView.textfield.text = amount.toDecimalString()
             case .failure(let error):
                 presentErrorAlert(with: error.description)
             }
@@ -148,7 +148,7 @@ class ExchangeViewController: UIViewController {
     private func updateDailyRate(with rate: Double) {
         guard let originCurrency = originCurrency else {return}
         guard let destinationCurrency = targetCurrency else {return}
-        exchangeView.dailyRateView.rateLabel.text = "1 \(originCurrency.symbol) = \(rate.toString()) \(destinationCurrency.symbol)"
+        exchangeView.dailyRateView.rateLabel.text = "1 \(originCurrency.symbol) = \(rate.toDecimalString()) \(destinationCurrency.symbol)"
     }
 
     private func updateLastFetchDate() {

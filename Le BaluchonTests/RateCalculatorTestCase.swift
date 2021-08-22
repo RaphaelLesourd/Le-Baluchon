@@ -21,69 +21,6 @@ class RateCalculatorTestCase: XCTestCase {
         super.tearDown()
         sut = nil
     }
-// MARK: - Success Calculation
-
-    // Test wih decimal amount
-    func testGivenRate_WhenAddingDecimalAmount_thenCalculateConvertedAmount() {
-        // Given
-        sut.currentRate = 1.18
-        // When
-        sut.amountToConvert = "100,40"
-        // Then
-        sut.convertAmount() { result in
-            switch result {
-            case .success(let amount):
-                XCTAssertEqual(118.472, amount)
-            case .failure(let error):
-                XCTAssertNil(error)
-            }
-        }
-    }
-
-// Test with no decimal in the amount
-    func testGivenRate_WhenAddingAmountNoDecimal_thenCalculateConvertedAmount() {
-        // Given
-        sut.currentRate = 1.18
-        // When
-        sut.amountToConvert = "100"
-        // Then
-        sut.convertAmount() { result in
-            switch result {
-            case .success(let amount):
-                XCTAssertEqual(118, amount)
-            case .failure(let error):
-                XCTAssertNil(error)
-            }
-        }
-    }
-    // Test when there is no amount
-    func testGivenRate_WhenStringAmountIsEmpty_thenCalculateConvertedAmount() {
-        // Given
-        sut.currentRate = 1.18
-        // When
-        sut.amountToConvert = ""
-        // Then
-        sut.convertAmount() { result in
-            switch result {
-            case .success(let amount):
-                XCTAssertEqual(amount, 0)
-            case .failure(let error):
-                XCTAssertNil(error)
-            }
-        }
-    }
-
-// Test calculation the opposite rate (USD -> EUR to EUR -> USD)
-    func testGivenRate_WhenConvertingToOppositeRate_thenCalculateConvertedAmount() {
-        // Given
-        sut.currentRate = 1.18
-        // When
-        sut.invertRates()
-        // Then
-        XCTAssertEqual(0.8474576271186441, sut.currentRate)
-    }
-
-    
 
     // MARK: - Errors
     func testGivenRate_WhenAddingAmountWith2Points_thenCalculateConvertedAmount() {
@@ -177,6 +114,68 @@ class RateCalculatorTestCase: XCTestCase {
         sut.invertRates()
         // Then
         XCTAssertNil(sut.currentRate)
+    }
+
+    // MARK: - Success
+
+    // Test wih decimal amount
+    func testGivenRate_WhenAddingDecimalAmount_thenCalculateConvertedAmount() {
+        // Given
+        sut.currentRate = 1.18
+        // When
+        sut.amountToConvert = "100,40"
+        // Then
+        sut.convertAmount() { result in
+            switch result {
+            case .success(let amount):
+                XCTAssertEqual(118.472, amount)
+            case .failure(let error):
+                XCTAssertNil(error)
+            }
+        }
+    }
+
+    // Test with no decimal in the amount
+    func testGivenRate_WhenAddingAmountNoDecimal_thenCalculateConvertedAmount() {
+        // Given
+        sut.currentRate = 1.18
+        // When
+        sut.amountToConvert = "100"
+        // Then
+        sut.convertAmount() { result in
+            switch result {
+            case .success(let amount):
+                XCTAssertEqual(118, amount)
+            case .failure(let error):
+                XCTAssertNil(error)
+            }
+        }
+    }
+    // Test when there is no amount
+    func testGivenRate_WhenStringAmountIsEmpty_thenCalculateConvertedAmount() {
+        // Given
+        sut.currentRate = 1.18
+        // When
+        sut.amountToConvert = ""
+        // Then
+        sut.convertAmount() { result in
+            switch result {
+            case .success(let amount):
+                XCTAssertEqual(amount, 0)
+            case .failure(let error):
+                XCTAssertNil(error)
+            }
+        }
+    }
+
+    // Test calculation the opposite rate (USD -> EUR to EUR -> USD)
+    func testGivenRate_WhenConvertingToOppositeRate_thenCalculateConvertedAmount() {
+        // Given
+        sut.currentRate = 1.18
+        // When
+        sut.invertRates()
+        // Then
+        XCTAssertEqual(0.8474576271186441, sut.currentRate)
     }
 }
 

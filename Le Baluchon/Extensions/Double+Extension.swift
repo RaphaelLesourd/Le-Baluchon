@@ -11,7 +11,7 @@ extension Double {
     /// Format result displayed to the user. If result is a is whole number then no digiti is displayed.
     /// - Parameter value: Pass in a double value to be converted.
     /// - Returns: Result value converted to a string.
-    func toString(decimals: Int = 2) -> String {
+    func toDecimalString(decimals: Int = 2) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.maximumFractionDigits = decimals
@@ -20,5 +20,23 @@ extension Double {
         let number = NSNumber(value: self)
         let formattedValue = formatter.string(from: number) ?? "0"
         return formattedValue
+    }
+
+    func toDistanceString(in unitType: Unit) -> String {
+
+        let formatter = MeasurementFormatter()
+        formatter.unitOptions = .naturalScale
+        formatter.unitStyle = .medium
+
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.maximumFractionDigits = 1
+        numberFormatter.locale = Locale(identifier: Locale.current.identifier)
+
+        formatter.numberFormatter = numberFormatter
+
+        let distanceMeasurement = Measurement(value: self, unit: unitType)
+
+        return formatter.string(from: distanceMeasurement)
     }
 }

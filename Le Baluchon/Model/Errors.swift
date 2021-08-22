@@ -46,3 +46,18 @@ extension ConversionError {
         }
     }
 }
+
+enum GeocodingError: Error {
+    case invalidCoordinates
+    case locationNotFound
+}
+extension GeocodingError {
+    var description: String {
+        switch self {
+        case .invalidCoordinates:
+            return "Coordonnées non valables."
+        case .locationNotFound:
+            return "Position introuvable."
+        }
+    }
+}
