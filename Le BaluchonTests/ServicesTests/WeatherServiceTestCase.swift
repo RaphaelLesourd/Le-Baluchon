@@ -9,19 +9,29 @@ import XCTest
 
 class WeatherServiceTestCase: XCTestCase {
 
-    let weatherService = WeatherService()
+    var sut: WeatherService!
+
+    override func setUp() {
+        super.setUp()
+        sut = WeatherService()
+    }
+
+    override func tearDown() {
+        super.tearDown()
+        sut = nil
+    }
 
     // MARK: - Errors
     func testApiServiceCompletionWithError() {
         // Given
-        weatherService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: nil,
                                     response: nil,
                                     error: ApiError.self as? Error))
 
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        weatherService.getWeather(for: "Paris") { result in
+        sut.getWeather(for: "Paris") { result in
             // Then
             switch result {
             case .success(let weather):
@@ -36,13 +46,13 @@ class WeatherServiceTestCase: XCTestCase {
 
     func testRateService_ForExchangeRate_CompletionWithErrorNoData() {
         // Given
-        weatherService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: nil,
                                     response: nil,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        weatherService.getWeather(for: "Paris") { result in
+        sut.getWeather(for: "Paris") { result in
             // Then
             switch result {
             case .success(let weather):
@@ -57,13 +67,13 @@ class WeatherServiceTestCase: XCTestCase {
 
     func testRateService_ForExchangeRate_CompletionWithErrorIfIncorrectResponse() {
         // Given
-        weatherService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: FakeResponseData.weatherCorrectData,
                                     response: FakeResponseData.responseKO,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        weatherService.getWeather(for: "Paris") { result in
+        sut.getWeather(for: "Paris") { result in
             // Then
             switch result {
             case .success(let weather):
@@ -78,13 +88,13 @@ class WeatherServiceTestCase: XCTestCase {
 
     func testRateService_ForExchangeRate_CompletionWithErrorIfIncorrectData() {
         // Given
-        weatherService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: FakeResponseData.incorrectData,
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        weatherService.getWeather(for: "Paris") { result in
+        sut.getWeather(for: "Paris") { result in
             // Then
             switch result {
             case .success(let weather):
@@ -101,13 +111,13 @@ class WeatherServiceTestCase: XCTestCase {
     // MARK: - Success
     func testWeatherService_ForWeather_CompletionWithNoErrorAndCorrectData() {
         // Given
-        weatherService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: FakeResponseData.weatherCorrectData,
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        weatherService.getWeather(for: "Paris") { result in
+        sut.getWeather(for: "Paris") { result in
             // Then
             switch result {
             case .success(let weather):

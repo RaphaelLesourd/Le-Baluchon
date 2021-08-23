@@ -10,19 +10,29 @@ import XCTest
 
 class TranslationServiceTestCase: XCTestCase {
 
-    let translationService = TranslationService()
+    var sut: TranslationService!
 
+    override func setUp() {
+        super.setUp()
+        sut = TranslationService()
+    }
+
+    override func tearDown() {
+        super.tearDown()
+        sut = nil
+    }
+    
     // MARK: - Errors
     func testApiServiceCompletionWithError() {
         // Given
-        translationService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: nil,
                                     response: nil,
                                     error: ApiError.self as? Error))
 
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        translationService.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
+        sut.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
             // Then
             switch result {
             case .success(let translation):
@@ -37,13 +47,13 @@ class TranslationServiceTestCase: XCTestCase {
 
     func testRateService_ForExchangeRate_CompletionWithErrorNoData() {
         // Given
-        translationService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: nil,
                                     response: nil,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        translationService.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
+        sut.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
             // Then
             switch result {
             case .success(let translation):
@@ -58,13 +68,13 @@ class TranslationServiceTestCase: XCTestCase {
 
     func testRateService_ForExchangeRate_CompletionWithErrorIfIncorrectResponse() {
         // Given
-        translationService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: FakeResponseData.translationCorrectData,
                                     response: FakeResponseData.responseKO,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        translationService.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
+        sut.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
             // Then
             switch result {
             case .success(let translation):
@@ -79,13 +89,13 @@ class TranslationServiceTestCase: XCTestCase {
 
     func testRateService_ForExchangeRate_CompletionWithErrorIfIncorrectData() {
         // Given
-        translationService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: FakeResponseData.incorrectData,
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        translationService.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
+        sut.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
             // Then
             switch result {
             case .success(let translation):
@@ -101,12 +111,12 @@ class TranslationServiceTestCase: XCTestCase {
     // MARK: - Success
     func testTranslationService_ForTranslation_CompletionWithNoErrorAndCorrectData() {
         // Given
-        translationService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: FakeResponseData.translationCorrectData,
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
-        translationService.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
+        sut.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
             // Then
             switch result {
             case .success(let translation):

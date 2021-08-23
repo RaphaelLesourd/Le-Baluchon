@@ -9,15 +9,17 @@ import XCTest
 
 class ApiServiceTestCase: XCTestCase {
 
+    var sut: ApiService!
+
     func testApiServiceCompletionWithNoUrl() {
         // Given
-        let apiService = ApiService(
+        sut = ApiService(
             session: URLSessionFake(data: nil,
                                     response: nil,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        apiService.getData(for: CurrencyList.self, with: nil) { result in
+        sut.getData(for: CurrencyList.self, with: nil) { result in
             // Then
             switch result {
             case .success(let currencies):

@@ -15,10 +15,10 @@ class CurrencyListViewController: UIViewController {
 
     // MARK: - Properties
     weak var exchangeDelegate: CurrencyListDelegate?
-    private let currenciesService = CurrencyService()
+    private var currenciesService = CurrencyService()
     private let listView = ListView(title: "Devises")
 
-    private var currencyList: [Currency] = [] {
+    var currencyList: [Currency] = [] {
         didSet{
             filteredCurrencyList = currencyList
         }

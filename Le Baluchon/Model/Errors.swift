@@ -13,8 +13,6 @@ enum ApiError: Error {
     case responseError
     case decodingData
 
-}
-extension ApiError {
     var description: String {
         switch self {
         case .urlError:
@@ -33,8 +31,7 @@ enum ConversionError: Error {
     case calculation
     case format
     case noData
-}
-extension ConversionError {
+
     var description: String {
         switch self {
         case .calculation:
@@ -50,8 +47,7 @@ extension ConversionError {
 enum GeocodingError: Error {
     case invalidCoordinates
     case locationNotFound
-}
-extension GeocodingError {
+
     var description: String {
         switch self {
         case .invalidCoordinates:
@@ -61,3 +57,4 @@ extension GeocodingError {
         }
     }
 }
+

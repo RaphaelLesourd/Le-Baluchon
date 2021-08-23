@@ -9,19 +9,29 @@ import XCTest
 
 class CurrencyserviceTestCase: XCTestCase {
 
-    let currencyService = CurrencyService()
+    var sut: CurrencyService!
+
+    override func setUp() {
+        super.setUp()
+        sut = CurrencyService()
+    }
+
+    override func tearDown() {
+        super.tearDown()
+        sut = nil
+    }
 
     // MARK: - Errors
     func testApiServiceCompletionWithError() {
         // Given
-        currencyService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: nil,
                                     response: nil,
                                     error: ApiError.self as? Error))
 
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        currencyService.getCurrencies() { result in
+        sut.getCurrencies() { result in
             // Then
             switch result {
             case .success(let currencyList):
@@ -36,13 +46,13 @@ class CurrencyserviceTestCase: XCTestCase {
 
     func testRateService_ForExchangeRate_CompletionWithErrorNoData() {
         // Given
-        currencyService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: nil,
                                     response: nil,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        currencyService.getCurrencies() { result in
+        sut.getCurrencies() { result in
             // Then
             switch result {
             case .success(let currencyList):
@@ -57,13 +67,13 @@ class CurrencyserviceTestCase: XCTestCase {
 
     func testRateService_ForExchangeRate_CompletionWithErrorIfIncorrectResponse() {
         // Given
-        currencyService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: FakeResponseData.currenciesListCorrectData,
                                     response: FakeResponseData.responseKO,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        currencyService.getCurrencies() { result in
+        sut.getCurrencies() { result in
             // Then
             switch result {
             case .success(let currencyList):
@@ -78,13 +88,13 @@ class CurrencyserviceTestCase: XCTestCase {
 
     func testRateService_ForExchangeRate_CompletionWithErrorIfIncorrectData() {
         // Given
-        currencyService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: FakeResponseData.incorrectData,
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        currencyService.getCurrencies() { result in
+        sut.getCurrencies() { result in
             // Then
             switch result {
             case .success(let currencyList):
@@ -101,12 +111,12 @@ class CurrencyserviceTestCase: XCTestCase {
     // MARK: - Success
     func testCurrencyService_ForCurrencyList_CompletionWithNoErrorAndCorrectData() {
         // Given
-        currencyService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: FakeResponseData.currenciesListCorrectData,
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
-        currencyService.getCurrencies() { result in
+        sut.getCurrencies() { result in
             // Then
             switch result {
             case .success(let currencyList):

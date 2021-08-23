@@ -9,19 +9,28 @@ import XCTest
 
 class LanguagesServiceTestCase: XCTestCase {
 
-    let languagesService = LanguagesService()
+    var sut: LanguagesService!
 
+    override func setUp() {
+        super.setUp()
+        sut = LanguagesService()
+    }
+
+    override func tearDown() {
+        super.tearDown()
+        sut = nil
+    }
     // MARK: - Errors
     func testApiServiceCompletionWithError() {
         // Given
-        languagesService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: nil,
                                     response: nil,
                                     error: ApiError.self as? Error))
 
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        languagesService.getLanguages() { result in
+        sut.getLanguages() { result in
             // Then
             switch result {
             case .success(let languagesList):
@@ -36,13 +45,13 @@ class LanguagesServiceTestCase: XCTestCase {
 
     func testRateService_ForExchangeRate_CompletionWithErrorNoData() {
         // Given
-        languagesService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: nil,
                                     response: nil,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        languagesService.getLanguages() { result in
+        sut.getLanguages() { result in
             // Then
             switch result {
             case .success(let languagesList):
@@ -57,13 +66,13 @@ class LanguagesServiceTestCase: XCTestCase {
 
     func testRateService_ForExchangeRate_CompletionWithErrorIfIncorrectResponse() {
         // Given
-        languagesService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: FakeResponseData.languagesListCorrectData,
                                     response: FakeResponseData.responseKO,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        languagesService.getLanguages() { result in
+        sut.getLanguages() { result in
             // Then
             switch result {
             case .success(let languagesList):
@@ -78,13 +87,13 @@ class LanguagesServiceTestCase: XCTestCase {
 
     func testRateService_ForExchangeRate_CompletionWithErrorIfIncorrectData() {
         // Given
-        languagesService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: FakeResponseData.incorrectData,
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        languagesService.getLanguages() { result in
+        sut.getLanguages() { result in
             // Then
             switch result {
             case .success(let languagesList):
@@ -101,12 +110,12 @@ class LanguagesServiceTestCase: XCTestCase {
     // MARK: - Success
     func testLanguagesService_ForLanguagesList_CompletionWithNoErrorAndCorrectData() {
         // Given
-        languagesService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: FakeResponseData.languagesListCorrectData,
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
-        languagesService.getLanguages() { result in
+        sut.getLanguages() { result in
             // Then
             switch result {
             case .success(let languagesList):

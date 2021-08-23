@@ -9,20 +9,30 @@ import XCTest
 
 class RateServiceTestCase: XCTestCase {
 
-    let rateService = RateService()
+    var sut: RateService!
+
+    override func setUp() {
+        super.setUp()
+        sut = RateService()
+    }
+
+    override func tearDown() {
+        super.tearDown()
+        sut = nil
+    }
 
     // MARK: - Errors
 
     func testApiServiceCompletionWithError() {
         // Given
-        rateService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: nil,
                                     response: nil,
                                     error: ApiError.self as? Error))
 
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        rateService.getRate(for: "EUR", destinationCurrency: "LAK") { result in
+        sut.getRate(for: "EUR", destinationCurrency: "LAK") { result in
             // Then
             switch result {
             case .success(let currencies):
@@ -37,13 +47,13 @@ class RateServiceTestCase: XCTestCase {
 
     func testRateService_ForExchangeRate_CompletionWithErrorNoData() {
         // Given
-        rateService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: nil,
                                     response: nil,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        rateService.getRate(for: "EUR", destinationCurrency: "LAK") { result in
+        sut.getRate(for: "EUR", destinationCurrency: "LAK") { result in
             // Then
             switch result {
             case .success(let rate):
@@ -58,13 +68,13 @@ class RateServiceTestCase: XCTestCase {
 
     func testRateService_ForExchangeRate_CompletionWithErrorIfIncorrectResponse() {
         // Given
-        rateService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: FakeResponseData.exhangeRateCorrectData,
                                     response: FakeResponseData.responseKO,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        rateService.getRate(for: "EUr", destinationCurrency: "LAK") { result in
+        sut.getRate(for: "EUr", destinationCurrency: "LAK") { result in
             // Then
             switch result {
             case .success(let rate):
@@ -79,13 +89,13 @@ class RateServiceTestCase: XCTestCase {
 
     func testRateService_ForExchangeRate_CompletionWithErrorIfIncorrectData() {
         // Given
-        rateService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: FakeResponseData.incorrectData,
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        rateService.getRate(for: "EUr", destinationCurrency: "LAK") { result in
+        sut.getRate(for: "EUr", destinationCurrency: "LAK") { result in
             // Then
             switch result {
             case .success(let rate):
@@ -101,13 +111,13 @@ class RateServiceTestCase: XCTestCase {
     // MARK: - Success
     func testRateService_ForExchangeRate_CompletionWithNoErrorAndCorrectData() {
         // Given
-        rateService.apiService = ApiService(
+        sut.apiService = ApiService(
             session: URLSessionFake(data: FakeResponseData.exhangeRateCorrectData,
                                     response: FakeResponseData.responseOK,
                                     error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        rateService.getRate(for: "EUR", destinationCurrency: "LAK") { result in
+        sut.getRate(for: "EUR", destinationCurrency: "LAK") { result in
             //Then
             switch result {
             case .success(let rate):
