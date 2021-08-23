@@ -186,7 +186,7 @@ extension WeatherViewController {
             localWeather.cityLabel.text = "\(city), \(country)"
         }
         if let temperature = weather.main?.temp {
-            localWeather.temperatureLabel.text = "\(temperature.toDecimalString(decimals: 0))°"
+            localWeather.temperatureLabel.text = "\(temperature.formatWithDecimals(decimals: 0))°"
         }
         if let weatherIcon = weather.weather?[0].icon {
             localWeather.weatherIcon.image = UIImage(named: weatherIcon)
@@ -203,7 +203,7 @@ extension WeatherViewController {
             destinationWeather.cityLabel.text = "\(city),\n\(country)"
         }
         if let temperature = weather.main?.temp {
-            destinationWeather.temperatureLabel.text = "\(temperature.toDecimalString(decimals: 0))°"
+            destinationWeather.temperatureLabel.text = "\(temperature.formatWithDecimals(decimals: 0))°"
         }
         if let weatherCondition = weather.weather?[0].description {
             destinationWeather.conditionsLabel.text = "\(weatherCondition)".capitalized
@@ -239,10 +239,11 @@ extension WeatherViewController {
             weatherInfo.directionView.valueLabel.text = "\(windDirection)°"
         }
         if let windSpeed = weather.wind?.speed {
-            weatherInfo.windView.valueLabel.text = weatherCalculations.convertToKmPerHourString(windSpeed)
+            weatherInfo.windView.valueLabel.text = windSpeed.formatWithUnit(in: UnitSpeed.kilometersPerHour)
         }
         if let visibility = weather.visibility {
-            weatherInfo.visiblityView.valueLabel.text = weatherCalculations.convertToKilometerString(visibility)
+            let visibilityInKm = Double(visibility / 1000)
+            weatherInfo.visiblityView.valueLabel.text = visibilityInKm.formatWithUnit(in: UnitLength.kilometers)
         }
         if let cloudCoverage = weather.clouds?.all {
             weatherInfo.cloudView.valueLabel.text = "\(cloudCoverage)%"
