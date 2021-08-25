@@ -89,10 +89,12 @@ class LanguagesListViewController: UIViewController {
         getLanguages()
     }
 
+    /// Show/start or hide/stop activity control
+    /// - Parameter status: Bool to set if activity control should be displayed or not
     private func displayRefresherActivityControls(_ status: Bool) {
         self.toggleActiviyIndicator(for: self.languagesListView.headerView.activityIndicator,
                                     and: self.languagesListView.refresherControl,
-                                    shown: status)
+                                    showing: status)
     }
 }
 
@@ -105,9 +107,7 @@ extension LanguagesListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-        // Set the currency list data to the title and subtitle label.
         let language = filteredLanguageList[indexPath.row]
         cell.textLabel?.text = language.name
         return cell

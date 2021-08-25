@@ -23,34 +23,11 @@ class TranslationServiceTestCase: XCTestCase {
     }
     
     // MARK: - Errors
-    func testApiServiceCompletionWithError() {
+    func testTranslationService_withError() {
         // Given
-        sut.apiService = ApiService(
-            session: URLSessionFake(data: nil,
-                                    response: nil,
-                                    error: ApiError.self as? Error))
+        let session = URLSessionFake(data: nil, response: nil, error: FakeResponseData.error)
+        sut.apiService = ApiService(session: session)
 
-        // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
-            // Then
-            switch result {
-            case .success(let translation):
-                XCTAssertNil(translation)
-            case .failure(let error):
-                XCTAssertEqual(error, ApiError.dataError)
-            }
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 0.10)
-    }
-
-    func testRateService_ForExchangeRate_CompletionWithErrorNoData() {
-        // Given
-        sut.apiService = ApiService(
-            session: URLSessionFake(data: nil,
-                                    response: nil,
-                                    error: nil))
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         sut.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
@@ -66,12 +43,31 @@ class TranslationServiceTestCase: XCTestCase {
         wait(for: [expectation], timeout: 0.10)
     }
 
-    func testRateService_ForExchangeRate_CompletionWithErrorIfIncorrectResponse() {
+    func testTranslationService_noData() {
         // Given
-        sut.apiService = ApiService(
-            session: URLSessionFake(data: FakeResponseData.translationCorrectData,
-                                    response: FakeResponseData.responseKO,
-                                    error: nil))
+        let session = URLSessionFake(data: nil, response: nil, error: nil)
+        sut.apiService = ApiService(session: session)
+        // When
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
+        sut.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
+            // Then
+            switch result {
+            case .success(let translation):
+                XCTAssertNil(translation)
+            case .failure(let error):
+                XCTAssertEqual(error.description, ApiError.dataError.description)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 0.10)
+    }
+
+    func testTranslationService_correctData_responseKO() {
+        // Given
+        let session = URLSessionFake(data: FakeResponseData.translationCorrectData,
+                                     response: FakeResponseData.responseKO,
+                                     error: nil)
+        sut.apiService = ApiService(session: session)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         sut.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
@@ -87,12 +83,12 @@ class TranslationServiceTestCase: XCTestCase {
         wait(for: [expectation], timeout: 0.10)
     }
 
-    func testRateService_ForExchangeRate_CompletionWithErrorIfIncorrectData() {
+    func testTranslationService_incorrectData_responseOK() {
         // Given
-        sut.apiService = ApiService(
-            session: URLSessionFake(data: FakeResponseData.incorrectData,
-                                    response: FakeResponseData.responseOK,
-                                    error: nil))
+        let session = URLSessionFake(data: FakeResponseData.incorrectData,
+                                     response: FakeResponseData.responseOK,
+                                     error: nil)
+        sut.apiService = ApiService(session: session)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         sut.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
@@ -109,12 +105,12 @@ class TranslationServiceTestCase: XCTestCase {
     }
 
     // MARK: - Success
-    func testTranslationService_ForTranslation_CompletionWithNoErrorAndCorrectData() {
+    func testTranslationService_noError_correctData() {
         // Given
-        sut.apiService = ApiService(
-            session: URLSessionFake(data: FakeResponseData.translationCorrectData,
-                                    response: FakeResponseData.responseOK,
-                                    error: nil))
+        let session = URLSessionFake(data: FakeResponseData.translationCorrectData,
+                                     response: FakeResponseData.responseOK,
+                                     error: nil)
+        sut.apiService = ApiService(session: session)
         // When
         sut.getTranslation(for: "Bonjour", from: "fr", to: "en") { result in
             // Then

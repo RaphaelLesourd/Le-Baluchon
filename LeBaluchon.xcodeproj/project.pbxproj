@@ -14,7 +14,7 @@
 		8119704B26CB866900326EAB /* RateServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8119704A26CB866900326EAB /* RateServiceTestCase.swift */; };
 		8119704D26CB996D00326EAB /* TranslationServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8119704C26CB996D00326EAB /* TranslationServiceTestCase.swift */; };
 		8119704F26CB9BD700326EAB /* WeatherServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8119704E26CB9BD700326EAB /* WeatherServiceTestCase.swift */; };
-		8119705226CB9ED000326EAB /* CurrencyserviceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8119705126CB9ED000326EAB /* CurrencyserviceTestCase.swift */; };
+		8119705226CB9ED000326EAB /* CurrencyServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8119705126CB9ED000326EAB /* CurrencyServiceTestCase.swift */; };
 		8119705426CBA09B00326EAB /* LanguagesServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8119705326CBA09B00326EAB /* LanguagesServiceTestCase.swift */; };
 		8119705626CBDDDC00326EAB /* WeatherIconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8119705526CBDDDC00326EAB /* WeatherIconService.swift */; };
 		8119709426CC26AD00326EAB /* WeatherIconServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8119709326CC26AD00326EAB /* WeatherIconServiceTestCase.swift */; };
@@ -115,7 +115,7 @@
 		8119704A26CB866900326EAB /* RateServiceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateServiceTestCase.swift; sourceTree = "<group>"; };
 		8119704C26CB996D00326EAB /* TranslationServiceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationServiceTestCase.swift; sourceTree = "<group>"; };
 		8119704E26CB9BD700326EAB /* WeatherServiceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherServiceTestCase.swift; sourceTree = "<group>"; };
-		8119705126CB9ED000326EAB /* CurrencyserviceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyserviceTestCase.swift; sourceTree = "<group>"; };
+		8119705126CB9ED000326EAB /* CurrencyServiceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyServiceTestCase.swift; sourceTree = "<group>"; };
 		8119705326CBA09B00326EAB /* LanguagesServiceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesServiceTestCase.swift; sourceTree = "<group>"; };
 		8119705526CBDDDC00326EAB /* WeatherIconService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIconService.swift; sourceTree = "<group>"; };
 		8119709326CC26AD00326EAB /* WeatherIconServiceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIconServiceTestCase.swift; sourceTree = "<group>"; };
@@ -226,8 +226,6 @@
 		8119705026CB9E4C00326EAB /* FakeData */ = {
 			isa = PBXGroup;
 			children = (
-				81B7251126C12DB10051C909 /* FakeResponseData.swift */,
-				81B7251326C141DD0051C909 /* URLSessionFake.swift */,
 				8119709526CC297F00326EAB /* 04d.png */,
 				8119704826CACB8B00326EAB /* Weather.json */,
 				8119704426CACA0F00326EAB /* Rate.json */,
@@ -277,6 +275,8 @@
 			children = (
 				81B7250C26C12C160051C909 /* Le BaluchonTests-Bridging-Header.h */,
 				8140575B26BC4E6800D4D31A /* Info.plist */,
+				81B7251126C12DB10051C909 /* FakeResponseData.swift */,
+				81B7251326C141DD0051C909 /* URLSessionFake.swift */,
 				8119705026CB9E4C00326EAB /* FakeData */,
 				81BF843126C7DFF500607BBA /* RateCalculatorTestCase.swift */,
 				817F358026D015F600D0321F /* WeatherCalculationsTestCase.swift */,
@@ -384,7 +384,7 @@
 				8119704A26CB866900326EAB /* RateServiceTestCase.swift */,
 				8119704C26CB996D00326EAB /* TranslationServiceTestCase.swift */,
 				8119704E26CB9BD700326EAB /* WeatherServiceTestCase.swift */,
-				8119705126CB9ED000326EAB /* CurrencyserviceTestCase.swift */,
+				8119705126CB9ED000326EAB /* CurrencyServiceTestCase.swift */,
 				8119705326CBA09B00326EAB /* LanguagesServiceTestCase.swift */,
 				8119709326CC26AD00326EAB /* WeatherIconServiceTestCase.swift */,
 			);
@@ -419,9 +419,9 @@
 				81B7250626BFF2030051C909 /* Double+Extension.swift */,
 				81C96CAE26C26057006057F9 /* UIFont+Extension.swift */,
 				81DE3D2126C3DCDC003E0F77 /* String+Extension.swift */,
-				81B724F726BF29110051C909 /* UIViewController+Extenstion.swift */,
 				81BF842B26C6A7C800607BBA /* Date+Extension.swift */,
 				817F357826CED82F00D0321F /* Int+Extension.swift */,
+				81B724F726BF29110051C909 /* UIViewController+Extenstion.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -670,7 +670,7 @@
 			files = (
 				81AE7F7426D2BE64001A3F1D /* GeocodeManagerTestCase.swift in Sources */,
 				8119705426CBA09B00326EAB /* LanguagesServiceTestCase.swift in Sources */,
-				8119705226CB9ED000326EAB /* CurrencyserviceTestCase.swift in Sources */,
+				8119705226CB9ED000326EAB /* CurrencyServiceTestCase.swift in Sources */,
 				8119704B26CB866900326EAB /* RateServiceTestCase.swift in Sources */,
 				81B7250E26C12C170051C909 /* ApiServiceTestCase.swift in Sources */,
 				8119709426CC26AD00326EAB /* WeatherIconServiceTestCase.swift in Sources */,

@@ -31,8 +31,9 @@ class WeatherMainView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     var searchBarHeightConstraint = NSLayoutConstraint()
+
     // MARK: - Subviews
     let refresherControl = Refresher(frame: .zero)
 
@@ -66,7 +67,7 @@ class WeatherMainView: UIView {
 
     let localWeatherView = LocalWeatherView()
     let destinationWeatherView = DestinationWeatherView()
-    let destinationWeatherInfoView = DestinationWeatherInfoView()
+    let destinationExtendedWeatherView = DestinationWeatherInfoView()
     let sunTimesView = SunTimesView()
     private let dataProviderLabel = LegendLabel(title: "Météo par OpenWeatherMap")
 
@@ -139,27 +140,24 @@ extension WeatherMainView {
     }
     
     private func setDestinationWeatherInfoViewHeight() {
-        destinationWeatherInfoView.translatesAutoresizingMaskIntoConstraints = false
-        destinationWeatherInfoView.heightAnchor.constraint(equalToConstant: 235).isActive = true
+        destinationExtendedWeatherView.translatesAutoresizingMaskIntoConstraints = false
+        destinationExtendedWeatherView.heightAnchor.constraint(equalToConstant: 235).isActive = true
     }
     /// Setup the mainStackView which hold all the UI subviews.
     private func setupMainstackView() {
         contentView.addSubview(mainStackView)
-        // Create an array of the subviews to add to the stackView
         let mainStackSubViews: [UIView] = [headerView,
                                            localWeatherView,
                                            searchBar,
                                            destinationWeatherView,
-                                           destinationWeatherInfoView,
+                                           destinationExtendedWeatherView,
                                            sunTimesView,
                                            dataProviderLabel]
-        // Iterate thru the subviews array to add them to the stak view
         for view in mainStackSubViews {
             mainStackView.addArrangedSubview(view)
         }
         mainStackView.setCustomSpacing(20, after: localWeatherView)
         mainStackView.setCustomSpacing(20, after: destinationWeatherView)
-        // Add constraints for the mainstackView
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
                                                constant: 20),

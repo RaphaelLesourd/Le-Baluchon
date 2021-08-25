@@ -20,7 +20,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Q9Z-rj-x5Q">
                                 <rect key="frame" x="100" y="94" width="214" height="652"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalCompressionResistancePriority="749" image="rocketIcon" translatesAutoresizingMaskIntoConstraints="NO" id="dSb-eu-VQv">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalCompressionResistancePriority="749" image="exchangeBackgroundImage" translatesAutoresizingMaskIntoConstraints="NO" id="dSb-eu-VQv">
                                         <rect key="frame" x="0.0" y="0.0" width="214" height="652"/>
                                     </imageView>
                                 </subviews>
@@ -42,7 +42,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="rocketIcon" width="500" height="802"/>
+        <image name="exchangeBackgroundImage" width="500" height="802"/>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

@@ -21,8 +21,7 @@ class LanguagesService {
             URLQueryItem(name: "target", value: "fr"),
             URLQueryItem(name: "key", value: ApiKeys.googleTranslateKey)
         ]
-
-        apiService.getData(for: Languages.self, with: urlComponents.url) { result in
+        apiService.getData(with: urlComponents.url) { (result: Result<Languages, ApiError>) in
             switch result {
             case .success(let languages):
                 completion(.success(languages))

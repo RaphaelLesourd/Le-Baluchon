@@ -12,6 +12,7 @@ class TranslationViewController: UIViewController {
     // MARK: - Properties
     private let translationView = TranslationMainView()
     private let translationService = TranslationService()
+    /// Orgin language Property
     private var originLanguage: Language? {
         didSet {
             guard let originLanguage = originLanguage else {return}
@@ -19,6 +20,7 @@ class TranslationViewController: UIViewController {
                 .setTitle(originLanguage.name, for: .normal)
         }
     }
+    /// traget translated language Property
     private var targetLanguage: Language? {
         didSet {
             guard let targetLanguage = targetLanguage else {return}
@@ -30,15 +32,11 @@ class TranslationViewController: UIViewController {
     private var tappedLanguageButtonTag: Int?
 
     // MARK: - Lifecycle
-
-    /// Set the view as rateView.
-    /// All UI elements are contained in a seperate UIView file.
     override func loadView() {
         view = translationView
         view.backgroundColor = .viewControllerBackgroundColor
     }
 
-    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setDelegates()
@@ -71,22 +69,22 @@ class TranslationViewController: UIViewController {
             .addTarget(self,action: #selector(getTranslatedText),for: .valueChanged)
     }
 
+    /// Default languages when the app is first open
     private func setDefaultLanguages() {
         originLanguage = Language(language: "fr", name: "Français")
         targetLanguage = Language(language: "en", name: "Anglais")
     }
 
     // MARK: - API Call
-    // translation request
+    /// Request translation from Api then call function to display result or display a error.
+    /// - Note: Unwarps originLanguage, targetLanguage, text optionals and check if text to be translated is empty before making api request.
     @objc private func getTranslatedText() {
         guard let originLanguage = originLanguage else {return}
         guard let targetLanguage = targetLanguage else {return}
         guard let text = originText, !text.isEmpty else {
-            displayRefresherActivityControls(false)
-            return
+            return displayRefresherActivityControls(false)
         }
         displayRefresherActivityControls(true)
-
         translationService.getTranslation(for: text,
                                           from: originLanguage.language,
                                           to: targetLanguage.language) { [weak self] result in
@@ -100,18 +98,21 @@ class TranslationViewController: UIViewController {
             }
         }
     }
-
+    /// Show/start or hide/stop activity control
+    /// - Parameter status: Bool to set if activity control should be displayed or not
     private func displayRefresherActivityControls(_ status: Bool) {
         toggleActiviyIndicator(for: translationView.headerView.activityIndicator,
                                and: translationView.refresherControl,
-                               shown: status)
+                               showing: status)
     }
 
     // MARK: - Languages swap
+
+    /// Swap chosen orgin and target languages.
+    /// - Note: If the orginLanguage is set to Auto (value = "") then present error alert.
     @objc private func swapLanguagebuttonTapped() {
         guard originLanguage?.language != "" else {
-            presentErrorAlert(with: "Le language de destination ne peux être mis en auto!")
-            return
+            return presentErrorAlert(with: "Le language de destination ne peux être mis en auto!")
         }
         let temporaryOriginalLanguage = originLanguage
         originLanguage = targetLanguage
@@ -134,10 +135,10 @@ class TranslationViewController: UIViewController {
 
     // MARK: - Languages List
     /// Present a modal viewController with a list of all currencies available.
+    /// - Note: Sender tag property sets the currencyButtonTag property to keep track which
+    /// button has been tapped.
     /// - Parameter sender: Tapped UIButton
     @objc private func displayLanguagesList(_ sender: UIButton) {
-        // set the UIbutton sender tag to the currencyButtonTag property to keep track which
-        // button has been pushed.
         tappedLanguageButtonTag = sender.tag
         let languagesList = LanguagesListViewController()
         languagesList.languagesDelegate = self
@@ -151,7 +152,7 @@ extension TranslationViewController: UITextViewDelegate {
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
                   replacementText text: String) -> Bool {
-        // UITextView doesn't provide a callback when user hits the return key.
+        // UITextView doesn't provide a callback when user hits the keyboard return key.
         // As a workaround, dismiss the keyboard when a new line character is detected.
         if text == "\n" {
             originText = textView.text
@@ -170,6 +171,9 @@ extension TranslationViewController: UITextViewDelegate {
 
 extension TranslationViewController: LanguagesListDelegate {
 
+    /// Set the  orgin language or target language with the Language object passed thru the LanguaguesListDelegate protocol.
+    /// Then request for a new translation.
+    /// - Parameter language: Languague object
     func updateLanguage(with language: Language) {
         if tappedLanguageButtonTag == 0 {
             originLanguage = language

@@ -23,8 +23,7 @@ class RateService {
             URLQueryItem(name: "symbols", value: destinationCurrency),
             URLQueryItem(name: "access_key", value: ApiKeys.ifixerKEY)
         ]
-
-        apiService.getData(for: Rate.self, with: urlComponents.url) { result in
+        apiService.getData(with: urlComponents.url) { (result: Result<Rate, ApiError>) in
             switch result {
             case .success(let rate):
                 completion(.success(rate))

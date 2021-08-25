@@ -18,11 +18,13 @@ class CurrencyListViewController: UIViewController {
     private var currenciesService = CurrencyService()
     private let listView = ListView(title: "Devises")
 
+    /// Array containing the entire list of currencies
     var currencyList: [Currency] = [] {
         didSet{
             filteredCurrencyList = currencyList
         }
     }
+    /// Array containing flitered list of currencies
     private var filteredCurrencyList: [Currency] = [] {
         didSet {
             filteredCurrencyList = filteredCurrencyList.sorted { $0.symbol < $1.symbol }
@@ -78,7 +80,7 @@ class CurrencyListViewController: UIViewController {
             }
         }
     }
-    /// Iterate through a currency dictionnary returned from a JSON
+    /// Iterate through a currency dictionnary returned from  Api Call
     /// and add data to currencyList array of type Currencies.
     /// - Dictionnary key: currency 3 letter code symbol
     /// - Dictionnary value: currency name
@@ -96,10 +98,12 @@ class CurrencyListViewController: UIViewController {
         listView.searchBar.resignFirstResponder()
         getCurrencies()
     }
+    /// Show/start or hide/stop activity control
+    /// - Parameter status: Bool to set if activity control should be displayed or not
     private func displayRefresherActivityControls(_ status: Bool) {
         self.toggleActiviyIndicator(for: self.listView.headerView.activityIndicator,
                                     and: self.listView.refresherControl,
-                                    shown: status)
+                                    showing: status)
     }
 }
 
@@ -125,7 +129,6 @@ extension CurrencyListViewController: UITableViewDataSource {
 extension CurrencyListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
         let currency = filteredCurrencyList[indexPath.row]
         let chosenCurrency = Currency(symbol: currency.symbol, name: currency.name)
         exchangeDelegate?.updateCurrency(with: chosenCurrency)
@@ -137,7 +140,6 @@ extension CurrencyListViewController: UITableViewDelegate {
 extension CurrencyListViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
         if searchText.isEmpty == false {
             filteredCurrencyList = currencyList.filter({$0.symbol.contains(searchText.uppercased()) ||
                                                         $0.name.contains(searchText)})

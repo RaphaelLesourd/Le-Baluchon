@@ -36,12 +36,12 @@ class WeatherIconService {
         }
     }
 
-    func requestWeatherIcon(with url: URL?,
-                            completion: @escaping (Result<Data, ApiError>) -> Void) {
+    func requestWeatherIcon(with url: URL?, completion: @escaping (Result<Data, ApiError>) -> Void) {
         guard let url = url else {
             completion(.failure(.urlError))
             return
         }
+        task?.cancel()
         task = session.dataTask(with: url) { (data, response, error) in
             DispatchQueue.main.async {
                 guard let data = data, error == nil else {

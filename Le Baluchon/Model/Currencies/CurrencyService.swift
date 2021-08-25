@@ -20,8 +20,7 @@ class CurrencyService {
         urlComponents.queryItems = [
             URLQueryItem(name: "access_key", value: ApiKeys.ifixerKEY)
         ]
-        
-        apiService.getData(for: CurrencyList.self, with: urlComponents.url) { result in
+        apiService.getData(with: urlComponents.url) { (result: Result<CurrencyList, ApiError>) in
             switch result {
             case .success(let currencies):
                 completion(.success(currencies))

@@ -18,9 +18,9 @@ enum ApiError: Error {
         case .urlError:
             return "Données introuvable."
         case .responseError:
-            return "Impossible de contacter le serveur."
+            return "Impossible de satisfaire la requette."
         case .dataError:
-            return "Nous n'avons pas pu recupérer les données."
+            return "Nous n'avons pas pu contacter le serveur."
         case .decodingData:
             return "Format de données non valide."
         }

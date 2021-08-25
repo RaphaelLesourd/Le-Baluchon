@@ -15,31 +15,17 @@ class WeatherViewController: UIViewController {
     private let weatherService = WeatherService()
     private let locationService = LocationService()
     private let weatherCalculations = WeatherCalculations()
-    private let defaultUserLocationCity = "Bangkok"
-    private let defaultDestinationCity = "New york"
+    private let defaultUserCityName = "Bangkok"
+    private let defaultDestinationCityName = "New york"
     private var searchBarButtonTap = true
 
-    private var localWeather: Weather? {
-        didSet {
-            if let localWeather = localWeather {
-                updateLocalWeatherView(with: localWeather)
-            }
-        }
-    }
-    private var destinationWeather: Weather? {
-        didSet {
-            if let destinationWeather = destinationWeather {
-                updateDestinationWeatherView(with: destinationWeather)
-                updateDestinationWeatherInfoView(with: destinationWeather)
-                updateSuntimesView(with: destinationWeather)
-            }
-        }
-    }
-    private var userLocationCity: String?  {
+    /// Property containing the user's current city name
+    private var userCityName: String?  {
         didSet{
             getLocalWeatherData()
         }
     }
+    /// Prpoerty containing destination city name
     private var destinationCityName: String? {
         didSet{
             getLocalWeatherData()
@@ -65,7 +51,7 @@ class WeatherViewController: UIViewController {
         weatherView.searchBar.delegate = self
         locationService.delegate = self
     }
-    /// Adds a refreshed to the scrollView, trigger a neworl call to fetch latest exchange rate.
+    /// Adds a refreshed to the scrollView, trigger a nework call to fetch latest exchange rate.
     private func setRefresherControl() {
         weatherView.scrollView.refreshControl = weatherView.refresherControl
         weatherView.refresherControl
@@ -79,21 +65,23 @@ class WeatherViewController: UIViewController {
     
     // MARK: - Fetch Data
     /// Fetch Weather data for userLocation city and destination city
+    /// - Note: If destinationCityName is nil, a default city name is used to request weather data.
     private func getLocalWeatherData() {
-        getWeather(for: userLocationCity ?? defaultUserLocationCity) { [weak self] weather in
+        getWeather(for: userCityName ?? defaultUserCityName) { [weak self] weather in
             guard let self = self else {return}
-            self.localWeather = weather
+            self.updateLocalWeatherView(with: weather)
             self.getDestinationWeather()
         }
     }
-
+    /// Fetch Weather data for destination city
+    /// - Note: If destinationCityName is nil, a default city name is used to request weather data.
     private func getDestinationWeather() {
-        self.getWeather(for: self.destinationCityName ?? self.defaultDestinationCity) { [weak self] weather in
+        self.getWeather(for: self.destinationCityName ?? self.defaultDestinationCityName) { [weak self] weather in
             guard let self = self else {return}
-            self.destinationWeather = weather
-            if let weatherIcon = weather.weather?[0].icon {
-                self.getWeatherConditionsIcon(with: weatherIcon)
-            }
+            self.updateDestinationWeatherView(with: weather)
+            self.updateDestinationExtendedWeatherView(with: weather)
+            self.updateSuntimesView(with: weather)
+            self.getWeatherConditionsIcon(with: weather)
         }
     }
     /// Get weather data from API.
@@ -113,9 +101,13 @@ class WeatherViewController: UIViewController {
             }
         }
     }
-
-    private func getWeatherConditionsIcon(with iconName: String) {
-        WeatherIconService.shared.getWeatherIcon(for: iconName) {  [weak self] result in
+    /// Fetch weather condition icon in a seperate API call then update the view.
+    /// - Note: If an error is trigger, instead of informing the user that there was an error to get this small comonents, it just remains blank.
+    /// The error is just printed.
+    /// - Parameter weather: Weather object
+    private func getWeatherConditionsIcon(with weather: Weather) {
+        guard let weatherIcon = weather.weather?[0].icon else {return}
+        WeatherIconService.shared.getWeatherIcon(for: weatherIcon) {  [weak self] result in
             guard let self = self else {return}
             switch result {
             case .success(let iconData):
@@ -125,29 +117,32 @@ class WeatherViewController: UIViewController {
             }
         }
     }
-
+    /// Show/start or hide/stop activity control
+    /// - Parameter status: Bool to set if activity control should be displayed or not
     private func displayRefresherActivityControls(_ status: Bool) {
         toggleActiviyIndicator(for: weatherView.headerView.activityIndicator,
                                and: weatherView.refresherControl,
-                               shown: status)
+                               showing: status)
     }
 
     // MARK: - User Location
-
+    /// Get user's location returned from location manager.
+    /// - Note: If no location is returned the default cityname is used to fetch Weather data.
     @objc private func getUserLocation() {
         guard let currentLocation = locationService.locationManager.location else {
-            userLocationCity = defaultUserLocationCity
+            userCityName = defaultUserCityName
             return
         }
         getUserLocationCityName(for: currentLocation)
     }
-
+    /// Get the city name from user location gps coordinates.
+    /// - Parameter userLocation: CLLocattion coordinates
     private func getUserLocationCityName(for userLocation: CLLocation) {
         GeocodeManager.shared.getCityName(for: userLocation) { [weak self] result in
             guard let self = self else {return}
             switch result {
             case .success(let cityName):
-                self.userLocationCity = cityName
+                self.userCityName = cityName
             case .failure(let error):
                 self.presentErrorAlert(with: error.description)
                 self.displayRefresherActivityControls(false)
@@ -157,11 +152,13 @@ class WeatherViewController: UIViewController {
 
     // MARK: - Search Bar
     @objc private func searchBarButtonTapped() {
-        let height: SearchBarHeight = searchBarButtonTap ? .expanded : .collapsed
-        animateSearchBar(for: height)
+        let heightState: SearchBarHeight = searchBarButtonTap ? .expanded : .collapsed
+        animateSearchBar(for: heightState)
         searchBarButtonTap.toggle()
         weatherView.searchBar.text = nil
     }
+    /// Animate searchBar to be visible or not.
+    /// - Parameter height: SearchBarHeight expanded or collapsed case
     private func animateSearchBar(for height: SearchBarHeight) {
         weatherView.searchBarHeightConstraint.isActive = false
         weatherView.searchBarHeightConstraint = weatherView.searchBar.heightAnchor.constraint(equalToConstant: height.rawValue)
@@ -186,13 +183,12 @@ extension WeatherViewController {
             localWeather.cityLabel.text = "\(city), \(country)"
         }
         if let temperature = weather.main?.temp {
-            localWeather.temperatureLabel.text = "\(temperature.formatWithDecimals(decimals: 0))°"
+            localWeather.temperatureLabel.text = "\(Int(temperature))°"
         }
         if let weatherIcon = weather.weather?[0].icon {
             localWeather.weatherIcon.image = UIImage(named: weatherIcon)
         }
     }
-
     // Destination Weather
     /// Update destination weather view with `Weather`object data
     /// - Parameter weather: Destination `Weather`object.
@@ -203,7 +199,7 @@ extension WeatherViewController {
             destinationWeather.cityLabel.text = "\(city),\n\(country)"
         }
         if let temperature = weather.main?.temp {
-            destinationWeather.temperatureLabel.text = "\(temperature.formatWithDecimals(decimals: 0))°"
+            destinationWeather.temperatureLabel.text = "\(Int(temperature))°"
         }
         if let weatherCondition = weather.weather?[0].description {
             destinationWeather.conditionsLabel.text = "\(weatherCondition)".capitalized
@@ -212,7 +208,6 @@ extension WeatherViewController {
             destinationWeather.weatherIcon.image = UIImage(named: weatherIcon)
         }
     }
-
     // Destination sun times
     private func updateSuntimesView(with weather: Weather) {
         guard let sunrise = weather.sys?.sunrise else {return}
@@ -229,12 +224,11 @@ extension WeatherViewController {
         weatherView.sunTimesView.sunProgressView.progress = progress
         weatherView.sunTimesView.sunProgressView.alpha = progress > 0 && progress < 1 ? 1 : 0
     }
-
     // Destination Extended Weather
     /// Update destination weather extended info  view with `Weather`object data
     /// - Parameter weather: Destination `Weather`object.
-    private func updateDestinationWeatherInfoView(with weather: Weather) {
-        let weatherInfo = weatherView.destinationWeatherInfoView
+    private func updateDestinationExtendedWeatherView(with weather: Weather) {
+        let weatherInfo = weatherView.destinationExtendedWeatherView
         if let windDirection = weather.wind?.deg {
             weatherInfo.directionView.valueLabel.text = "\(windDirection)°"
         }
@@ -256,6 +250,8 @@ extension WeatherViewController {
         }
     }
 
+    /// Update destination weather conditions icon provided by Openweathermap
+    /// - Parameter iconData: Image data
     private func updateConditionIcon(with iconData: Data) {
         self.weatherView.destinationWeatherView.conditionsIcon.image = UIImage(data: iconData)
     }
@@ -275,8 +271,10 @@ extension WeatherViewController: UISearchBarDelegate {
 // MARK: - Location Manager Delegate
 extension WeatherViewController: LocationServiceDelegate {
 
+    /// Present an error if LocationManager return an error. 
+    /// - Parameter error: error message
     func presentError(with error: String) {
-        presentErrorAlert(with: "Nous n'avons pas pu déterminer votre position.")
+        presentErrorAlert(with: error.description)
         displayRefresherActivityControls(false)
     }
 }

@@ -23,11 +23,10 @@ class CurrenciesListUITestCase: XCTestCase {
         app.scrollViews.otherElements/*@START_MENU_TOKEN@*/.staticTexts["EUR"]/*[[".buttons[\"EUR\"].staticTexts[\"EUR\"]",".staticTexts[\"EUR\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
 
         let title = app.staticTexts["Devises"]
-        let inProgressActivityIndicator = XCUIApplication().activityIndicators["In progress"]
         let searchBarTextField = app.searchFields["Recherche"]
 
         XCTAssertTrue(searchBarTextField.exists)
         XCTAssertTrue(title.exists)
-        XCTAssertTrue(inProgressActivityIndicator.exists)
+
     }
 }

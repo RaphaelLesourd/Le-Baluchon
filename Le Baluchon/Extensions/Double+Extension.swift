@@ -8,18 +8,6 @@
 import Foundation
 
 extension Double {
-    /// Format result displayed to the user. If result is a is whole number then no digiti is displayed.
-    /// - Parameter value: Pass in a double value to be converted.
-    /// - Returns: Result value converted to a string.
-    func formatWithDecimals(decimals: Int = 2) -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = decimals
-        formatter.decimalSeparator = "."
-        formatter.groupingSeparator = ","
-        let number = NSNumber(value: self)
-        return formatter.string(from: number) ?? "0"
-    }
 
     func formatWithUnit(in unitType: Unit) -> String {
         let formatter = MeasurementFormatter()
@@ -35,4 +23,17 @@ extension Double {
         let distanceMeasurement = Measurement(value: self, unit: unitType)
         return formatter.string(from: distanceMeasurement)
     }
+
+    func formatCurrency(currencyCode: String) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = currencyCode
+        formatter.positivePrefix = "\(formatter.positivePrefix!) "
+        formatter.decimalSeparator = "."
+        formatter.groupingSeparator = ","
+        let number = NSNumber(value: self)
+        return formatter.string(from: number) ?? "0"
+    }
+
+
 }

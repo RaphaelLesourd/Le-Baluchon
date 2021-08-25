@@ -15,7 +15,7 @@ class GeocodeManagerTestCase: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        sut = GeocodeManager()
+        sut = GeocodeManager.shared
     }
 
     override func tearDown() {

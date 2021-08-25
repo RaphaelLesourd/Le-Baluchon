@@ -98,12 +98,12 @@ extension TranslationMainView {
 
     private func setBackgroundImageConstraints() {
         contentView.addSubview(backgroundImage)
+        let screenSizeHeight = UIScreen.main.bounds.height
         NSLayoutConstraint.activate([
-            backgroundImage.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -10),
-            backgroundImage.widthAnchor.constraint(equalToConstant: screenSize.width),
-            backgroundImage.heightAnchor.constraint(equalToConstant: screenSize.width),
-            backgroundImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                     constant: -screenSize.width * 0.3)
+            backgroundImage.heightAnchor.constraint(equalToConstant: screenSizeHeight * 0.4),
+            backgroundImage.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -50),
+            backgroundImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -80),
+            backgroundImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -80)
         ])
     }
 
@@ -125,18 +125,15 @@ extension TranslationMainView {
     /// Setup the mainStackView which hold all the UI subviews.
     private func setupMainstackView() {
         contentView.addSubview(mainStackView)
-        // Create an array of the subviews to add to the stackView
         let mainStackSubViews: [UIView] = [headerView,
                                            languageChoiceView,
                                            originLanguageView,
                                            translatedLanguageView,
                                            dataProviderLabel
         ]
-        // Iterate thru the subviews array to add them to the stak view
         for view in mainStackSubViews {
             mainStackView.addArrangedSubview(view)
         }
-        // Change spacing between certain view
         mainStackView.setCustomSpacing(30, after: headerView)
         mainStackView.setCustomSpacing(30, after: originLanguageView)
         // Add constraints for the mainstackView

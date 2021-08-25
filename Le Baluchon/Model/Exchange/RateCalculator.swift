@@ -21,15 +21,16 @@ class RateCalculator {
         if amountToConvert?.count == 0 {
             amountToConvert = "0"
         }
-        guard let currency = amountToConvert?.replaceDecimal() else {
+        guard let amount = amountToConvert?.replaceDecimal() else {
             completion(.failure(.calculation))
             return
         }
-        guard !currency.singleDecimalSymbol else {
+        guard !amount.singleDecimalSymbol else {
+            self.amountToConvert = String(amount.dropLast())
             completion(.failure(.format))
             return
         }
-        guard let doubleCurrency = Double(currency) else {
+        guard let doubleCurrency = Double(amount) else {
             completion(.failure(.calculation))
             return
         }

@@ -53,6 +53,6 @@ extension LocationService: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager,
                          didFailWithError error: Error) {
-        delegate?.presentError(with: error.localizedDescription)
+        delegate?.presentError(with: "Nous n'avons pas pu déterminer votre position.")
     }
 }

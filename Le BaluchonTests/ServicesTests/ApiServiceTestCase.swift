@@ -11,15 +11,23 @@ class ApiServiceTestCase: XCTestCase {
 
     var sut: ApiService!
 
-    func testApiServiceCompletionWithNoUrl() {
+    override func setUp() {
+        super.setUp()
+        sut = ApiService(session: URLSessionFake(data: nil, response: nil, error: nil))
+    }
+
+    override func tearDown() {
+        super.tearDown()
+        sut = nil
+    }
+
+    func testApiService_noUrl() {
         // Given
-        sut = ApiService(
-            session: URLSessionFake(data: nil,
-                                    response: nil,
-                                    error: nil))
+        let session = URLSessionFake(data: nil, response: nil, error: nil)
+        sut = ApiService(session: session)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getData(for: CurrencyList.self, with: nil) { result in
+        sut.getData(with: nil) { (result: Result<CurrencyList, ApiError>) in
             // Then
             switch result {
             case .success(let currencies):

@@ -14,7 +14,7 @@ class ExchangeViewController: UIViewController {
     private let rateCalculator = RateCalculator()
     private let rateService = RateService()
     private var currencyButtonTag: Int?
-
+    /// Origin currency property
     private var originCurrency: Currency? {
         didSet {
             exchangeView.originCurrencyView.currencyButton.setTitle(originCurrency?.symbol,
@@ -22,10 +22,11 @@ class ExchangeViewController: UIViewController {
             exchangeView.originCurrencyView.nameLabel.text = originCurrency?.name
         }
     }
+    /// target currency property
     private var targetCurrency: Currency? {
         didSet {
             exchangeView.targetCurrencyView.currencyButton.setTitle(targetCurrency?.symbol,
-                                                                       for: .normal)
+                                                                    for: .normal)
             exchangeView.targetCurrencyView.nameLabel.text = targetCurrency?.name
         }
     }
@@ -60,11 +61,11 @@ class ExchangeViewController: UIViewController {
         rateCalculator.amountToConvert = "1"
         exchangeView.originCurrencyView.textfield.text = rateCalculator.amountToConvert
     }
-    /// Adds a refreshed to the scrollView, trigger a neworl call to fetch latest exchange rate.
+    /// Adds a refreshed to the scrollView, trigger a nework call to fetch latest exchange rate.
     private func setRefresherControl() {
         exchangeView.scrollView.refreshControl = exchangeView.refresherControl
-        exchangeView.refresherControl
-            .addTarget(self, action: #selector(getRate), for: .valueChanged)
+        exchangeView.refresherControl.addTarget(self, action: #selector(getRate),
+                                                for: .valueChanged)
     }
     /// Add targets to UIButtons.
     private func setButtonsTarget() {
@@ -81,8 +82,8 @@ class ExchangeViewController: UIViewController {
     @objc private func getRate() {
         guard let originCurrency = originCurrency else {return}
         guard let targetCurrency = targetCurrency else {return}
-        displayRefresherActivityControls(true)
 
+        displayRefresherActivityControls(true)
         rateService.getRate(for: originCurrency.symbol,
                             destinationCurrency: targetCurrency.symbol) { [weak self] result in
             guard let self = self else {return}
@@ -91,7 +92,7 @@ class ExchangeViewController: UIViewController {
             case .success(let rate):
                 guard let rateValue = rate.rates.values.first else {return}
                 self.rateCalculator.currentRate = rateValue
-                self.updateDailyRate(with: rateValue)
+                self.updateDailyRate()
                 self.getConvertedAmount()
                 self.updateLastFetchDate()
             case .failure(let error):
@@ -103,15 +104,17 @@ class ExchangeViewController: UIViewController {
     private func displayRefresherActivityControls(_ status: Bool) {
         toggleActiviyIndicator(for: exchangeView.headerView.activityIndicator,
                                and: exchangeView.refresherControl,
-                               shown: status)
+                               showing: status)
     }
 
     // MARK: - Conversion
+    /// Convert orgin amount entered by the user with the rate fetched from the Api
+    ///  then display the result or an error is the amount entered is baddly formatted.
     private func getConvertedAmount() {
         rateCalculator.convertAmount() { result in
             switch result {
             case .success(let amount):
-                exchangeView.targetCurrencyView.textfield.text = amount.formatWithDecimals()
+                exchangeView.targetCurrencyView.textfield.text = amount.formatCurrency(currencyCode: targetCurrency?.symbol ?? "")
             case .failure(let error):
                 presentErrorAlert(with: error.description)
             }
@@ -124,6 +127,8 @@ class ExchangeViewController: UIViewController {
         swapCurrencies()
         rateCalculator.invertRates()
         getConvertedAmount()
+        animateCurrencySwapButton()
+        updateDailyRate()
     }
     /// Swaps origin and destination currency object.
     private func swapCurrencies() {
@@ -145,12 +150,16 @@ class ExchangeViewController: UIViewController {
     }
 
     // MARK: - Update views
-    private func updateDailyRate(with rate: Double) {
+    /// Update the daily rate label with the current downloaded rate.
+    /// - Parameter rate: Downloaded rate
+    private func updateDailyRate() {
         guard let originCurrency = originCurrency else {return}
         guard let destinationCurrency = targetCurrency else {return}
-        exchangeView.dailyRateView.rateLabel.text = "1 \(originCurrency.symbol) = \(rate.formatWithDecimals()) \(destinationCurrency.symbol)"
+        guard let rate = rateCalculator.currentRate else {return}
+        exchangeView.dailyRateView.rateLabel.text = "1 \(originCurrency.symbol) = " + rate.formatCurrency(currencyCode: destinationCurrency.symbol)
     }
 
+    /// Display the date and time of the last time an APi call was made;
     private func updateLastFetchDate() {
         let date = Date()
         exchangeView.dailyRateView.lastUpdateLabel.text = "Mis à jour le " + date.toString()
@@ -192,10 +201,12 @@ extension ExchangeViewController: UITextFieldDelegate {
                    shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
 
+        // observe changes in the amount to convert textField and convert
+        // the amount accordingly.
         if let text = textField.text, let textRange = Range(range, in: text) {
             let updatedText = text.replacingCharacters(in: textRange, with: string)
-                rateCalculator.amountToConvert = updatedText
-                getConvertedAmount()
+            rateCalculator.amountToConvert = updatedText
+            getConvertedAmount()
         }
         return true
     }

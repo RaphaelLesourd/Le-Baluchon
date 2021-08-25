@@ -34,7 +34,7 @@ class DestinationWeatherView: UIView {
     let cityLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "--"
-        lbl.font = .textFontSemiBold(size: 21)
+        lbl.font = .textFontSemiBold(size: 23)
         lbl.sizeToFit()
         lbl.textColor = .titleColor
         lbl.numberOfLines = 3
@@ -111,7 +111,7 @@ class DestinationWeatherView: UIView {
         stack.axis = .vertical
         stack.alignment = .fill
         stack.distribution = .fill
-        stack.spacing = 0
+        stack.spacing = 10
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()

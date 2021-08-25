@@ -22,13 +22,10 @@ class RateServiceTestCase: XCTestCase {
     }
 
     // MARK: - Errors
-
-    func testApiServiceCompletionWithError() {
+    func testRateService_withError() {
         // Given
-        sut.apiService = ApiService(
-            session: URLSessionFake(data: nil,
-                                    response: nil,
-                                    error: ApiError.self as? Error))
+        let session = URLSessionFake(data: nil,  response: nil, error: FakeResponseData.error)
+        sut.apiService = ApiService(session: session)
 
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
@@ -38,19 +35,17 @@ class RateServiceTestCase: XCTestCase {
             case .success(let currencies):
                 XCTAssertNil(currencies)
             case .failure(let error):
-                XCTAssertEqual(error, ApiError.dataError)
+                XCTAssertEqual(error.description, ApiError.dataError.description)
             }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.10)
     }
 
-    func testRateService_ForExchangeRate_CompletionWithErrorNoData() {
+    func testRateService_noData() {
         // Given
-        sut.apiService = ApiService(
-            session: URLSessionFake(data: nil,
-                                    response: nil,
-                                    error: nil))
+        let session = URLSessionFake(data: nil, response: nil, error: nil)
+        sut.apiService = ApiService(session: session)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         sut.getRate(for: "EUR", destinationCurrency: "LAK") { result in
@@ -66,12 +61,12 @@ class RateServiceTestCase: XCTestCase {
         wait(for: [expectation], timeout: 0.10)
     }
 
-    func testRateService_ForExchangeRate_CompletionWithErrorIfIncorrectResponse() {
+    func testRateService_correctData_responseKO() {
         // Given
-        sut.apiService = ApiService(
-            session: URLSessionFake(data: FakeResponseData.exhangeRateCorrectData,
-                                    response: FakeResponseData.responseKO,
-                                    error: nil))
+        let session = URLSessionFake(data: FakeResponseData.exhangeRateCorrectData,
+                                     response: FakeResponseData.responseKO,
+                                     error: nil)
+        sut.apiService = ApiService(session: session)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         sut.getRate(for: "EUr", destinationCurrency: "LAK") { result in
@@ -87,12 +82,12 @@ class RateServiceTestCase: XCTestCase {
         wait(for: [expectation], timeout: 0.10)
     }
 
-    func testRateService_ForExchangeRate_CompletionWithErrorIfIncorrectData() {
+    func testRateService_incorrectData_responseOK() {
         // Given
-        sut.apiService = ApiService(
-            session: URLSessionFake(data: FakeResponseData.incorrectData,
-                                    response: FakeResponseData.responseOK,
-                                    error: nil))
+        let session = URLSessionFake(data: FakeResponseData.incorrectData,
+                                     response: FakeResponseData.responseOK,
+                                     error: nil)
+        sut.apiService = ApiService(session: session)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         sut.getRate(for: "EUr", destinationCurrency: "LAK") { result in
@@ -109,12 +104,12 @@ class RateServiceTestCase: XCTestCase {
     }
 
     // MARK: - Success
-    func testRateService_ForExchangeRate_CompletionWithNoErrorAndCorrectData() {
+    func testRateService_noError_correctData() {
         // Given
-        sut.apiService = ApiService(
-            session: URLSessionFake(data: FakeResponseData.exhangeRateCorrectData,
-                                    response: FakeResponseData.responseOK,
-                                    error: nil))
+        let session = URLSessionFake(data: FakeResponseData.exhangeRateCorrectData,
+                                     response: FakeResponseData.responseOK,
+                                     error: nil)
+        sut.apiService = ApiService(session: session)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         sut.getRate(for: "EUR", destinationCurrency: "LAK") { result in

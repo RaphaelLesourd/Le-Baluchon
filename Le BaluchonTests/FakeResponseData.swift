@@ -57,8 +57,8 @@ class FakeResponseData {
                                      statusCode: 500,
                                      httpVersion: nil,
                                      headerFields: nil)!
-    static let responseNotFound = HTTPURLResponse(url: URL(string: "https://google.com")!,
-                                            statusCode: 404,
-                                            httpVersion: nil,
-                                            headerFields: nil)!
+
+    class ApiError: Error {}
+    static let error = ApiError()
+    
 }

@@ -8,45 +8,24 @@
 import XCTest
 
 class WeatherIconServiceTestCase: XCTestCase {
-
+    
     var sut: WeatherIconService!
-
+    
     override func setUp() {
         super.setUp()
         sut = WeatherIconService(session: URLSessionFake(data: nil, response: nil, error: nil))
     }
-
+    
     override func tearDown() {
         super.tearDown()
         sut = nil
     }
     // MARK: - Errors
-    func testApiServiceCompletionWithError() {
+    func testWeatherIconService_withError() {
         // Given
-        sut = WeatherIconService(session: URLSessionFake(data: nil,
-                                                                        response: nil,
-                                                                        error: ApiError.self as? Error))
-
-        // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getWeatherIcon(for: "04d") { result in
-            // Then
-            switch result {
-            case .success(let data):
-                XCTAssertNil(data)
-            case .failure(let error):
-                XCTAssertEqual(error, ApiError.dataError)
-            }
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 0.10)
-    }
-
-    func testRateService_ForExchangeRate_CompletionWithErrorNoData() {
-        // Given
-        sut = WeatherIconService(session: URLSessionFake(data: nil,
-                                                                        response: nil,
-                                                                        error: nil))
+        let session = URLSessionFake(data: nil, response: nil, error: FakeResponseData.error)
+        sut = WeatherIconService(session: session)
+        
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         sut.getWeatherIcon(for: "04d") { result in
@@ -61,12 +40,32 @@ class WeatherIconServiceTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.10)
     }
-
-    func testRateService_ForExchangeRate_CompletionWithErrorIfIncorrectResponse() {
+    
+    func testWeatherIconService_noData() {
         // Given
-        sut = WeatherIconService(session: URLSessionFake(data: FakeResponseData.weatherImageCorrectData,
-                                                                        response: FakeResponseData.responseKO,
-                                                                        error: nil))
+        let session = URLSessionFake(data: nil, response: nil, error: nil)
+        sut = WeatherIconService(session: session)
+        // When
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
+        sut.getWeatherIcon(for: "04d") { result in
+            // Then
+            switch result {
+            case .success(let data):
+                XCTAssertNil(data)
+            case .failure(let error):
+                XCTAssertEqual(error.description, ApiError.dataError.description)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 0.10)
+    }
+    
+    func testWeatherIconService_correctData_responseKO() {
+        // Given
+        let session = URLSessionFake(data: FakeResponseData.weatherImageCorrectData,
+                                     response: FakeResponseData.responseKO,
+                                     error: nil)
+        sut = WeatherIconService(session: session)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         sut.getWeatherIcon(for: "04d") { result in
@@ -81,12 +80,13 @@ class WeatherIconServiceTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.10)
     }
-
-    func testRateService_ForExchangeRate_CompletionWithErrorIfIncorrectData() {
+    
+    func testWeatherIconService_incorrectData_responseOK() {
         // Given
-        sut = WeatherIconService(session: URLSessionFake(data: FakeResponseData.incorrectData,
-                                                                        response: FakeResponseData.responseOK,
-                                                                        error: nil))
+        let session = URLSessionFake(data: FakeResponseData.incorrectData,
+                                     response: FakeResponseData.responseOK,
+                                     error: nil)
+        sut = WeatherIconService(session: session)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         sut.requestWeatherIcon(with: nil) { result in
@@ -101,14 +101,15 @@ class WeatherIconServiceTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.10)
     }
-
-
-// MARK: - Success
-    func testWeatherIconService_ForWeatherIcon_CompletionWithNoErrorAndCorrectData() {
+    
+    
+    // MARK: - Success
+    func testWeatherIconService_noError_correctData() {
         // Given
-        sut = WeatherIconService(session: URLSessionFake(data: FakeResponseData.weatherImageCorrectData,
-                                                                        response: FakeResponseData.responseOK,
-                                                                        error: ApiError.self as? Error))
+        let session = URLSessionFake(data: FakeResponseData.weatherImageCorrectData,
+                                     response: FakeResponseData.responseOK,
+                                     error: ApiError.self as? Error)
+        sut = WeatherIconService(session: session)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         sut.getWeatherIcon(for: "04d") { result in

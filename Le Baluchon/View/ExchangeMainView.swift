@@ -124,13 +124,12 @@ extension ExchangeMainView {
     private func setBackgroundImageConstraints() {
         contentView.addSubview(backgroundImage)
         
-        let screenSizeWidth = UIScreen.main.bounds.width
+        let screenSizeHeight = UIScreen.main.bounds.height
         NSLayoutConstraint.activate([
-            backgroundImage.centerYAnchor.constraint(equalTo: centerYAnchor),
-            backgroundImage.widthAnchor.constraint(equalTo: contentView.widthAnchor),
-            backgroundImage.heightAnchor.constraint(equalToConstant: screenSizeWidth * 1.3),
-            backgroundImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                     constant: -screenSizeWidth * 0.3)
+            backgroundImage.heightAnchor.constraint(equalToConstant: screenSizeHeight * 0.51),
+            backgroundImage.bottomAnchor.constraint(equalTo: bottomAnchor),
+            backgroundImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -50),
+            backgroundImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -80)
         ])
     }
     
@@ -153,20 +152,16 @@ extension ExchangeMainView {
     /// Setup the mainStackView which hold all the UI subviews.
     private func setupMainstackView() {
         contentView.addSubview(mainStackView)
-        // Create an array of the subviews to add to the stackView
         let mainStackSubViews: [UIView] = [headerView,
                                            originCurrencyView,
                                            targetCurrencyView,
                                            dailyRateView,
                                            dataProviderLabel
         ]
-        // Iterate thru the subviews array to add them to the stak view
         for view in mainStackSubViews {
             mainStackView.addArrangedSubview(view)
         }
-        // Change spacing between certain view
         mainStackView.setCustomSpacing(10, after: dailyRateView)
-        // Add constraints for the mainstackView
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,

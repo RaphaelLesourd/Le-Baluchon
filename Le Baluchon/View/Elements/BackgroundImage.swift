@@ -13,6 +13,7 @@ class BackgroundImage: UIImageView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         self.backgroundColor = .clear
+        self.alpha = 0.7
         self.contentMode = .scaleAspectFit
         self.translatesAutoresizingMaskIntoConstraints = false
     }

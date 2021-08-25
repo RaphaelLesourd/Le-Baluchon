@@ -24,5 +24,4 @@ extension String {
     var countryName: String {
         return Locale(identifier: "fr_FR").localizedString(forRegionCode: self) ?? ""
     }
-
 }

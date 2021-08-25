@@ -21,10 +21,10 @@ extension UIViewController {
     // MARK: - ActivtyIndicator
     func toggleActiviyIndicator(for indicator: UIActivityIndicatorView,
                                 and refresher: UIRefreshControl,
-                                shown: Bool) {
-        indicator.isHidden = !shown
-        shown ? indicator.startAnimating() : indicator.stopAnimating()
-        if shown == false {
+                                showing: Bool) {
+        indicator.isHidden = !showing
+        showing ? indicator.startAnimating() : indicator.stopAnimating()
+        if showing == false {
             refresher.perform(#selector(UIRefreshControl.endRefreshing), with: nil, afterDelay: 0.1)
         }
     }
