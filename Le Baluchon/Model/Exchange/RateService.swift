@@ -13,7 +13,7 @@ class RateService {
 
     func getRate(for baseCurrency: String, destinationCurrency: String,
                      completion: @escaping (Result<Rate, ApiError>) -> Void) {
-
+        
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "data.fixer.io"
@@ -24,12 +24,7 @@ class RateService {
             URLQueryItem(name: "access_key", value: ApiKeys.ifixerKEY)
         ]
         apiService.getData(with: urlComponents.url) { (result: Result<Rate, ApiError>) in
-            switch result {
-            case .success(let rate):
-                completion(.success(rate))
-            case .failure(let error):
-                completion(.failure(error))
-            }
+            completion(result)
         }
     }
 }

@@ -80,13 +80,13 @@ class ExchangeViewController: UIViewController {
     // MARK: - API Call
     //  - Request exhange rate for currencies.
     @objc private func getRate() {
-        guard let originCurrency = originCurrency else {return}
-        guard let targetCurrency = targetCurrency else {return}
-
+        guard let originCurrency = originCurrency, let targetCurrency = targetCurrency else {return}
         displayRefresherActivityControls(true)
+
         rateService.getRate(for: originCurrency.symbol,
                             destinationCurrency: targetCurrency.symbol) { [weak self] result in
             guard let self = self else {return}
+
             self.displayRefresherActivityControls(false)
             switch result {
             case .success(let rate):
@@ -137,9 +137,7 @@ class ExchangeViewController: UIViewController {
         self.targetCurrency = tempCurrency
     }
    
-    /// Rotate the currencySwaButton with animation.
-    /// - Rotate the button 180°
-    /// - Set the button to its orginial state once the animation is complete.
+    /// Rotate the currencySwaButton 180° with animation.
     private func animateCurrencySwapButton() {
         UIView.animate(withDuration: 0.3, delay: 0, options: [.allowUserInteraction]) {
             self.exchangeView.currencySwapButton

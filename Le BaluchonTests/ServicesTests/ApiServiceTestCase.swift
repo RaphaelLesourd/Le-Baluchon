@@ -21,7 +21,7 @@ class ApiServiceTestCase: XCTestCase {
         sut = nil
     }
 
-    func testApiService_noUrl() {
+    func testApiService_noUrl_withError() {
         // Given
         let session = URLSessionFake(data: nil, response: nil, error: nil)
         sut = ApiService(session: session)

@@ -26,10 +26,11 @@ class SunTimesView: UIView {
     let sunProgressView: UIProgressView = {
         let progress = UIProgressView()
         progress.progressViewStyle = .default
-        progress.progressTintColor = .label
         progress.trackTintColor = .tertiaryLabel
+       // progress.progressTintColor = .label
+        progress.progressImage = #imageLiteral(resourceName: "gradient")
         progress.translatesAutoresizingMaskIntoConstraints = false
-        progress.heightAnchor.constraint(equalToConstant: 4).isActive = true
+        progress.heightAnchor.constraint(equalToConstant: 6).isActive = true
         return progress
     }()
 
@@ -44,7 +45,7 @@ class SunTimesView: UIView {
     }()
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        sunProgressView.progressTintColor = .label
+     //   sunProgressView.progressTintColor = .label
         sunProgressView.trackTintColor = .tertiaryLabel
     }
 }

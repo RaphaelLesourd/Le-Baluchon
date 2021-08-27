@@ -22,12 +22,7 @@ class LanguagesService {
             URLQueryItem(name: "key", value: ApiKeys.googleTranslateKey)
         ]
         apiService.getData(with: urlComponents.url) { (result: Result<Languages, ApiError>) in
-            switch result {
-            case .success(let languages):
-                completion(.success(languages))
-            case .failure(let error):
-                completion(.failure(error))
-            }
+            completion(result)
         }
     }
 }

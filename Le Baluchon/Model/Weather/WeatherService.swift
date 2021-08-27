@@ -25,12 +25,7 @@ class WeatherService {
             URLQueryItem(name: "appid", value: ApiKeys.openWeatherKEY)
         ]
         apiService.getData(with: urlComponents.url) { (result: Result<Weather, ApiError>) in
-            switch result {
-            case .success(let weather):
-                completion(.success(weather))
-            case .failure(let error):
-                completion(.failure(error))
-            }
+            completion(result)
         }
     }
 }

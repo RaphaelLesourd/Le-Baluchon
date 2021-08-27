@@ -27,12 +27,7 @@ class WeatherIconService {
         urlComponents.path = "/img/wn/\(imageName)@2x.png"
 
         requestWeatherIcon(with: urlComponents.url) { result in
-            switch result {
-            case .success(let data):
-                completion(.success(data))
-            case .failure(let error):
-                completion(.failure(error))
-            }
+            completion(result)
         }
     }
 

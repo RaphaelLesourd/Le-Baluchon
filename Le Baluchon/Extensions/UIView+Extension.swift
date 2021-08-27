@@ -27,7 +27,7 @@ extension UIView {
         }
     }
     /// Adds a blur effet to a view.
-    func addBlurEffect(blurStyle: UIBlurEffect.Style = .systemChromeMaterial,
+    func addBlurEffect(blurStyle: UIBlurEffect.Style = .prominent,
                        transparency: CGFloat = 0.7) {
         let blurEffect = UIBlurEffect(style: blurStyle)
         let blurredEffectView = UIVisualEffectView(effect: blurEffect)

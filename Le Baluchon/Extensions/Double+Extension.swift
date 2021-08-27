@@ -29,8 +29,6 @@ extension Double {
         formatter.numberStyle = .currency
         formatter.currencyCode = currencyCode
         formatter.positivePrefix = "\(formatter.positivePrefix!) "
-        formatter.decimalSeparator = "."
-        formatter.groupingSeparator = ","
         let number = NSNumber(value: self)
         return formatter.string(from: number) ?? "0"
     }

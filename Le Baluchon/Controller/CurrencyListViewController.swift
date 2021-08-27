@@ -84,7 +84,7 @@ class CurrencyListViewController: UIViewController {
     /// and add data to currencyList array of type Currencies.
     /// - Dictionnary key: currency 3 letter code symbol
     /// - Dictionnary value: currency name
-    /// - Parameter currencyDictionnary: Dictionnary of type [String : String]
+    /// - Parameter currencyDictionnary: Currency list Dictionnary
     private func createCurrenciesList(with currencyDictionnary: [String: String]) {
         for (keys, values) in currencyDictionnary {
             let post = Currency(symbol: keys, name: values)

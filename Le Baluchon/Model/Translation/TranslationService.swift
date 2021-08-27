@@ -28,12 +28,7 @@ class TranslationService {
             URLQueryItem(name: "key", value: ApiKeys.googleTranslateKey)
         ]
         apiService.getData(with: urlComponents.url) { (result: Result<Translation, ApiError>) in
-            switch result {
-            case .success(let translation):
-                completion(.success(translation))
-            case .failure(let error):
-                completion(.failure(error))
-            }
+            completion(result)
         }
     }
 }

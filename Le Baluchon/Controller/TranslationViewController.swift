@@ -79,8 +79,7 @@ class TranslationViewController: UIViewController {
     /// Request translation from Api then call function to display result or display a error.
     /// - Note: Unwarps originLanguage, targetLanguage, text optionals and check if text to be translated is empty before making api request.
     @objc private func getTranslatedText() {
-        guard let originLanguage = originLanguage else {return}
-        guard let targetLanguage = targetLanguage else {return}
+        guard let originLanguage = originLanguage, let targetLanguage = targetLanguage else {return}
         guard let text = originText, !text.isEmpty else {
             return displayRefresherActivityControls(false)
         }
