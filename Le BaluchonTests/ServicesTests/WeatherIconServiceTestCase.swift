@@ -8,14 +8,14 @@
 import XCTest
 
 class WeatherIconServiceTestCase: XCTestCase {
-    
+
     var sut: WeatherIconService!
-    
+
     override func setUp() {
         super.setUp()
         sut = WeatherIconService(session: URLSessionFake(data: nil, response: nil, error: nil))
     }
-    
+
     override func tearDown() {
         super.tearDown()
         sut = nil
@@ -25,7 +25,7 @@ class WeatherIconServiceTestCase: XCTestCase {
         // Given
         let session = URLSessionFake(data: nil, response: nil, error: FakeResponseData.error)
         sut = WeatherIconService(session: session)
-        
+
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         sut.getWeatherIcon(for: "04d") { result in
@@ -40,7 +40,7 @@ class WeatherIconServiceTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.10)
     }
-    
+
     func testWeatherIconService_noData() {
         // Given
         let session = URLSessionFake(data: nil, response: nil, error: nil)
@@ -59,7 +59,7 @@ class WeatherIconServiceTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.10)
     }
-    
+
     func testWeatherIconService_correctData_responseKO() {
         // Given
         let session = URLSessionFake(data: FakeResponseData.weatherImageCorrectData,
@@ -80,7 +80,7 @@ class WeatherIconServiceTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.10)
     }
-    
+
     func testWeatherIconService_incorrectData_responseOK() {
         // Given
         let session = URLSessionFake(data: FakeResponseData.incorrectData,
@@ -101,8 +101,7 @@ class WeatherIconServiceTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.10)
     }
-    
-    
+
     // MARK: - Success
     func testWeatherIconService_noError_correctData() {
         // Given

@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>Le Baluchon</string>
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
@@ -25,12 +25,12 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>Le Baluchon a besoin d'avoir accés à votre position pour determiner la météo prés de chez vous.</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>Le Baluchon a besoin d'avoir accés à votre position pour determiner la météo prés de chez vous.</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Le Baluchon a besoin d'avoir accés à votre position pour determiner la météo prés de chez vous.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Le Baluchon a besoin d&apos;avoir accés à votre position pour determiner la météo prés de chez vous.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Le Baluchon a besoin d&apos;avoir accés à votre position pour determiner la météo prés de chez vous.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Le Baluchon a besoin d&apos;avoir accés à votre position pour determiner la météo prés de chez vous.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Galano Grotesque Medium.otf</string>

@@ -21,7 +21,7 @@ class TranslationServiceTestCase: XCTestCase {
         super.tearDown()
         sut = nil
     }
-    
+
     // MARK: - Errors
     func testTranslationService_withError() {
         // Given

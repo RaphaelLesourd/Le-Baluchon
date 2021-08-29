@@ -12,7 +12,7 @@ extension UIViewController {
 
     // MARK: - Alert
     func presentErrorAlert(with message: String) {
-        let alert = UIAlertController(title: "Erreur!", message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Erreur", message: message, preferredStyle: .alert)
         let dismissAction = UIAlertAction(title: "Fermer", style: .default, handler: nil)
         alert.addAction(dismissAction)
         present(alert, animated: true, completion: nil)
@@ -28,7 +28,7 @@ extension UIViewController {
             refresher.perform(#selector(UIRefreshControl.endRefreshing), with: nil, afterDelay: 0.1)
         }
     }
-    
+
     // MARK: - Keyboard
     func addKeyboardDismissGesture() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))

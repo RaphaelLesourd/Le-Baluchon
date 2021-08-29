@@ -15,7 +15,7 @@ class LanguagesServiceTestCase: XCTestCase {
         super.setUp()
         sut = LanguagesService()
     }
-    
+
     override func tearDown() {
         super.tearDown()
         sut = nil
@@ -28,7 +28,7 @@ class LanguagesServiceTestCase: XCTestCase {
 
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getLanguages() { result in
+        sut.getLanguages { result in
             // Then
             switch result {
             case .success(let languagesList):
@@ -48,7 +48,7 @@ class LanguagesServiceTestCase: XCTestCase {
 
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getLanguages() { result in
+        sut.getLanguages { result in
             // Then
             switch result {
             case .success(let languagesList):
@@ -69,7 +69,7 @@ class LanguagesServiceTestCase: XCTestCase {
         sut.apiService = ApiService(session: session)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getLanguages() { result in
+        sut.getLanguages { result in
             // Then
             switch result {
             case .success(let languagesList):
@@ -90,7 +90,7 @@ class LanguagesServiceTestCase: XCTestCase {
         sut.apiService = ApiService(session: session)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getLanguages() { result in
+        sut.getLanguages { result in
             // Then
             switch result {
             case .success(let languagesList):
@@ -103,16 +103,16 @@ class LanguagesServiceTestCase: XCTestCase {
         wait(for: [expectation], timeout: 0.10)
     }
 
-
     // MARK: - Success
     func testLanguagesService_noError_correctData() {
         // Given
+        sut.lang = nil
         let session = URLSessionFake(data: FakeResponseData.languagesListCorrectData,
                                      response: FakeResponseData.responseOK,
                                      error: nil)
         sut.apiService = ApiService(session: session)
         // When
-        sut.getLanguages() { result in
+        sut.getLanguages { result in
             // Then
             switch result {
             case .success(let languagesList):

@@ -32,11 +32,8 @@
 		817F357526CECC0200D0321F /* SunTimingview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817F357426CECC0200D0321F /* SunTimingview.swift */; };
 		817F357726CECEBE00D0321F /* SunTimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817F357626CECEBE00D0321F /* SunTimesView.swift */; };
 		817F357926CED82F00D0321F /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817F357826CED82F00D0321F /* Int+Extension.swift */; };
-		817F357B26CF985700D0321F /* GeocodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817F357A26CF985700D0321F /* GeocodeManager.swift */; };
-		817F357D26CF9C3100D0321F /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817F357C26CF9C3100D0321F /* LocationManager.swift */; };
 		817F357F26D0024500D0321F /* WeatherCalculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817F357E26D0024500D0321F /* WeatherCalculations.swift */; };
 		817F358126D015F600D0321F /* WeatherCalculationsTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817F358026D015F600D0321F /* WeatherCalculationsTestCase.swift */; };
-		81AE7F7426D2BE64001A3F1D /* GeocodeManagerTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AE7F7326D2BE64001A3F1D /* GeocodeManagerTestCase.swift */; };
 		81B724F126BF190D0051C909 /* LegendLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B724F026BF190D0051C909 /* LegendLabel.swift */; };
 		81B724F326BF1CC40051C909 /* BackgroundImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B724F226BF1CC40051C909 /* BackgroundImage.swift */; };
 		81B724F826BF29110051C909 /* UIViewController+Extenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B724F726BF29110051C909 /* UIViewController+Extenstion.swift */; };
@@ -138,11 +135,8 @@
 		817F357426CECC0200D0321F /* SunTimingview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunTimingview.swift; sourceTree = "<group>"; };
 		817F357626CECEBE00D0321F /* SunTimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunTimesView.swift; sourceTree = "<group>"; };
 		817F357826CED82F00D0321F /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
-		817F357A26CF985700D0321F /* GeocodeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeocodeManager.swift; sourceTree = "<group>"; };
-		817F357C26CF9C3100D0321F /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		817F357E26D0024500D0321F /* WeatherCalculations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCalculations.swift; sourceTree = "<group>"; };
 		817F358026D015F600D0321F /* WeatherCalculationsTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCalculationsTestCase.swift; sourceTree = "<group>"; };
-		81AE7F7326D2BE64001A3F1D /* GeocodeManagerTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocodeManagerTestCase.swift; sourceTree = "<group>"; };
 		81B724F026BF190D0051C909 /* LegendLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegendLabel.swift; sourceTree = "<group>"; };
 		81B724F226BF1CC40051C909 /* BackgroundImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundImage.swift; sourceTree = "<group>"; };
 		81B724F726BF29110051C909 /* UIViewController+Extenstion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extenstion.swift"; sourceTree = "<group>"; };
@@ -280,7 +274,6 @@
 				8119705026CB9E4C00326EAB /* FakeData */,
 				81BF843126C7DFF500607BBA /* RateCalculatorTestCase.swift */,
 				817F358026D015F600D0321F /* WeatherCalculationsTestCase.swift */,
-				81AE7F7326D2BE64001A3F1D /* GeocodeManagerTestCase.swift */,
 				81B7251526C146350051C909 /* ServicesTests */,
 			);
 			path = "Le BaluchonTests";
@@ -371,8 +364,6 @@
 				8140573F26BC4E6600D4D31A /* AppDelegate.swift */,
 				8140574126BC4E6600D4D31A /* SceneDelegate.swift */,
 				81B724FE26BF44260051C909 /* ApiKeys.swift */,
-				817F357C26CF9C3100D0321F /* LocationManager.swift */,
-				817F357A26CF985700D0321F /* GeocodeManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -479,6 +470,7 @@
 				8140573826BC4E6600D4D31A /* Sources */,
 				8140573926BC4E6600D4D31A /* Frameworks */,
 				8140573A26BC4E6600D4D31A /* Resources */,
+				8154BE4F26DA192B003E59A3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -604,12 +596,31 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		8154BE4F26DA192B003E59A3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		8140573826BC4E6600D4D31A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				817F357B26CF985700D0321F /* GeocodeManager.swift in Sources */,
 				817F357726CECEBE00D0321F /* SunTimesView.swift in Sources */,
 				81B724FC26BF375E0051C909 /* Currency.swift in Sources */,
 				8140577D26BC5C1B00D4D31A /* ExchangeMainView.swift in Sources */,
@@ -645,7 +656,6 @@
 				81DE3D1426C2E14B003E0F77 /* ListView.swift in Sources */,
 				81DF729726C52E6E005D8ACF /* Refresher.swift in Sources */,
 				8140577B26BC519300D4D31A /* TabBarController.swift in Sources */,
-				817F357D26CF9C3100D0321F /* LocationManager.swift in Sources */,
 				81DF729D26C65980005D8ACF /* DailyRateView.swift in Sources */,
 				81DE3D1226C29A54003E0F77 /* WeatherDetailInfoView.swift in Sources */,
 				81D1556426BEF88200709499 /* UIView+Extension.swift in Sources */,
@@ -668,7 +678,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81AE7F7426D2BE64001A3F1D /* GeocodeManagerTestCase.swift in Sources */,
 				8119705426CBA09B00326EAB /* LanguagesServiceTestCase.swift in Sources */,
 				8119705226CB9ED000326EAB /* CurrencyServiceTestCase.swift in Sources */,
 				8119704B26CB866900326EAB /* RateServiceTestCase.swift in Sources */,

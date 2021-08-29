@@ -43,18 +43,3 @@ enum ConversionError: Error {
         }
     }
 }
-
-enum GeocodingError: Error {
-    case invalidCoordinates
-    case locationNotFound
-
-    var description: String {
-        switch self {
-        case .invalidCoordinates:
-            return "Coordonnées non valables."
-        case .locationNotFound:
-            return "Position introuvable."
-        }
-    }
-}
-

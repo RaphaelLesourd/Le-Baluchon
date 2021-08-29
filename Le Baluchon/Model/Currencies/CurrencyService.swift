@@ -10,7 +10,7 @@ import Foundation
 class CurrencyService {
 
     var apiService = ApiService.shared
-   
+
     func getCurrencies(completion: @escaping (Result<CurrencyList, ApiError>) -> Void) {
 
         var urlComponents = URLComponents()

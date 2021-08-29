@@ -27,7 +27,6 @@ class SunTimesView: UIView {
         let progress = UIProgressView()
         progress.progressViewStyle = .default
         progress.trackTintColor = .tertiaryLabel
-       // progress.progressTintColor = .label
         progress.progressImage = #imageLiteral(resourceName: "gradient")
         progress.translatesAutoresizingMaskIntoConstraints = false
         progress.heightAnchor.constraint(equalToConstant: 6).isActive = true
@@ -45,7 +44,6 @@ class SunTimesView: UIView {
     }()
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-     //   sunProgressView.progressTintColor = .label
         sunProgressView.trackTintColor = .tertiaryLabel
     }
 }
@@ -56,7 +54,7 @@ extension SunTimesView {
         stackView.addArrangedSubview(sunRiseView)
         stackView.addArrangedSubview(sunProgressView)
         stackView.addArrangedSubview(sunSetView)
-        
+
         addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: 15),

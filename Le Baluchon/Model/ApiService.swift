@@ -6,7 +6,7 @@
 //
 
 import Foundation
- 
+
 class ApiService {
     // MARK: - Properties
     static let shared = ApiService()
@@ -50,6 +50,3 @@ class ApiService {
         task?.resume()
     }
 }
-
-
-

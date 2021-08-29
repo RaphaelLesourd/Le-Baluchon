@@ -40,7 +40,7 @@ class DailyRateView: UIView {
         lbl.numberOfLines = 1
         return lbl
     }()
-    
+
     private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -62,7 +62,7 @@ extension DailyRateView {
         NSLayoutConstraint.activate([
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
         ])
     }
 }

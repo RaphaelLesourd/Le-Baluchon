@@ -54,19 +54,19 @@ class TranslationViewController: UIViewController {
 
     private func setButtonTarget() {
         translationView.originLanguageView.clearButton
-            .addTarget(self,action: #selector(clearAll),for: .touchUpInside)
+            .addTarget(self, action: #selector(clearAll), for: .touchUpInside)
         translationView.languageChoiceView.originLanguageButton
-            .addTarget(self,action: #selector(displayLanguagesList(_:)),for: .touchUpInside)
+            .addTarget(self, action: #selector(displayLanguagesList(_:)), for: .touchUpInside)
         translationView.languageChoiceView.targetLanguageButton
-            .addTarget(self,action: #selector(displayLanguagesList(_:)),for: .touchUpInside)
+            .addTarget(self, action: #selector(displayLanguagesList(_:)), for: .touchUpInside)
         translationView.languageChoiceView.languageDirectionButton
-            .addTarget(self,action: #selector(swapLanguagebuttonTapped),for: .touchUpInside)
+            .addTarget(self, action: #selector(swapLanguagebuttonTapped), for: .touchUpInside)
     }
     /// Adds a refreshed to the scrollView, trigger a neworl call to fetch latest exchange rate.
     private func setRefresherControl() {
         translationView.scrollView.refreshControl = translationView.refresherControl
         translationView.refresherControl
-            .addTarget(self,action: #selector(getTranslatedText),for: .valueChanged)
+            .addTarget(self, action: #selector(getTranslatedText), for: .valueChanged)
     }
 
     /// Default languages when the app is first open
@@ -77,7 +77,8 @@ class TranslationViewController: UIViewController {
 
     // MARK: - API Call
     /// Request translation from Api then call function to display result or display a error.
-    /// - Note: Unwarps originLanguage, targetLanguage, text optionals and check if text to be translated is empty before making api request.
+    /// - Note: Unwarps originLanguage, targetLanguage, text optionals and check
+    ///  if text to be translated is empty before making api request.
     @objc private func getTranslatedText() {
         guard let originLanguage = originLanguage, let targetLanguage = targetLanguage else {return}
         guard let text = originText, !text.isEmpty else {
@@ -111,13 +112,13 @@ class TranslationViewController: UIViewController {
     /// - Note: If the orginLanguage is set to Auto (value = "") then present error alert.
     @objc private func swapLanguagebuttonTapped() {
         guard originLanguage?.language != "" else {
-            return presentErrorAlert(with: "Le language de destination ne peux être mis en auto!")
+            return presentErrorAlert(with: "Le language de destination ne peux être mis en auto.")
         }
         let temporaryOriginalLanguage = originLanguage
         originLanguage = targetLanguage
         targetLanguage = temporaryOriginalLanguage
     }
-    
+
     // MARK: - Update views
     private func updateTranslatedView(with translation: Translation) {
         let text = translation.data.translations[0].translatedText
@@ -170,7 +171,8 @@ extension TranslationViewController: UITextViewDelegate {
 
 extension TranslationViewController: LanguagesListDelegate {
 
-    /// Set the  orgin language or target language with the Language object passed thru the LanguaguesListDelegate protocol.
+    /// Set the  orgin language or target language with the Language object
+    /// passed thru the LanguaguesListDelegate protocol.
     /// Then request for a new translation.
     /// - Parameter language: Languague object
     func updateLanguage(with language: Language) {

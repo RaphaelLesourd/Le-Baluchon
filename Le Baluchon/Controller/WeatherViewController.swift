@@ -13,22 +13,15 @@ class WeatherViewController: UIViewController {
     // MARK: - Properties
     private let weatherView = WeatherMainView()
     private let weatherService = WeatherService()
-    private let locationService = LocationService()
     private let weatherCalculations = WeatherCalculations()
-    private let defaultUserCityName = "Bangkok"
+    private let userCityName = "Paris"
     private let defaultDestinationCityName = "New york"
     private var searchBarButtonTap = true
 
-    /// Property containing the user's current city name
-    private var userCityName: String?  {
-        didSet{
-            getLocalWeatherData()
-        }
-    }
     /// Prpoerty containing destination city name
     private var destinationCityName: String? {
-        didSet{
-            getLocalWeatherData()
+        didSet {
+            getWeather()
         }
     }
     // MARK: - Lifecycle
@@ -43,31 +36,29 @@ class WeatherViewController: UIViewController {
         addKeyboardDismissGesture()
         setSearchBarButtonTarget()
         setRefresherControl()
-        getUserLocation()
+        getWeather()
     }
 
     // MARK: - Setup
     private func delegates() {
         weatherView.searchBar.delegate = self
-        locationService.delegate = self
     }
     /// Adds a refreshed to the scrollView, trigger a nework call to fetch latest exchange rate.
     private func setRefresherControl() {
         weatherView.scrollView.refreshControl = weatherView.refresherControl
-        weatherView.refresherControl
-            .addTarget(self, action: #selector(getUserLocation), for: .valueChanged)
+        weatherView.refresherControl.addTarget(self, action: #selector(getWeather), for: .valueChanged)
     }
 
     private func setSearchBarButtonTarget() {
         weatherView.destinationWeatherView.searchButton
             .addTarget(self, action: #selector(searchBarButtonTapped), for: .touchUpInside)
     }
-    
+
     // MARK: - Fetch Data
     /// Fetch Weather data for userLocation city and destination city
     /// - Note: If destinationCityName is nil, a default city name is used to request weather data.
-    private func getLocalWeatherData() {
-        getWeather(for: userCityName ?? defaultUserCityName) { [weak self] weather in
+    @objc private func getWeather() {
+        getWeatherData(for: userCityName) { [weak self] weather in
             guard let self = self else {return}
             self.updateLocalWeatherView(with: weather)
             self.getDestinationWeather()
@@ -76,7 +67,7 @@ class WeatherViewController: UIViewController {
     /// Fetch Weather data for destination city
     /// - Note: If destinationCityName is nil, a default city name is used to request weather data.
     private func getDestinationWeather() {
-        self.getWeather(for: self.destinationCityName ?? self.defaultDestinationCityName) { [weak self] weather in
+        self.getWeatherData(for: self.destinationCityName ?? self.defaultDestinationCityName) { [weak self] weather in
             guard let self = self else {return}
             self.updateDestinationWeatherView(with: weather)
             self.updateDestinationExtendedWeatherView(with: weather)
@@ -88,7 +79,7 @@ class WeatherViewController: UIViewController {
     /// - Parameters:
     ///   - city: city name.
     ///   - completion: Weather object
-    private func getWeather(for city: String, completion: @escaping (Weather) -> Void) {
+    private func getWeatherData(for city: String, completion: @escaping (Weather) -> Void) {
         displayRefresherActivityControls(true)
         weatherService.getWeather(for: city) { [weak self] result in
             guard let self = self else {return}
@@ -102,7 +93,8 @@ class WeatherViewController: UIViewController {
         }
     }
     /// Fetch weather condition icon in a seperate API call then update the view.
-    /// - Note: If an error is trigger, instead of informing the user that there was an error to get this small comonents, it just remains blank.
+    /// - Note: If an error is trigger, instead of informing the user that there was
+    ///  an error to get this small comonents, it just remains blank.
     /// The error is just printed.
     /// - Parameter weather: Weather object
     private func getWeatherConditionsIcon(with weather: Weather) {
@@ -125,31 +117,6 @@ class WeatherViewController: UIViewController {
                                showing: status)
     }
 
-    // MARK: - User Location
-    /// Get user's location returned from location manager.
-    /// - Note: If no location is returned the default cityname is used to fetch Weather data.
-    @objc private func getUserLocation() {
-        guard let currentLocation = locationService.locationManager.location else {
-            userCityName = defaultUserCityName
-            return
-        }
-        getUserLocationCityName(for: currentLocation)
-    }
-    /// Get the city name from user location gps coordinates.
-    /// - Parameter userLocation: CLLocattion coordinates
-    private func getUserLocationCityName(for userLocation: CLLocation) {
-        GeocodeManager.shared.getCityName(for: userLocation) { [weak self] result in
-            guard let self = self else {return}
-            switch result {
-            case .success(let cityName):
-                self.userCityName = cityName
-            case .failure(let error):
-                self.presentErrorAlert(with: error.description)
-                self.displayRefresherActivityControls(false)
-            }
-        }
-    }
-
     // MARK: - Search Bar
     @objc private func searchBarButtonTapped() {
         let heightState: SearchBarHeight = searchBarButtonTap ? .expanded : .collapsed
@@ -161,7 +128,8 @@ class WeatherViewController: UIViewController {
     /// - Parameter height: SearchBarHeight expanded or collapsed case
     private func animateSearchBar(for height: SearchBarHeight) {
         weatherView.searchBarHeightConstraint.isActive = false
-        weatherView.searchBarHeightConstraint = weatherView.searchBar.heightAnchor.constraint(equalToConstant: height.rawValue)
+        let anchor = weatherView.searchBar.heightAnchor
+        weatherView.searchBarHeightConstraint = anchor.constraint(equalToConstant: height.rawValue)
         weatherView.searchBarHeightConstraint.isActive = true
 
         UIView.animate(withDuration: 0.3, delay: 0, options: .allowUserInteraction) {
@@ -220,8 +188,9 @@ extension WeatherViewController {
         let sunsetTime = weatherCalculations.calculateTimeFromTimeStamp(with: sunset, and: timeDifference)
         weatherView.sunTimesView.sunSetView.titleLabel.text = sunsetTime
 
-        let progress = weatherCalculations.calculateSunProgress(with: sunrise, and: sunset)
-        weatherView.sunTimesView.sunProgressView.progress = progress
+        let time = Date().dateToMiliseconds()
+        let progress = weatherCalculations.calculateSunProgress(with: sunrise, and: sunset, currentTime: time)
+        weatherView.sunTimesView.sunProgressView.setProgress(progress, animated: true)
         weatherView.sunTimesView.sunProgressView.alpha = progress > 0 && progress < 1 ? 1 : 0
     }
     // Destination Extended Weather
@@ -265,16 +234,5 @@ extension WeatherViewController: UISearchBarDelegate {
         destinationCityName = searchedCity
         weatherView.searchBar.resignFirstResponder()
         searchBarButtonTapped()
-    }
-}
-
-// MARK: - Location Manager Delegate
-extension WeatherViewController: LocationServiceDelegate {
-
-    /// Present an error if LocationManager return an error. 
-    /// - Parameter error: error message
-    func presentError(with error: String) {
-        presentErrorAlert(with: error.description)
-        displayRefresherActivityControls(false)
     }
 }

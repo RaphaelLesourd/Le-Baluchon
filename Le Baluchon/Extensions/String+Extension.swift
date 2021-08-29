@@ -21,7 +21,10 @@ extension String {
         return self.components(separatedBy: ".").count - 1 > 1
     }
 
+    /// Return country name from country code in device language
     var countryName: String {
-        return Locale(identifier: "fr_FR").localizedString(forRegionCode: self) ?? ""
+        let currentIdentifier = Locale.current.regionCode ?? ""
+        let localeFromCurrentIdentifier = Locale(identifier: currentIdentifier)
+        return localeFromCurrentIdentifier.localizedString(forRegionCode: self) ?? ""
     }
 }

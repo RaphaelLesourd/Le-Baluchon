@@ -66,7 +66,7 @@ class LanguageChoicesView: UIView {
 }
 // MARK: - Constraints
 extension LanguageChoicesView {
-    
+
     private func setStackView() {
         addSubview(stackView)
         stackView.addArrangedSubview(originLanguageButton)

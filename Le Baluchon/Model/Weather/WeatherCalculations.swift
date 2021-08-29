@@ -9,18 +9,17 @@ import Foundation
 
 class WeatherCalculations {
 
-    var currentTime = Date().dateToMiliseconds()
-
     /// Calculate progressfrom 0 to 1 betwwen 2 timeStamp
     /// - Parameters:
     ///   - startTime: sunrise timeStamp from Weather model
     ///   - endTime: sunset timeStamp from Weather model
     /// - Returns: float as progress value
-    func calculateSunProgress(with startTime: Int, and endTime: Int) -> Float {
+    func calculateSunProgress(with startTime: Int, and endTime: Int, currentTime: Double) -> Float {
+
         let floatCurrentTime = Float(currentTime)
         let floatStartTime = Float(startTime)
         let floatEndTime = Float(endTime)
-        
+
         guard floatCurrentTime > floatStartTime else {
             return 0
         }
@@ -29,7 +28,6 @@ class WeatherCalculations {
         }
         return ((floatCurrentTime - floatStartTime) / (floatEndTime - floatStartTime))
     }
-
 
     /// Calculate and display formatted time.
     /// - Parameters:

@@ -67,7 +67,7 @@ extension ListView {
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: topAnchor, constant: 30),
             headerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            headerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            headerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
     }
 
@@ -80,7 +80,7 @@ extension ListView {
             searchBar.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
-    
+
     private func setTableViewConstraints() {
         addSubview(tableView)
         NSLayoutConstraint.activate([

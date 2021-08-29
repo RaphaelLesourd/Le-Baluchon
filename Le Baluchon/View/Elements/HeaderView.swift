@@ -30,7 +30,7 @@ class HeaderView: UIView {
         return lbl
     }()
 
-    let activityIndicator:  UIActivityIndicatorView = {
+    let activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.color = .secondaryLabel
         indicator.style = .medium
@@ -57,7 +57,7 @@ extension HeaderView {
     private func setStackViewConstraints() {
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(activityIndicator)
-        
+
         addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),

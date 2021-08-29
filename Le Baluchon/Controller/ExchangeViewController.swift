@@ -38,7 +38,7 @@ class ExchangeViewController: UIViewController {
         view = exchangeView
         view.backgroundColor = .viewControllerBackgroundColor
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         addKeyboardDismissGesture()
@@ -70,11 +70,11 @@ class ExchangeViewController: UIViewController {
     /// Add targets to UIButtons.
     private func setButtonsTarget() {
         exchangeView.originCurrencyView.currencyButton
-            .addTarget(self,action: #selector(displayCurrenciesList(_:)), for: .touchUpInside)
+            .addTarget(self, action: #selector(displayCurrenciesList(_:)), for: .touchUpInside)
         exchangeView.targetCurrencyView.currencyButton
-            .addTarget(self,action: #selector(displayCurrenciesList(_:)), for: .touchUpInside)
+            .addTarget(self, action: #selector(displayCurrenciesList(_:)), for: .touchUpInside)
         exchangeView.currencySwapButton
-            .addTarget(self,action: #selector(currencySwapButtonTapped), for: .touchUpInside)
+            .addTarget(self, action: #selector(currencySwapButtonTapped), for: .touchUpInside)
     }
 
     // MARK: - API Call
@@ -111,10 +111,13 @@ class ExchangeViewController: UIViewController {
     /// Convert orgin amount entered by the user with the rate fetched from the Api
     ///  then display the result or an error is the amount entered is baddly formatted.
     private func getConvertedAmount() {
-        rateCalculator.convertAmount() { result in
+        rateCalculator.convertAmount { result in
             switch result {
             case .success(let amount):
-                exchangeView.targetCurrencyView.textfield.text = amount.formatCurrency(currencyCode: targetCurrency?.symbol ?? "")
+                exchangeView
+                    .targetCurrencyView
+                    .textfield
+                    .text = amount.formatCurrency(currencyCode: targetCurrency?.symbol ?? "")
             case .failure(let error):
                 presentErrorAlert(with: error.description)
             }
@@ -136,7 +139,7 @@ class ExchangeViewController: UIViewController {
         self.originCurrency = targetCurrency
         self.targetCurrency = tempCurrency
     }
-   
+
     /// Rotate the currencySwaButton 180° with animation.
     private func animateCurrencySwapButton() {
         UIView.animate(withDuration: 0.3, delay: 0, options: [.allowUserInteraction]) {
@@ -154,7 +157,8 @@ class ExchangeViewController: UIViewController {
         guard let originCurrency = originCurrency else {return}
         guard let destinationCurrency = targetCurrency else {return}
         guard let rate = rateCalculator.currentRate else {return}
-        exchangeView.dailyRateView.rateLabel.text = "1 \(originCurrency.symbol) = " + rate.formatCurrency(currencyCode: destinationCurrency.symbol)
+        let rateValue = rate.formatCurrency(currencyCode: destinationCurrency.symbol)
+        exchangeView.dailyRateView.rateLabel.text = "1 \(originCurrency.symbol) = " + rateValue
     }
 
     /// Display the date and time of the last time an APi call was made;
@@ -209,4 +213,3 @@ extension ExchangeViewController: UITextFieldDelegate {
         return true
     }
 }
-

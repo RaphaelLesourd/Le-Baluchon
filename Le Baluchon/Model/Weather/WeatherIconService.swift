@@ -10,7 +10,7 @@ import Foundation
 class WeatherIconService {
 
     static let shared = WeatherIconService()
-    private init(){}
+    private init() {}
 
     private var task: URLSessionDataTask?
     private var session = URLSession(configuration: .default)

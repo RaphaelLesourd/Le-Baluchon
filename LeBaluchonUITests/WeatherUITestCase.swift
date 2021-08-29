@@ -21,7 +21,7 @@ class WeatherUITestCase: XCTestCase {
     func testViewsPresent() {
 
         app.tabBars["Tab Bar"].buttons["Météo"].tap()
-        
+
         let elementsQuery = app.scrollViews.otherElements
         let title = elementsQuery.staticTexts["Météo"]
 
@@ -41,8 +41,9 @@ class WeatherUITestCase: XCTestCase {
         let elementsQuery = app.scrollViews
         let element = elementsQuery.children(matching: .other).element(boundBy: 0).children(matching: .other).element
         element.swipeUp()
-        
-        let destinationWeatherIcon = element.children(matching: .other).element(boundBy: 2).children(matching: .other).element
+
+        let destinationWeatherIcon = element.children(matching: .other)
+            .element(boundBy: 2).children(matching: .other).element
 
         let directionView = elementsQuery.staticTexts["Direction"]
         let windView = elementsQuery.staticTexts["Vent"]
@@ -58,7 +59,5 @@ class WeatherUITestCase: XCTestCase {
         XCTAssertTrue(humidityView.exists)
         XCTAssertTrue(pressureView.exists)
         XCTAssertTrue(cloudView.exists)
-
-        
     }
 }

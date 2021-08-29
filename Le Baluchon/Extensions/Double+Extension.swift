@@ -28,10 +28,8 @@ extension Double {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.currencyCode = currencyCode
-        formatter.positivePrefix = "\(formatter.positivePrefix!) "
+        formatter.positivePrefix = "\(formatter.positivePrefix ?? "") "
         let number = NSNumber(value: self)
         return formatter.string(from: number) ?? "0"
     }
-
-
 }

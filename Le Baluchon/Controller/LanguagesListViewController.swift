@@ -21,7 +21,7 @@ class LanguagesListViewController: UIViewController {
     private let languagesService = LanguagesService()
     private let languagesListView = ListView(title: "Langues")
     private var languageList: [Language] = [] {
-        didSet{
+        didSet {
             filteredLanguageList = languageList
         }
     }
@@ -36,7 +36,7 @@ class LanguagesListViewController: UIViewController {
             }
         }
     }
-    
+
     // MARK: - Life Cycle
     override func loadView() {
         view = languagesListView
@@ -142,4 +142,3 @@ extension LanguagesListViewController: UISearchBarDelegate {
         languagesListView.searchBar.resignFirstResponder()
     }
 }
-

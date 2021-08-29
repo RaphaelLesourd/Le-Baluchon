@@ -29,18 +29,15 @@ struct Main: Decodable {
 }
 
 struct Sys: Decodable {
-    let type, id: Int?
     let country: String?
     let sunrise, sunset: Int?
 }
 
 struct WeatherElement: Decodable {
-    let id: Int?
     let main, description, icon: String?
 }
 
 struct Wind: Decodable {
     let speed: Double?
     let deg: Int?
-    let gust: Double?
 }

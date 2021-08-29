@@ -13,7 +13,7 @@ class LegendLabel: UILabel {
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        self.font = .textFont(size: 14)
+        self.font = .textFont(size: 15)
         self.textColor = .titleColor
         self.numberOfLines = 2
         self.sizeToFit()

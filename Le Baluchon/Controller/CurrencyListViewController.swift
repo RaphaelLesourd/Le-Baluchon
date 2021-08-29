@@ -20,7 +20,7 @@ class CurrencyListViewController: UIViewController {
 
     /// Array containing the entire list of currencies
     var currencyList: [Currency] = [] {
-        didSet{
+        didSet {
             filteredCurrencyList = currencyList
         }
     }
@@ -152,4 +152,3 @@ extension CurrencyListViewController: UISearchBarDelegate {
         listView.searchBar.resignFirstResponder()
     }
 }
-

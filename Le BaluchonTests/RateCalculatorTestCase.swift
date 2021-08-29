@@ -29,7 +29,7 @@ class RateCalculatorTestCase: XCTestCase {
         // When
         sut.amountToConvert = "100.0.0"
         // Then
-        sut.convertAmount() { result in
+        sut.convertAmount { result in
             switch result {
             case .success(let amount):
                 XCTAssertNil(amount)
@@ -45,7 +45,7 @@ class RateCalculatorTestCase: XCTestCase {
         // When
         sut.amountToConvert = "100,0,0"
         // Then
-        sut.convertAmount() { result in
+        sut.convertAmount { result in
             switch result {
             case .success(let amount):
                 XCTAssertNil(amount)
@@ -62,7 +62,7 @@ class RateCalculatorTestCase: XCTestCase {
         // When
         sut.amountToConvert = nil
         // Then
-        sut.convertAmount() { result in
+        sut.convertAmount { result in
             switch result {
             case .success(let amount):
                 XCTAssertNil(amount)
@@ -79,7 +79,7 @@ class RateCalculatorTestCase: XCTestCase {
         // When
         sut.amountToConvert = "1,a"
         // Then
-        sut.convertAmount() { result in
+        sut.convertAmount { result in
             switch result {
             case .success(let amount):
                 XCTAssertNil(amount)
@@ -96,7 +96,7 @@ class RateCalculatorTestCase: XCTestCase {
         // When
         sut.amountToConvert = "100"
         // Then
-        sut.convertAmount() { result in
+        sut.convertAmount { result in
             switch result {
             case .success(let amount):
                 XCTAssertNil(amount)
@@ -125,7 +125,7 @@ class RateCalculatorTestCase: XCTestCase {
         // When
         sut.amountToConvert = "100,40"
         // Then
-        sut.convertAmount() { result in
+        sut.convertAmount { result in
             switch result {
             case .success(let amount):
                 XCTAssertEqual(118.472, amount)
@@ -142,7 +142,7 @@ class RateCalculatorTestCase: XCTestCase {
         // When
         sut.amountToConvert = "100"
         // Then
-        sut.convertAmount() { result in
+        sut.convertAmount { result in
             switch result {
             case .success(let amount):
                 XCTAssertEqual(118, amount)
@@ -158,7 +158,7 @@ class RateCalculatorTestCase: XCTestCase {
         // When
         sut.amountToConvert = ""
         // Then
-        sut.convertAmount() { result in
+        sut.convertAmount { result in
             switch result {
             case .success(let amount):
                 XCTAssertEqual(amount, 0)
@@ -178,4 +178,3 @@ class RateCalculatorTestCase: XCTestCase {
         XCTAssertEqual(0.8474576271186441, sut.currentRate)
     }
 }
-

@@ -20,7 +20,7 @@ class CurrenciesListUITestCase: XCTestCase {
 
     func testViewsPresent() {
         app.tabBars["Tab Bar"].buttons["Taux de change"].tap()
-        app.scrollViews.otherElements/*@START_MENU_TOKEN@*/.staticTexts["EUR"]/*[[".buttons[\"EUR\"].staticTexts[\"EUR\"]",".staticTexts[\"EUR\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.scrollViews.otherElements.buttons["EUR"].staticTexts["EUR"].tap()
 
         let title = app.staticTexts["Devises"]
         let searchBarTextField = app.searchFields["Recherche"]

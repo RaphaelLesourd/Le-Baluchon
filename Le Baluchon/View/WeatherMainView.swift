@@ -31,7 +31,7 @@ class WeatherMainView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     var searchBarHeightConstraint = NSLayoutConstraint()
 
     // MARK: - Subviews
@@ -70,7 +70,6 @@ class WeatherMainView: UIView {
     let destinationExtendedWeatherView = DestinationWeatherInfoView()
     let sunTimesView = SunTimesView()
     private let dataProviderLabel = LegendLabel(title: "Météo par OpenWeatherMap")
-
 
     let headerView: HeaderView = {
         let view = HeaderView()
@@ -130,7 +129,8 @@ extension WeatherMainView {
     }
 
     private func setSearchBarHeight() {
-        searchBarHeightConstraint = searchBar.heightAnchor.constraint(equalToConstant: SearchBarHeight.collapsed.rawValue)
+        searchBarHeightConstraint = searchBar
+            .heightAnchor.constraint(equalToConstant: SearchBarHeight.collapsed.rawValue)
         searchBarHeightConstraint.isActive = true
     }
 
@@ -138,7 +138,7 @@ extension WeatherMainView {
         localWeatherView.translatesAutoresizingMaskIntoConstraints = false
         localWeatherView.heightAnchor.constraint(equalToConstant: 70).isActive = true
     }
-    
+
     private func setDestinationWeatherInfoViewHeight() {
         destinationExtendedWeatherView.translatesAutoresizingMaskIntoConstraints = false
         destinationExtendedWeatherView.heightAnchor.constraint(equalToConstant: 235).isActive = true
@@ -150,8 +150,8 @@ extension WeatherMainView {
                                            localWeatherView,
                                            searchBar,
                                            destinationWeatherView,
-                                           destinationExtendedWeatherView,
                                            sunTimesView,
+                                           destinationExtendedWeatherView,
                                            dataProviderLabel]
         for view in mainStackSubViews {
             mainStackView.addArrangedSubview(view)

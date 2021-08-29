@@ -11,9 +11,10 @@ class RateService {
 
     var apiService = ApiService.shared
 
-    func getRate(for baseCurrency: String, destinationCurrency: String,
-                     completion: @escaping (Result<Rate, ApiError>) -> Void) {
-        
+    func getRate(for baseCurrency: String,
+                 destinationCurrency: String,
+                 completion: @escaping (Result<Rate, ApiError>) -> Void) {
+
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "data.fixer.io"

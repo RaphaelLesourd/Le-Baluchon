@@ -24,7 +24,7 @@ class RateServiceTestCase: XCTestCase {
     // MARK: - Errors
     func testRateService_withError() {
         // Given
-        let session = URLSessionFake(data: nil,  response: nil, error: FakeResponseData.error)
+        let session = URLSessionFake(data: nil, response: nil, error: FakeResponseData.error)
         sut.apiService = ApiService(session: session)
 
         // When
@@ -113,11 +113,11 @@ class RateServiceTestCase: XCTestCase {
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         sut.getRate(for: "EUR", destinationCurrency: "LAK") { result in
-            //Then
+            // Then
             switch result {
             case .success(let rate):
                 XCTAssertNotNil(rate)
-                XCTAssertEqual(["LAK":11288.155897], rate.rates)
+                XCTAssertEqual(["LAK": 11288.155897], rate.rates)
             case .failure(let error):
                 XCTAssertNil(error)
             }

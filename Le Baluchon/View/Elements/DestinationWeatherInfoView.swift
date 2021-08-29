@@ -74,7 +74,7 @@ extension DestinationWeatherInfoView {
             containerView.topAnchor.constraint(equalTo: topAnchor),
             containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
             containerView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
 
@@ -100,7 +100,7 @@ extension DestinationWeatherInfoView {
             mainStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor,
                                                    constant: 10),
             mainStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor,
-                                                    constant: -10),
+                                                    constant: -10)
         ])
     }
 

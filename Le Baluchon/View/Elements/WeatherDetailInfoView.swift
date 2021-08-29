@@ -70,7 +70,7 @@ class WeatherDetailInfoView: UIView {
 }
     // MARK: - Constraints
 extension WeatherDetailInfoView {
-    
+
     private func setStackViewConstraints() {
         addSubview(mainStackView)
         let mainStackSubViews: [UIView] = [typeIcon,

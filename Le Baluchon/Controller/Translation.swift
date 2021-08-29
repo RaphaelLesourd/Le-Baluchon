@@ -18,4 +18,3 @@ struct TranslationData: Decodable {
 struct TranslationText: Decodable {
     let translatedText, detectedSourceLanguage: String?
 }
-

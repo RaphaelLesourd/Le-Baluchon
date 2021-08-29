@@ -8,28 +8,28 @@
 import XCTest
 
 class CurrencyServiceTestCase: XCTestCase {
-    
+
     var sut: CurrencyService!
-    
+
     override func setUp() {
         super.setUp()
         sut = CurrencyService()
     }
-    
+
     override func tearDown() {
         super.tearDown()
         sut = nil
     }
-    
+
     // MARK: - Errors
     func testCurrencyService_withError() {
         // Given
         let session = URLSessionFake(data: nil, response: nil, error: FakeResponseData.error)
         sut.apiService = ApiService(session: session)
-        
+
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getCurrencies() { result in
+        sut.getCurrencies { result in
             // Then
             switch result {
             case .success(let currencyList):
@@ -41,14 +41,14 @@ class CurrencyServiceTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.10)
     }
-    
+
     func testCurrencyService_noData() {
         // Given
         let session = URLSessionFake(data: nil, response: nil, error: nil)
         sut.apiService = ApiService(session: session)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getCurrencies() { result in
+        sut.getCurrencies { result in
             // Then
             switch result {
             case .success(let currencyList):
@@ -60,7 +60,7 @@ class CurrencyServiceTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.10)
     }
-    
+
     func testCurrencyService_correctData_responseKO() {
         // Given
         let session = URLSessionFake(data: FakeResponseData.currenciesListCorrectData,
@@ -69,7 +69,7 @@ class CurrencyServiceTestCase: XCTestCase {
         sut.apiService = ApiService(session: session)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getCurrencies() { result in
+        sut.getCurrencies { result in
             // Then
             switch result {
             case .success(let currencyList):
@@ -81,7 +81,7 @@ class CurrencyServiceTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.10)
     }
-    
+
     func testCurrencyService_incorrectData_responseOK() {
         // Given
         let session = URLSessionFake(data: FakeResponseData.incorrectData,
@@ -91,7 +91,7 @@ class CurrencyServiceTestCase: XCTestCase {
             session: session)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getCurrencies() { result in
+        sut.getCurrencies { result in
             // Then
             switch result {
             case .success(let currencyList):
@@ -103,8 +103,7 @@ class CurrencyServiceTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.10)
     }
-    
-    
+
     // MARK: - Success
     func testCurrencyService_noError_correctData() {
         // Given
@@ -114,7 +113,7 @@ class CurrencyServiceTestCase: XCTestCase {
         sut.apiService = ApiService(
             session: session)
         // When
-        sut.getCurrencies() { result in
+        sut.getCurrencies { result in
             // Then
             switch result {
             case .success(let currencyList):

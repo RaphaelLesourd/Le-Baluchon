@@ -26,9 +26,9 @@ class WeatherCalculationsTestCase: XCTestCase {
     // Test if current time between start and end time
     func testGivenStarTimeAndEndTimeAsInt_WhenCurrentTimeIsBetweenStartEndTime_ThenCalculateProgress() {
         // When
-        sut.currentTime = 170000
+        let timeInMilliseconds: Double = 170000
         // Then
-        let progress = sut.calculateSunProgress(with: startTime, and: endTime)
+        let progress = sut.calculateSunProgress(with: startTime, and: endTime, currentTime: timeInMilliseconds)
         XCTAssertEqual(progress, 0.5)
 
     }
@@ -36,18 +36,18 @@ class WeatherCalculationsTestCase: XCTestCase {
     // Test if current time is before start time
     func testGivenStarTimeAndEndTimeAsInt_WhenCurrentTimeIsBeforeStartTime_ThenCalculateProgress() {
         // When
-        sut.currentTime = 150000
+        let timeInMilliseconds: Double = 150000
         // Then
-        let progress = sut.calculateSunProgress(with: startTime, and: endTime)
-        XCTAssertEqual(progress, 0)
+        let progress = sut.calculateSunProgress(with: startTime, and: endTime, currentTime: timeInMilliseconds)
+        XCTAssertEqual(progress, 0.0)
     }
 
     // Test is current time is after end time
     func testGivenStarTimeAndEndTimeAsInt_WhenCurrentTimeIsAfterEndTime_ThenCalculateProgress() {
         // When
-        sut.currentTime = 190000
+        let timeInMilliseconds: Double = 190000
         // Then
-        let progress = sut.calculateSunProgress(with: startTime, and: endTime)
+        let progress = sut.calculateSunProgress(with: startTime, and: endTime, currentTime: timeInMilliseconds)
         XCTAssertEqual(progress, 1.0)
 
     }
@@ -55,6 +55,16 @@ class WeatherCalculationsTestCase: XCTestCase {
     // Test convert a timestamp adding time difference to readable time
     func testFormatingIntTimestamp_GivenTimestampAndTimedifferenceInt_ThenDisplayTime() {
         let result = sut.calculateTimeFromTimeStamp(with: 15000, and: -14000)
-        XCTAssertEqual(result, "00:16")
+
+        guard let formatter: String = DateFormatter.dateFormat(fromTemplate: "j",
+                                                               options: 0,
+                                                               locale: Locale.current) else {
+            return
+        }
+        if formatter.contains("a") {
+            XCTAssertEqual(result, "12:16 AM")
+        } else {
+            XCTAssertEqual(result, "00:16")
+        }
     }
 }

@@ -25,7 +25,7 @@ class TranslationMainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     private let screenSize = UIScreen.main.bounds
-    
+
     // MARK: - Subviews
     /// Create a vertical scrollView and set its properties.
     let scrollView: UIScrollView = {
