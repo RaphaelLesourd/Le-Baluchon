@@ -60,4 +60,18 @@ class WeatherUITestCase: XCTestCase {
         XCTAssertTrue(pressureView.exists)
         XCTAssertTrue(cloudView.exists)
     }
+
+    func testSearchBarIsAppearAndDisappearWhenSearchButtonTapped() {
+
+        app.tabBars["Tab Bar"].buttons["Météo"].tap()
+
+        let elementsQuery = app.scrollViews.otherElements
+        let searchButton = elementsQuery.buttons["Search"]
+        let searchBar = elementsQuery.searchFields["Recherchez"]
+
+        searchButton.tap()
+        XCTAssertTrue(searchBar.exists)
+        searchButton.tap()
+        XCTAssertFalse(searchBar.exists)
+    }
 }

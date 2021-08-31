@@ -46,7 +46,7 @@ class ExchangeViewController: UIViewController {
         setButtonsTarget()
         setRefresherControl()
         setDefaultValues()
-        getRate()
+        getCurrentRate()
     }
 
     // MARK: - Setup
@@ -64,7 +64,7 @@ class ExchangeViewController: UIViewController {
     /// Adds a refreshed to the scrollView, trigger a nework call to fetch latest exchange rate.
     private func setRefresherControl() {
         exchangeView.scrollView.refreshControl = exchangeView.refresherControl
-        exchangeView.refresherControl.addTarget(self, action: #selector(getRate),
+        exchangeView.refresherControl.addTarget(self, action: #selector(getCurrentRate),
                                                 for: .valueChanged)
     }
     /// Add targets to UIButtons.
@@ -79,7 +79,7 @@ class ExchangeViewController: UIViewController {
 
     // MARK: - API Call
     //  - Request exhange rate for currencies.
-    @objc private func getRate() {
+    @objc private func getCurrentRate() {
         guard let originCurrency = originCurrency, let targetCurrency = targetCurrency else {return}
         displayRefresherActivityControls(true)
 
@@ -92,8 +92,8 @@ class ExchangeViewController: UIViewController {
             case .success(let rate):
                 guard let rateValue = rate.rates.values.first else {return}
                 self.rateCalculator.currentRate = rateValue
-                self.updateDailyRate()
                 self.getConvertedAmount()
+                self.updateDailyRate()
                 self.updateLastFetchDate()
             case .failure(let error):
                 self.presentErrorAlert(with: error.description)
@@ -193,7 +193,7 @@ extension ExchangeViewController: CurrencyListDelegate {
         } else {
             targetCurrency = currency
         }
-        getRate()
+        getCurrentRate()
     }
 }
 // TextField Delegate

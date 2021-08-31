@@ -217,9 +217,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8107423026DE143000B4677E /* CalculationTests */ = {
+			isa = PBXGroup;
+			children = (
+				81BF843126C7DFF500607BBA /* RateCalculatorTestCase.swift */,
+				817F358026D015F600D0321F /* WeatherCalculationsTestCase.swift */,
+			);
+			path = CalculationTests;
+			sourceTree = "<group>";
+		};
 		8119705026CB9E4C00326EAB /* FakeData */ = {
 			isa = PBXGroup;
 			children = (
+				81B7251326C141DD0051C909 /* URLSessionFake.swift */,
+				81B7251126C12DB10051C909 /* FakeResponseData.swift */,
 				8119709526CC297F00326EAB /* 04d.png */,
 				8119704826CACB8B00326EAB /* Weather.json */,
 				8119704426CACA0F00326EAB /* Rate.json */,
@@ -269,12 +280,9 @@
 			children = (
 				81B7250C26C12C160051C909 /* Le BaluchonTests-Bridging-Header.h */,
 				8140575B26BC4E6800D4D31A /* Info.plist */,
-				81B7251126C12DB10051C909 /* FakeResponseData.swift */,
-				81B7251326C141DD0051C909 /* URLSessionFake.swift */,
-				8119705026CB9E4C00326EAB /* FakeData */,
-				81BF843126C7DFF500607BBA /* RateCalculatorTestCase.swift */,
-				817F358026D015F600D0321F /* WeatherCalculationsTestCase.swift */,
+				8107423026DE143000B4677E /* CalculationTests */,
 				81B7251526C146350051C909 /* ServicesTests */,
+				8119705026CB9E4C00326EAB /* FakeData */,
 			);
 			path = "Le BaluchonTests";
 			sourceTree = "<group>";

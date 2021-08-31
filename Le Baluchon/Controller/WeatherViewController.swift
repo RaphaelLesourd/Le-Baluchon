@@ -21,7 +21,7 @@ class WeatherViewController: UIViewController {
     /// Prpoerty containing destination city name
     private var destinationCityName: String? {
         didSet {
-            getWeather()
+            getLocalWeather()
         }
     }
     // MARK: - Lifecycle
@@ -36,7 +36,7 @@ class WeatherViewController: UIViewController {
         addKeyboardDismissGesture()
         setSearchBarButtonTarget()
         setRefresherControl()
-        getWeather()
+        getLocalWeather()
     }
 
     // MARK: - Setup
@@ -46,7 +46,7 @@ class WeatherViewController: UIViewController {
     /// Adds a refreshed to the scrollView, trigger a nework call to fetch latest exchange rate.
     private func setRefresherControl() {
         weatherView.scrollView.refreshControl = weatherView.refresherControl
-        weatherView.refresherControl.addTarget(self, action: #selector(getWeather), for: .valueChanged)
+        weatherView.refresherControl.addTarget(self, action: #selector(getLocalWeather), for: .valueChanged)
     }
 
     private func setSearchBarButtonTarget() {
@@ -57,7 +57,7 @@ class WeatherViewController: UIViewController {
     // MARK: - Fetch Data
     /// Fetch Weather data for userLocation city and destination city
     /// - Note: If destinationCityName is nil, a default city name is used to request weather data.
-    @objc private func getWeather() {
+    @objc private func getLocalWeather() {
         getWeatherData(for: userCityName) { [weak self] weather in
             guard let self = self else {return}
             self.updateLocalWeatherView(with: weather)

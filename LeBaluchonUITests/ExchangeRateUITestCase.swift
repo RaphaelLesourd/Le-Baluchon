@@ -47,4 +47,15 @@ class ExchangeRateUITestCase: XCTestCase {
         XCTAssertTrue(footerLabel.exists)
         XCTAssertEqual(footerLabel.label, "Taux de change par fixer.io\nTirez pour rafraichir")
     }
+
+    func testDisplayAlertWhenTwoDecimalSymbolsEntered() {
+        let textField = app.scrollViews.otherElements.containing(.button, identifier: "sort")
+            .children(matching: .other)
+            .element.children(matching: .other)
+            .element(boundBy: 1).textFields["0"]
+        textField.tap()
+        let alert = app.alerts["Erreur"]
+        textField.typeText("123,,")
+        XCTAssertTrue(alert.exists)
+    }
 }
