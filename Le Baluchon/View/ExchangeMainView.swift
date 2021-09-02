@@ -97,8 +97,8 @@ class ExchangeMainView: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
-
 }
+
 // MARK: - Constraints
 extension ExchangeMainView {
     /// Add the scrollView to  RateMainView  as a subview.

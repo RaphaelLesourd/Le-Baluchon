@@ -106,7 +106,6 @@ class LanguagesServiceTestCase: XCTestCase {
     // MARK: - Success
     func testLanguagesService_noError_correctData() {
         // Given
-        sut.lang = nil
         let session = URLSessionFake(data: FakeResponseData.languagesListCorrectData,
                                      response: FakeResponseData.responseOK,
                                      error: nil)

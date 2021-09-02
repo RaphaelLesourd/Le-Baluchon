@@ -62,7 +62,7 @@ class CurrencyListViewController: UIViewController {
                                             for: .valueChanged)
     }
 
-    // MARK: - API Call
+    // MARK: - API call
     /// Get all available currencies from API and receive a result  type.
     /// success case:  dictionnary of all currencies available.
     /// failure case : an error.

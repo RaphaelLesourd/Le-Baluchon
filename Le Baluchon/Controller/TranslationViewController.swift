@@ -75,7 +75,7 @@ class TranslationViewController: UIViewController {
         targetLanguage = Language(language: "en", name: "Anglais")
     }
 
-    // MARK: - API Call
+    // MARK: - API call
     /// Request translation from Api then call function to display result or display a error.
     /// - Note: Unwarps originLanguage, targetLanguage, text optionals and check
     ///  if text to be translated is empty before making api request.

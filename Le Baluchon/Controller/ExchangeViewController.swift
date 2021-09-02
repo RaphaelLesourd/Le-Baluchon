@@ -77,7 +77,7 @@ class ExchangeViewController: UIViewController {
             .addTarget(self, action: #selector(currencySwapButtonTapped), for: .touchUpInside)
     }
 
-    // MARK: - API Call
+    // MARK: - API call
     //  - Request exhange rate for currencies.
     @objc private func getCurrentRate() {
         guard let originCurrency = originCurrency, let targetCurrency = targetCurrency else {return}
@@ -114,10 +114,8 @@ class ExchangeViewController: UIViewController {
         rateCalculator.convertAmount { result in
             switch result {
             case .success(let amount):
-                exchangeView
-                    .targetCurrencyView
-                    .textfield
-                    .text = amount.formatCurrency(currencyCode: targetCurrency?.symbol ?? "")
+                let symbol = targetCurrency?.symbol ?? ""
+                exchangeView.targetCurrencyView.textfield.text = amount.formatCurrency(currencyCode: symbol)
             case .failure(let error):
                 presentErrorAlert(with: error.description)
             }
@@ -205,7 +203,8 @@ extension ExchangeViewController: UITextFieldDelegate {
 
         // observe changes in the amount to convert textField and convert
         // the amount accordingly.
-        if let text = textField.text, let textRange = Range(range, in: text) {
+        if let text = textField.text,
+           let textRange = Range(range, in: text) {
             let updatedText = text.replacingCharacters(in: textRange, with: string)
             rateCalculator.amountToConvert = updatedText
             getConvertedAmount()

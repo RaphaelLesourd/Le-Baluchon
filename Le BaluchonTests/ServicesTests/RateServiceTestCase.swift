@@ -69,7 +69,7 @@ class RateServiceTestCase: XCTestCase {
         sut.apiService = ApiService(session: session)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getRate(for: "EUr", destinationCurrency: "LAK") { result in
+        sut.getRate(for: "EUR", destinationCurrency: "LAK") { result in
             // Then
             switch result {
             case .success(let rate):

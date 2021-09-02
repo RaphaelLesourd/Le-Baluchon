@@ -64,7 +64,7 @@ class LanguagesListViewController: UIViewController {
             .addTarget(self, action: #selector(reloadLanguageList), for: .valueChanged)
     }
 
-    // MARK: - Data resquest
+    // MARK: - Api call
     /// Get all available currencies from API and receive a result  type.
     /// success case:  dictionnary of all currencies available.
     /// failure case : an error.

@@ -54,7 +54,7 @@ class WeatherViewController: UIViewController {
             .addTarget(self, action: #selector(searchBarButtonTapped), for: .touchUpInside)
     }
 
-    // MARK: - Fetch Data
+    // MARK: - Api call
     /// Fetch Weather data for userLocation city and destination city
     /// - Note: If destinationCityName is nil, a default city name is used to request weather data.
     @objc private func getLocalWeather() {

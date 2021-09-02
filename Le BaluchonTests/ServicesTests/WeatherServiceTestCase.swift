@@ -106,7 +106,6 @@ class WeatherServiceTestCase: XCTestCase {
     // MARK: - Success
     func testWeatherService_noError_correctData() {
         // Given
-        sut.lang = nil
         let session = URLSessionFake(data: FakeResponseData.weatherCorrectData,
                                      response: FakeResponseData.responseOK,
                                      error: nil)
